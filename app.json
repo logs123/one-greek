@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "onegreek",
+    "slug": "onegreek",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyASeii6fTIi3BV2Gya2WvahJ9dl2YKfX7A",
+          "authDomain": "one-greek.firebaseapp.com",
+          "projectId": "one-greek",
+          "storageBucket": "one-greek.appspot.com",
+          "messagingSenderId": "22303617366",
+          "appId": "1:22303617366:web:2d13464344da546581a6f7",
+          "measurementId": "G-02VP3602V2"
+        }
+      }
+    }
+  }
+}
