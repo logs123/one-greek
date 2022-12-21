@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Keyboard, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import AlreadyExistsButton from "../../../../components/signup/exists";
 import NextButton from "../../../../components/signup/next";
 
@@ -11,18 +11,20 @@ export default function EmailScreen({ route }) {
     const [email, setEmail] = useState("");
 
     return(
-        <View style={styles.mainContainer}>
-            <Text style={styles.titleText}>What's Your Email Address?</Text>
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.input} placeholder="Enter your email address" clearButtonMode="while-editing" keyboardType="email-address" autoCapitalize="none" spellCheck="false" onChangeText={newText => setEmail(newText)}/>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+                <Text style={styles.titleText}>What's Your Email Address?</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput style={styles.input} placeholder="Enter your email address" clearButtonMode="while-editing" keyboardType="email-address" autoCapitalize="none" spellCheck="false" onChangeText={newText => setEmail(newText)}/>
+                </View>
+                <Text style={styles.bodyText}>You'll use this to log in and for organizations to contact you.</Text>
+                <NextButton
+                    navigateTo={"Password"}
+                    params={{org, firstName, lastName, phoneNumber, email}}
+                    isDisabled={!email}
+                    bc={email ? "#72AEBC" : "#FFFFFF"}/>
+                <AlreadyExistsButton/>
             </View>
-            <Text style={styles.bodyText}>You'll use this to log in and for organizations to contact you.</Text>
-            <NextButton
-                navigateTo={"Password"}
-                params={{org, firstName, lastName, phoneNumber, email}}
-                isDisabled={!email}
-                bc={email ? "#72AEBC" : "#FFFFFF"}/>
-            <AlreadyExistsButton/>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }

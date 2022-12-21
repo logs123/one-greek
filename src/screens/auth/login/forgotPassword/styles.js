@@ -4,8 +4,18 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-around",
         backgroundColor: "#FFFFFF"
+    },
+    centerContainer: {
+        alignItems: "center",
+        flexGrow: 0.5
+    },
+    image: {
+        height: 150,
+        width: 150,
+        marginTop: 50,
+        marginBottom: 50
     },
     titleText: {
         color: "#72AEBC",

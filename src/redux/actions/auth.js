@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
-import { USER_STATE_CHANGE } from "../constants";
+import { collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore"; 
+import { ORG_LIST_LOAD, USER_STATE_CHANGE } from "../constants";
 
 require("firebase/auth");
 
@@ -29,6 +29,23 @@ export const getCurrentUserData = () => dispatch => {
     })
 }
 
+export const getOrganizations = () => dispatch => new Promise((resolve, reject) => {
+    getDocs(collection(getFirestore(),"organizations"))
+    .then((docs) => {
+        const list = []
+        docs.forEach((doc) => {
+            list.push({id: doc.id, data: doc.data().name})
+        })
+        return dispatch({
+            type: ORG_LIST_LOAD,
+            orgs: list
+        })
+    })
+    .catch((error) => {
+        reject(error)
+    })
+})
+
 export const login = (auth, email, password) => dispatch => new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
     .then(() => {
@@ -43,11 +60,13 @@ export const register = (auth, email, password, org, firstName, lastName, phoneN
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
         setDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
-            org: org,
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-            email: email
+            org,
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            type: null,
+            chapter: null
         })
         resolve()
     })

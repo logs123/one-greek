@@ -5,10 +5,18 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
+import { useSelector } from "react-redux";
 
 export default function OrganizationScreen() {
-    const [selectedOrganization, setSelectedOrganization] = useState("asu-cbo");
 
+    let list = useSelector(state => state.auth).orgs.map((myValue, myIndex) => {
+        return(
+            <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
+        )
+    })
+
+    const [selectedOrganization, setSelectedOrganization] = useState(useSelector(state => state.auth).orgs[0].id);
+    
     return(
         <View style={styles.mainContainer}>
             <Text style={styles.titleText}>Pick Your Organization</Text>
@@ -17,9 +25,7 @@ export default function OrganizationScreen() {
                 itemStyle={{ fontSize: 14}}
                 selectedValue={selectedOrganization}
                 onValueChange={(itemValue, itemIndex) => setSelectedOrganization(itemValue)}>
-                <Picker.Item label="ASU Culturally Based Organizations" value="asu-cbo"/>
-                <Picker.Item label="ASU IFC Fraternities" value="asu-ifc"/>
-                <Picker.Item label="ASU Panhellenic Sororities" value="asu-pan"/>
+                {list}
             </Picker>
             <Text style={styles.bodyText}>Select your school and Greek organization.</Text>
             <NextButton

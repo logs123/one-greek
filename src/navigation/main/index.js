@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { userAuthStateListener } from "../../redux/actions/auth";
+import { getOrganizations, userAuthStateListener } from "../../redux/actions/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -19,6 +19,9 @@ export default function Route() {
 
     useEffect(() => {
         dispatch(userAuthStateListener());
+        if (currentUserObj.currentUser == null) {
+            dispatch(getOrganizations());
+        }
     }, [])
 
     if (!currentUserObj.loaded) {
