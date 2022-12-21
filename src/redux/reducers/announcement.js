@@ -1,7 +1,7 @@
 import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
 
 const initialState = {
-    currentUserAnnouncements: null,
+    currentUserAnnouncements: null
 }
 
 export const announcement = (state = initialState, action) => {

@@ -1,12 +1,13 @@
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore"
-import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
+import { addDoc, collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore"
 
 require("firebase/auth");
 
-export const createAnnouncement = (announcement, creator) => dispatch => new Promise((resolve, reject) => {
+export const createAnnouncement = (title, body, creator) => dispatch => new Promise((resolve, reject) => {
     addDoc(collection(getFirestore(), "organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"), {
-        announcement,
-        creator
+        title,
+        body,
+        creator,
+        date: new Date()
     })
     .then(() => {
         resolve()
@@ -18,15 +19,15 @@ export const createAnnouncement = (announcement, creator) => dispatch => new Pro
 })
 
 export const getUserAnnouncements = (creator) => dispatch => new Promise((resolve, reject) => {
-    getDocs(collection(getFirestore(),"organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"))
+    getDocs(query(collection(getFirestore(),"organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"), orderBy("date","desc")))
     .then((docs) => {
-        var announcements = []
+        const announcements = []
         docs.forEach((doc) => {
             const data = doc.data()
             const id = doc.id
-            return { id, ...data }
+            announcements.push({id, ...data})
         })
-        dispatch({ type: CURRENT_USER_GET_ANNOUNCEMENTS, currentUserAnnouncements: announcements })
+        resolve(announcements);
     })
     .catch((error) => {
         reject(error)
