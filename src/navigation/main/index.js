@@ -14,7 +14,8 @@ import LoggedIn from "../loggedin";
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
-    const currentUserObj = useSelector(state => state.auth)
+    
+    const currentUserObj = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -22,7 +23,7 @@ export default function Route() {
         if (currentUserObj.currentUser == null) {
             dispatch(getOrganizations());
         }
-    }, [])
+    }, []);
 
     if (!currentUserObj.loaded) {
         return(

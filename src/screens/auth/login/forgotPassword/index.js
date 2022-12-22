@@ -52,7 +52,7 @@ export default function ForgotPasswordScreen() {
                     <TouchableOpacity
                         style={styles.resetButton}
                         disabled={!email}
-                        onPress={() => handleForgotPassword()}>
+                        onPress={handleForgotPassword}>
                         <Text style={styles.resetButtonText}>Send Reset Email</Text>
                     </TouchableOpacity>
                 </View>

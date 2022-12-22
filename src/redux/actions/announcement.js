@@ -1,4 +1,5 @@
-import { addDoc, collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query } from "firebase/firestore"
+import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
 
 require("firebase/auth");
 
@@ -7,29 +8,41 @@ export const createAnnouncement = (title, body, creator) => dispatch => new Prom
         title,
         body,
         creator,
-        date: new Date()
+        date: new Date(),
+        likes: 0,
+        likedBy: []
     })
     .then(() => {
-        resolve()
+        resolve();
     })
     .catch((error) => {
-        console.log(error);
-        reject()
-    })
-})
+        console.log(error);;
+        reject();
+    });
+});
 
-export const getUserAnnouncements = (creator) => dispatch => new Promise((resolve, reject) => {
-    getDocs(query(collection(getFirestore(),"organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"), orderBy("date","desc")))
+export const getUserAnnouncements = (org, chapter) => dispatch => new Promise((resolve, reject) => {
+    getDocs(query(collection(getFirestore(),"organizations/" + org + "/chapters/" + chapter + "/announcements"), orderBy("date","desc")))
     .then((docs) => {
-        const announcements = []
+        const announcements = [];
         docs.forEach((doc) => {
-            const data = doc.data()
-            const id = doc.id
-            announcements.push({id, ...data})
+            const data = doc.data();
+            const id = doc.id;
+            announcements.push({id, ...data});
         })
-        resolve(announcements);
+        dispatch({ type: CURRENT_USER_GET_ANNOUNCEMENTS, currentUserAnnouncements: announcements});
     })
     .catch((error) => {
-        reject(error)
+        reject(error);
     })
-})
+});
+
+export const deleteAnnouncement = (org, chapter, id) => dispatch => new Promise((resolve, reject) => {
+    deleteDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id))
+    .then(() => {
+        resolve();
+    })
+    .catch((error) => {
+        reject(error);
+    });
+});

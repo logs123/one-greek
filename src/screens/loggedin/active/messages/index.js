@@ -8,5 +8,5 @@ export default function MessagesScreen() {
         <View style={styles.mainContainer}>
             <Text>Messages</Text>
         </View>
-    )
+    );
 }

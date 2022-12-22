@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
         width: 175,
         fontSize: 20
     }
-})
+});
 
 export default styles;

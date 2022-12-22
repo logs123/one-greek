@@ -8,5 +8,5 @@ export default function SearchScreen() {
         <View style={styles.mainContainer}>
             <Text>Search</Text>
         </View>
-    )
+    );
 }

@@ -8,5 +8,5 @@ export default function CalendarScreen() {
         <View style={styles.mainContainer}>
             <Text>Calendar</Text>
         </View>
-    )
+    );
 }

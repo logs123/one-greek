@@ -12,7 +12,7 @@ export const auth = (state = initialState, action) => {
             ...state,
             currentUser: action.currentUser,
             loaded: action.loaded
-        };
+        }
     } else if (action.type === ORG_LIST_LOAD) {
         return {
             ...state,

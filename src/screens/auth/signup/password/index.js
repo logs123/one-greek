@@ -20,7 +20,7 @@ export default function PasswordScreen({ route }) {
     const handleSignup = () => {
         dispatch(register(getAuth(), email, password, org, firstName, lastName, phoneNumber))
         .then(() => {
-            console.log("Successful signup!")
+            
         })
         .catch((error) => {
             switch(error.code) {
@@ -64,7 +64,7 @@ export default function PasswordScreen({ route }) {
                         justifyContent: "center",
                         borderRadius: 5
                     }}
-                    onPress={() => handleSignup()}>
+                    onPress={handleSignup}>
                     <Text style={styles.signUpButtonText}>Sign Up</Text>
                 </TouchableOpacity>
                 <AlreadyExistsButton/>

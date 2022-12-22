@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Image, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 import styles from "./styles";
-import { StatusBar } from "expo-status-bar";
 
 export default function AuthScreen() {
     
@@ -16,10 +16,10 @@ export default function AuthScreen() {
             <View style={styles.bottomContainer}>
                 <Button
                     title="Log Into Existing Account"
-                    onPress={() => {navigation.navigate("Login")}}/>
+                    onPress={() => navigation.navigate("Login")}/>
                 <Button
                     title="Sign Up for One Greek"
-                    onPress={() => {navigation.navigate("Signup")}}/>
+                    onPress={() => navigation.navigate("Signup")}/>
             </View>
         </View>
     );

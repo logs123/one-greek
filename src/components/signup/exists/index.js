@@ -14,5 +14,5 @@ export default function AlreadyExistsButton() {
                 title="Already have an account?"
                 onPress={() => navigation.navigate("Auth")}/>
         </View>
-    )
+    );
 }

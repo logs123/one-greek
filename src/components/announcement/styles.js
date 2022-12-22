@@ -10,7 +10,16 @@ const styles = StyleSheet.create({
     },
     authorContainer: {
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginBottom: 10,
+        marginTop: 10 
+    },
+    interactionContainer: {
+        flexDirection: "row"
+    },
+    titleText: {
+        fontSize: 18,
+        fontWeight: "bold"
     },
     authorText: {
         fontWeight: "bold"
@@ -19,8 +28,8 @@ const styles = StyleSheet.create({
         color: "#808080"
     },
     bodyText: {
-        marginTop: 15
+        marginBottom: 10
     }
-})
+});
 
 export default styles;

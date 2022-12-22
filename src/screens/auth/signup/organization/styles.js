@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
         color: "#808080",
         marginBottom: 20,
     }
-})
+});
 
 export default styles;

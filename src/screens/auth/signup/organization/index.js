@@ -13,7 +13,7 @@ export default function OrganizationScreen() {
         return(
             <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
         )
-    })
+    });
 
     const [selectedOrganization, setSelectedOrganization] = useState(useSelector(state => state.auth).orgs[0].id);
     
