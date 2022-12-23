@@ -10,12 +10,12 @@ export default function AnnouncementFeed({ currentUserObj, currentUserAnnounceme
     const [refreshing, setRefreshing] = useState(false);
 
     const renderItem = ({item}) => (
-        <Announcement title={item.title} body={item.body} creator={item.creator} date={item.date} id={item.id} viewer={currentUserObj}/>
+        <Announcement title={item.title} body={item.body} creator={item.creator} creatorID={item.uid} date={item.date} id={item.id} uid={currentUserObj.userID} viewer={currentUserObj.currentUser}/>
     );
 
     const handleRefresh = () => {
         setRefreshing(true);
-        dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter))
+        dispatch(getUserAnnouncements(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter))
         setRefreshing(false);
     }
 

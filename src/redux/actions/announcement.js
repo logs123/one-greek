@@ -3,11 +3,12 @@ import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
 
 require("firebase/auth");
 
-export const createAnnouncement = (title, body, creator) => dispatch => new Promise((resolve, reject) => {
+export const createAnnouncement = (title, body, creator, uid) => dispatch => new Promise((resolve, reject) => {
     addDoc(collection(getFirestore(), "organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"), {
         title,
         body,
         creator,
+        uid,
         date: new Date(),
         likes: 0,
         likedBy: []

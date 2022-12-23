@@ -12,7 +12,7 @@ import styles from "./styles";
 export default function AnnouncementsScreen() {
 
     const [showCompose, setShowCompose] = useState(false);
-    const currentUserObj = useSelector(state => state.auth).currentUser;
+    const currentUserObj = useSelector(state => state.auth);
     const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
     
     const handleModalClick = (showCompose) => {
@@ -26,7 +26,7 @@ export default function AnnouncementsScreen() {
             <TouchableOpacity style={styles.composeButton} onPress={() => setShowCompose(true)}>
                 <MaterialIcons name="add" size={48} color="#FFFFFF"/>
             </TouchableOpacity>
-            <ComposeModal currentUserObj={currentUserObj} isVisible={showCompose} setIsVisible={handleModalClick}/>
+            <ComposeModal currentUserObj={currentUserObj.currentUser} uid={currentUserObj.userID} isVisible={showCompose} setIsVisible={handleModalClick}/>
         </SafeAreaView>
     );
 }

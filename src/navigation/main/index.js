@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrganizations, userAuthStateListener } from "../../redux/actions/auth";
+import { userAuthStateListener } from "../../redux/actions/auth";
+import { getOrganizations } from "../../redux/actions/orgs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

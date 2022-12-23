@@ -2,11 +2,10 @@ import React from "react";
 import { Text, View } from "react-native";
 import timeSince from "../../services/timeSince";
 import DeleteButton from "./delete";
-import _ from "lodash";
 
 import styles from "./styles";
 
-export default function Announcement({title, body, creator, date, id, viewer}) {
+export default function Announcement({title, body, creator, creatorID, date, id, uid, viewer}) {
 
     return(
         <View style={styles.mainContainer}>
@@ -18,7 +17,7 @@ export default function Announcement({title, body, creator, date, id, viewer}) {
             <Text style={styles.bodyText}>{body}</Text>
             <View style={styles.interactionContainer}>
                 <View style={styles.creatorInteractionContainer}>
-                    {_.isEqual(creator, viewer) ?
+                    {creatorID == uid ?
                     <DeleteButton creator={creator} id={id} viewer={viewer}/>
                     :
                     null}

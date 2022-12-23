@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore"; 
-import { ORG_LIST_LOAD, USER_STATE_CHANGE } from "../constants";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
+import { USER_STATE_CHANGE } from "../constants";
 
 require("firebase/auth");
 
@@ -9,7 +9,7 @@ export const userAuthStateListener = () => dispatch => {
         if (user) {
             dispatch(getCurrentUserData());
         } else {
-            dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+            dispatch({ type: USER_STATE_CHANGE, currentUser: null, userID: null, loaded: true });
         }
     })
 }
@@ -21,6 +21,7 @@ export const getCurrentUserData = () => dispatch => {
             return dispatch({
                 type: USER_STATE_CHANGE,
                 currentUser: docSnap.data(),
+                userID: getAuth().currentUser.uid,
                 loaded: true
             })
         } else {
@@ -28,23 +29,6 @@ export const getCurrentUserData = () => dispatch => {
         }
     });
 }
-
-export const getOrganizations = () => dispatch => new Promise((resolve, reject) => {
-    getDocs(collection(getFirestore(),"organizations"))
-    .then((docs) => {
-        const list = [];
-        docs.forEach((doc) => {
-            list.push({id: doc.id, data: doc.data().name})
-        });
-        return dispatch({
-            type: ORG_LIST_LOAD,
-            orgs: list
-        });
-    })
-    .catch((error) => {
-        reject(error)
-    });
-});
 
 export const login = (auth, email, password) => dispatch => new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)

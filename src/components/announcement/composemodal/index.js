@@ -5,14 +5,14 @@ import { createAnnouncement, getUserAnnouncements } from "../../../redux/actions
 
 import styles from "./styles";
 
-export default function ComposeModal({ currentUserObj, isVisible, setIsVisible }) {
+export default function ComposeModal({ currentUserObj, uid, isVisible, setIsVisible }) {
 
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
     const handlePost = (title, body, creator) => {
-        dispatch(createAnnouncement(title, body, creator));
+        dispatch(createAnnouncement(title, body, creator, uid));
         Keyboard.dismiss;
         setIsVisible(!isVisible);
         dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));

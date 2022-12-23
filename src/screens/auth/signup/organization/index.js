@@ -9,13 +9,13 @@ import { useSelector } from "react-redux";
 
 export default function OrganizationScreen() {
 
-    let list = useSelector(state => state.auth).orgs.map((myValue, myIndex) => {
+    let list = useSelector(state => state.orgs).orgs.map((myValue, myIndex) => {
         return(
             <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
         )
     });
 
-    const [selectedOrganization, setSelectedOrganization] = useState(useSelector(state => state.auth).orgs[0].id);
+    const [selectedOrganization, setSelectedOrganization] = useState(useSelector(state => state.orgs).orgs[0].id);
     
     return(
         <View style={styles.mainContainer}>
