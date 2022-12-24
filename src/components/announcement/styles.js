@@ -15,7 +15,14 @@ const styles = StyleSheet.create({
         marginTop: 10 
     },
     interactionContainer: {
-        flexDirection: "row"
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    creatorInteractionContainer: {
+
+    },
+    defaultInteractionContainer: {
+        marginRight: 25
     },
     titleText: {
         fontSize: 18,

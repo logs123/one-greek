@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import AnnouncementsScreen from "../../../screens/loggedin/active/announcements";
 import MessagesScreen from "../../../screens/loggedin/active/messages";
@@ -17,12 +18,10 @@ export default function Active() {
 
   const currentUserObj = useSelector(state => state.auth).currentUser;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));
-  }, [])
+  dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));
 
   return(
+    <BottomSheetModalProvider>
       <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color }) => {
             let iconName;
@@ -51,5 +50,6 @@ export default function Active() {
           <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false }}/>
           <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
       </Tab.Navigator>
+    </BottomSheetModalProvider>
   );
 }

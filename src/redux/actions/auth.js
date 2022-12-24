@@ -24,8 +24,6 @@ export const getCurrentUserData = () => dispatch => {
                 userID: getAuth().currentUser.uid,
                 loaded: true
             })
-        } else {
-
         }
     });
 }

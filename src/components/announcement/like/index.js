@@ -1,41 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch } from "react-redux";
+import { like, unlike } from "../../../redux/actions";
 
 import styles from "./styles";
 
+export default function LikeButton({ likedBy, creator, announcementID, uid }) {
 
-// name
-// Selected => "thumb-up"
-// Not Selected => "thumb-up-outline"
+    const [name, setName] = useState("");
+    const [color, setColor] = useState("");
+    const [hasLiked, setHasLiked] = useState();
+    const [likeCount, setLikedCount] = useState(likedBy.length);
+    const [currentLikedBy, setCurrentLikedBy] = useState(likedBy);
 
-// size
-// 24 or 36?
+    const dispatch = useDispatch();
 
-// color
-// Selected => "#72AEBC"
-// Not Selected => "#808080"
-
-
-// Props
-// current like
-//  if 0 => no number
-//  > 0 => Text shown with number
-// if user has liked or not
-//  if yes => onClick is unlike
-//  if no => onClick is like
-
-export default function LikeButton({ likeNumber, hasLiked }) {
-
-    const [name, setName] = useState();
-    const [color, setColor] = useState();
-    const [currentLikeNumber, setCurrentLikeNumber] = useState(likeNumber);
+    useEffect(() => {
+        if (likedBy.indexOf(uid) > -1) {
+            setHasLiked(true);
+            setName("thumb-up");
+            setColor("#72AEBC");
+            setLikedCount(likedBy.length);
+            setCurrentLikedBy(likedBy);
+        } else {
+            setHasLiked(false);
+            setName("thumb-up-outline");
+            setColor("#808080");
+            setLikedCount(likedBy.length);
+            setCurrentLikedBy(likedBy);
+        }
+    }, []);
 
     const handleLike = () => {
         if (hasLiked) {
-            // dislike action
+            currentLikedBy.splice(currentLikedBy.indexOf(uid),1);
+            dispatch(unlike(creator.org, creator.chapter, announcementID, currentLikedBy))
+            setHasLiked(false);
+            setName("thumb-up-outline");
+            setColor("#808080");
+            setCurrentLikedBy(currentLikedBy.splice(likedBy.indexOf(uid),1));
+            setLikedCount(likeCount - 1);
         } else {
-            // like action
+            dispatch(like(creator.org, creator.chapter, announcementID, [...currentLikedBy, uid]));
+            setHasLiked(true);
+            setName("thumb-up");
+            setColor("#72AEBC");
+            setCurrentLikedBy([...currentLikedBy, uid]);
+            setLikedCount(likeCount + 1);
         }
     }
 
@@ -43,7 +55,7 @@ export default function LikeButton({ likeNumber, hasLiked }) {
         <TouchableOpacity onPress={handleLike} style={styles.mainContainer}>
             <MaterialCommunityIcons name={name} size={24} color={color}/>
             <View style={styles.textContainer}>
-                <Text style={styles.text}></Text>
+                <Text style={[styles.text, {color: color}]}>{likeCount > 0 ? likeCount : null}</Text>
             </View>
         </TouchableOpacity>
     );

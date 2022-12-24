@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore"
 import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
 
 require("firebase/auth");
@@ -10,7 +10,6 @@ export const createAnnouncement = (title, body, creator, uid) => dispatch => new
         creator,
         uid,
         date: new Date(),
-        likes: 0,
         likedBy: []
     })
     .then(() => {
@@ -46,4 +45,28 @@ export const deleteAnnouncement = (org, chapter, id) => dispatch => new Promise(
     .catch((error) => {
         reject(error);
     });
+});
+
+export const like = (org, chapter, id, likedBy) => dispatch => new Promise((resolve, reject) => {
+    updateDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id), {
+        likedBy: likedBy
+    })
+    .then(() => {
+        resolve();
+    })
+    .catch((error) => {
+        reject(error);
+    })
+});
+
+export const unlike = (org, chapter, id, likedBy) => dispatch => new Promise((resolve, reject) => {
+    updateDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id), {
+        likedBy: likedBy
+    })
+    .then(() => {
+        resolve();
+    })
+    .catch((error) => {
+        reject(error);
+    })
 });

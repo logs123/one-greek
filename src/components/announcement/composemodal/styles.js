@@ -3,8 +3,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: "#E5FAFF",
-        height: "40%",
-        marginTop: "130%",
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30
     },
@@ -14,7 +12,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginTop: 10,
         marginLeft: 30,
-        marginRight: 30
+        marginRight: 30,
+        marginBottom: 10
     },
     bottomModalContainer: {
         borderTopWidth: 0.75,
@@ -49,7 +48,8 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        color: "#FFFFFF"
     }
 });
 

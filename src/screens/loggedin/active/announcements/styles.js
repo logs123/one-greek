@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     },
     composeButton: {
         backgroundColor: "#C3F4FF",
-        bottom: 25,
-        right: 25,
+        bottom: 15,
+        right: 15,
         position: "absolute",
         zIndex: 9999,
         justifyContent: "center",
