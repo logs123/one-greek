@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     creatorInteractionContainer: {
-
+        flexDirection: "row"
     },
     defaultInteractionContainer: {
+        flexDirection: "row",
         marginRight: 25
     },
     titleText: {
@@ -36,6 +37,9 @@ const styles = StyleSheet.create({
     },
     bodyText: {
         marginBottom: 10
+    },
+    editText: {
+        backgroundColor: "#FFFFFF"
     }
 });
 

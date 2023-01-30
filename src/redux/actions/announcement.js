@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore"
 import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
 
 require("firebase/auth");

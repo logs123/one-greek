@@ -12,6 +12,7 @@ import rootReducer from "./src/redux/reducers";
 import Constants from "expo-constants";
 
 import Route from "./src/navigation/main";
+import { getStorage } from "firebase/storage";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -20,6 +21,7 @@ if (getApps().length < 1) {
   initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
   });
+  const storage = getStorage(app);
 }
 
 export default function App() {

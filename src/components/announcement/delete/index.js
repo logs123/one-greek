@@ -4,8 +4,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useDispatch } from "react-redux";
 import { deleteAnnouncement, getUserAnnouncements } from "../../../redux/actions";
 
-import styes from "./styles";
-
 export default function DeleteButton({ creator, id, viewer }) {
 
     const dispatch = useDispatch();

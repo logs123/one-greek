@@ -39,6 +39,17 @@
           "measurementId": "G-02VP3602V2"
         }
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow One Greek to access your photos.",
+          "cameraPermission": "Allow One Greek to access your camera.",
+          "//": "Disables the microphone permission",
+          "microphonePermission": false
+        }
+      ]
+    ]
   }
 }

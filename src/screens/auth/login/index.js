@@ -40,7 +40,9 @@ export default function LoginScreen() {
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView behavior={"padding"} style={styles.mainContainer}>
-                <Image style={styles.image} source={require("../../../../assets/icon-worded.png")}/>
+                <View style={styles.topContainer}>
+                    <Image style={styles.image} source={require("../../../../assets/icon-worded.png")}/>
+                </View>
                 <View style={styles.centerContainer}>
                     <TextInput
                         style={styles.emailInput}
@@ -70,7 +72,7 @@ export default function LoginScreen() {
                         title="Forgot Password?"
                         onPress={() => navigation.navigate("ForgotPassword")}/>
                 </View>
-                <View>
+                <View style={styles.bottomContainer}>
                     <Button
                         title="Create new account"
                         onPress={() => navigation.navigate("Auth")}/>

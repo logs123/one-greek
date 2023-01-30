@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { Button, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { createAnnouncement, getUserAnnouncements } from "../../../redux/actions";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
@@ -12,17 +12,18 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
-    const snapPoints = useMemo(() => ["40%"], []);
+    const snapPoints = ["40%"];
 
     const handlePost = (title, body, creator) => {
-        modalRef.current?.close();
+        modalRef.current?.dismiss();
         dispatch(createAnnouncement(title, body, creator, uid));
         setIsModalOpen(!isModalOpen);
         dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));
+        
     }
 
     const handleClosePress = () => {
-        modalRef.current?.close();
+        modalRef.current?.dismiss();
     }
 
     return(

@@ -4,18 +4,26 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         backgroundColor: "#FFFFFF"
     },
+    topContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 25
+    }, 
     centerContainer: {
         alignItems: "center",
-        flexGrow: 0.5
+        justifyContent: "center"
+    },
+    bottomContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 25
     },
     image: {
         height: 150,
-        width: 150,
-        marginTop: 50,
-        marginBottom: 50
+        width: 150
     },
     emailInput: {
         borderColor: "#808080",
