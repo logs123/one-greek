@@ -12,13 +12,13 @@ import styles from "./styles";
 
 export default function PasswordScreen({ route }) {
 
-    const {org, firstName, lastName, phoneNumber, email} = route.params;
+    const {org, firstName, lastName, phoneNumber, email, type} = route.params;
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
     const handleSignup = () => {
-        dispatch(register(getAuth(), email, password, org, firstName, lastName, phoneNumber))
+        dispatch(register(getAuth(), email, password, org, firstName, lastName, phoneNumber, type))
         .then(() => {
             
         })
@@ -27,12 +27,12 @@ export default function PasswordScreen({ route }) {
                 case "auth/invalid-email":
                     Keyboard.dismiss();
                     Alert.alert("Invalid Email", "The email that you have entered is not valid.");
-                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber});
+                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber, type});
                     break;
                 case "auth/email-already-in-use":
                     Keyboard.dismiss();
                     Alert.alert("Email Already In Use", "The email you have entered already belongs to someone.");
-                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber});
+                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber, type});
                     break;
                 default:
                     console.log(error);

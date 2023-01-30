@@ -7,7 +7,7 @@ import styles from "./styles";
 
 export default function EmailScreen({ route }) {
 
-    const {org, firstName, lastName, phoneNumber} = route.params;
+    const {org, firstName, lastName, phoneNumber, type} = route.params;
     const [email, setEmail] = useState("");
 
     return(
@@ -20,7 +20,7 @@ export default function EmailScreen({ route }) {
                 <Text style={styles.bodyText}>You'll use this to log in and for organizations to contact you.</Text>
                 <NextButton
                     navigateTo={"Password"}
-                    params={{org, firstName, lastName, phoneNumber, email}}
+                    params={{org, firstName, lastName, phoneNumber, type, email}}
                     isDisabled={!email}
                     bc={email ? "#72AEBC" : "#FFFFFF"}/>
                 <AlreadyExistsButton/>

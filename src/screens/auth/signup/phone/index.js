@@ -24,7 +24,7 @@ export default function PhoneScreen({ route }) {
                 </View>
                 <Text style={styles.bodyText}>This is for organizations to be able to contact you.</Text>
                 <NextButton
-                    navigateTo={"Email"}
+                    navigateTo={"Type"}
                     params={{org, firstName, lastName, phoneNumber}}
                     isDisabled={!(phoneNumber.toString().length >= 10)}
                     bc={(phoneNumber.toString().length >= 10) ? "#72AEBC" : "#FFFFFF"}/>

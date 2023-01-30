@@ -48,7 +48,7 @@ export const logout = () => dispatch => new Promise((resolve, reject) => {
     });
 });
 
-export const register = (auth, email, password, org, firstName, lastName, phoneNumber) => dispatch => new Promise((resolve, reject) => {
+export const register = (auth, email, password, org, firstName, lastName, phoneNumber, type) => dispatch => new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
         setDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
@@ -57,7 +57,7 @@ export const register = (auth, email, password, org, firstName, lastName, phoneN
             lastName,
             phoneNumber,
             email,
-            type: null,
+            type,
             chapter: null
         });
         resolve();
