@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { RadioButton, Text as RBText } from "react-native-paper"
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 
 import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
@@ -9,11 +8,14 @@ import AlreadyExistsButton from "../../../../components/signup/exists";
 import { CheckBox } from 'react-native-elements'
 
 export default function TypeScreen({ route }) {
+
     const { org, firstName, lastName, phoneNumber } = route.params;
     const [type, setType] = useState("active"); // active || pnm
+    const list = [];
     
     return(
         <View style={styles.mainContainer}>
+            <Text style={styles.titleText}>Why are you using One Greek?</Text>
             <CheckBox
                 containerStyle={{marginBottom: 10, minWidth: 350}}
                 title='I am already a member of an organization'
@@ -31,8 +33,8 @@ export default function TypeScreen({ route }) {
                 onPress={() => setType("pnm")}
             />
             <NextButton
-                navigateTo={"Email"}
-                params={{ org, firstName, lastName, phoneNumber, type }}
+                navigateTo={type === "active" ? "Chapter" : "Email"}
+                params={{ org, firstName, lastName, phoneNumber, type, list }}
             />
             <AlreadyExistsButton/>
         </View>

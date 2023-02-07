@@ -7,6 +7,7 @@ import PhoneScreen from "../../screens/auth/signup/phone";
 import EmailScreen from "../../screens/auth/signup/email";
 import PasswordScreen from "../../screens/auth/signup/password";
 import TypeScreen from "../../screens/auth/signup/type";
+import ChapterScreen from "../../screens/auth/signup/chapter";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,9 +18,10 @@ export default function Signup() {
                 <Stack.Screen name="Organization" component={OrganizationScreen} options={{ gestureEnabled: false, headerShown: false}}/>
                 <Stack.Screen name="Name" component={NameScreen} options={{ gestureEnabled: false, headerShown: false}}/>
                 <Stack.Screen name="Phone" component={PhoneScreen} options={{ gestureEnabled: false, headerShown: false}}/>
+                <Stack.Screen name="Type" component={TypeScreen} options={{ gestureEnabled: false, headerShown: false}}/>
+                <Stack.Screen name="Chapter" component={ChapterScreen} options={{ gestureEnabled: false, headerShown: false}}/>
                 <Stack.Screen name="Email" component={EmailScreen} options={{ gestureEnabled: false, headerShown: false}}/>
                 <Stack.Screen name="Password" component={PasswordScreen} options={{ gestureEnabled: false, headerShown: false}}/>
-                <Stack.Screen name="Type" component={TypeScreen} options={{ gestureEnabled: false, headerShown: false}}/>
             </Stack.Group>
         </Stack.Navigator>
     );

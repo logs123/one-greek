@@ -1,7 +1,9 @@
 import { ORG_LIST_LOAD } from "../constants";
+import { CHAPTER_LIST_LOAD } from "../constants";
 
 const initialState = {
-    orgs: []
+    orgs: [],
+    chapters: []
 }
 
 export const orgs = (state = initialState, action) => {
@@ -9,6 +11,11 @@ export const orgs = (state = initialState, action) => {
         return {
             ...state,
             orgs: action.orgs
+        }
+    } else if (action.type === CHAPTER_LIST_LOAD) {
+        return {
+            ...state,
+            chapters: action.chapters
         }
     } else {
         return state;
