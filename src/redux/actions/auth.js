@@ -58,7 +58,8 @@ export const register = (auth, email, password, org, firstName, lastName, phoneN
             phoneNumber,
             email,
             type,
-            chapter: null
+            chapter: null,
+            verified: false
         });
         resolve();
     })

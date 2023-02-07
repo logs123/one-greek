@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { getChapters } from "../../../../redux/actions/orgs";
 
 export default function ChapterScreen({ route }) {
 
-    const { org, firstName, lastName, phoneNumber, type, list } = route.params;
+    const { org, firstName, lastName, phoneNumber, type } = route.params;
     const [selectedChapter, setSelectedChapter] = useState();
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getChapters(org))
+    },[])
+
+    let list = useSelector(state => state.orgs).chapters.map((myValue, myIndex) => {
+        return(
+            <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
+        )
+    });
     
     return(
         <View style={styles.mainContainer}>

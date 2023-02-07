@@ -6,12 +6,13 @@ import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
 
 import { CheckBox } from 'react-native-elements'
+import { useDispatch } from "react-redux";
+import { getChapters } from "../../../../redux/actions/orgs";
 
 export default function TypeScreen({ route }) {
 
     const { org, firstName, lastName, phoneNumber } = route.params;
     const [type, setType] = useState("active"); // active || pnm
-    const list = [];
     
     return(
         <View style={styles.mainContainer}>
@@ -34,7 +35,7 @@ export default function TypeScreen({ route }) {
             />
             <NextButton
                 navigateTo={type === "active" ? "Chapter" : "Email"}
-                params={{ org, firstName, lastName, phoneNumber, type, list }}
+                params={{ org, firstName, lastName, phoneNumber, type }}
             />
             <AlreadyExistsButton/>
         </View>
