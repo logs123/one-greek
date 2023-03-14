@@ -9,16 +9,10 @@ import MessagesScreen from "../../../screens/loggedin/active/messages";
 import CalendarScreen from "../../../screens/loggedin/active/calendar";
 import SearchScreen from "../../../screens/loggedin/active/search";
 import ProfileScreen from "../../../screens/loggedin/active/profile";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserAnnouncements } from "../../../redux/actions";
 
 const Tab = createBottomTabNavigator();
 
 export default function Active() {
-
-  const currentUserObj = useSelector(state => state.auth).currentUser;
-  const dispatch = useDispatch();
-  dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));
 
   return(
     <BottomSheetModalProvider>

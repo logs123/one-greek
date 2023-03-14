@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
 import { USER_STATE_CHANGE } from "../constants";
+import { getUserAnnouncements } from "./announcement";
 
 require("firebase/auth");
 
@@ -18,11 +19,13 @@ export const getCurrentUserData = () => dispatch => {
     getDoc(doc(getFirestore(), "users", getAuth().currentUser.uid))
     .then((docSnap) => {
         if (docSnap.exists()) {
+            dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
             return dispatch({
                 type: USER_STATE_CHANGE,
                 currentUser: docSnap.data(),
                 userID: getAuth().currentUser.uid,
-                loaded: true
+                loaded: true,
+                photoURL: getAuth().currentUser.photoURL
             })
         }
     });
@@ -48,7 +51,7 @@ export const logout = () => dispatch => new Promise((resolve, reject) => {
     });
 });
 
-export const register = (auth, email, password, org, firstName, lastName, phoneNumber, type) => dispatch => new Promise((resolve, reject) => {
+export const register = (auth, email, password, org, firstName, lastName, chapter, phoneNumber, type) => dispatch => new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
         setDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
@@ -58,7 +61,7 @@ export const register = (auth, email, password, org, firstName, lastName, phoneN
             phoneNumber,
             email,
             type,
-            chapter: null,
+            chapter: (type === "active" ? chapter : null),
             verified: false
         });
         resolve();

@@ -5,20 +5,16 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { getChapters } from "../../../../redux/actions/orgs";
 
 export default function ChapterScreen({ route }) {
 
     const { org, firstName, lastName, phoneNumber, type } = route.params;
-    const [selectedChapter, setSelectedChapter] = useState();
+    const [selectedChapter, setSelectedChapter] = useState("");
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getChapters(org))
-    },[])
+    dispatch(getChapters(org)).then(() => {setSelectedChapter(useSelector(state => state.orgs).chapters[0].id)})
 
     let list = useSelector(state => state.orgs).chapters.map((myValue, myIndex) => {
         return(
@@ -34,6 +30,7 @@ export default function ChapterScreen({ route }) {
                 itemStyle={{ fontSize: 14}}
                 selectedValue={selectedChapter}
                 onValueChange={(itemValue, itemIndex) => setSelectedChapter(itemValue)}>
+                <Picker.Item label="Select a value..." value=""/>
                 {list}
             </Picker>
             <Text style={styles.bodyText}>Select your chapter.</Text>

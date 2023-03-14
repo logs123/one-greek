@@ -16,8 +16,7 @@ export const createAnnouncement = (title, body, creator, uid) => dispatch => new
         resolve();
     })
     .catch((error) => {
-        console.log(error);;
-        reject();
+        reject(error);
     });
 });
 

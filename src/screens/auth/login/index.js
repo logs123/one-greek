@@ -17,7 +17,7 @@ export default function LoginScreen() {
     const handleLogin = () => {
         dispatch(login(getAuth(), email, password))
         .then(() => {
-            
+             
         })
         .catch((error) => {
             switch(error.code) {

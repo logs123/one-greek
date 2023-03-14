@@ -12,13 +12,15 @@ import styles from "./styles";
 
 export default function PasswordScreen({ route }) {
 
-    const {org, firstName, lastName, phoneNumber, email, type} = route.params;
+    const {org, firstName, lastName, phoneNumber, chapter, email, type} = route.params;
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
+    console.log(route.params);
+
     const handleSignup = () => {
-        dispatch(register(getAuth(), email, password, org, firstName, lastName, phoneNumber, type))
+        dispatch(register(getAuth(), email, password, org, firstName, lastName, chapter, phoneNumber, type))
         .then(() => {
             
         })

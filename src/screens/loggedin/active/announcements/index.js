@@ -33,7 +33,7 @@ export default function AnnouncementsScreen() {
             <TouchableOpacity style={styles.composeButton} onPress={handlePresentModal}>
                 <MaterialIcons name="add" size={48} color="#FFFFFF"/>
             </TouchableOpacity>
-            <ComposeModal modalRef={bottomSheetModalRef} isModalOpen={isModalOpen} setIsModalOpen={handleModalClick} currentUserObj={currentUserObj.currentUser} uid={currentUserObj.userID}/>
+            <ComposeModal modalRef={bottomSheetModalRef} isModalOpen={isModalOpen} setIsModalOpen={handleModalClick} currentUserObj={currentUserObj} uid={currentUserObj.userID}/>
         </SafeAreaView>
     );
 }

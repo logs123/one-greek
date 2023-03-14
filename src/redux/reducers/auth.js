@@ -3,7 +3,8 @@ import { USER_STATE_CHANGE } from "../constants";
 const initialState = {
     currentUser: null,
     userID: null,
-    loaded: false
+    loaded: false,
+    photoURL: null
 }
 
 export const auth = (state = initialState, action) => {
@@ -12,7 +13,8 @@ export const auth = (state = initialState, action) => {
             ...state,
             currentUser: action.currentUser,
             userID: action.userID,
-            loaded: action.loaded
+            loaded: action.loaded,
+            photoURL: action.photoURL
         }
     } else {
         return state;

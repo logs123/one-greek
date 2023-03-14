@@ -23,6 +23,8 @@ export default function Route() {
         dispatch(userAuthStateListener());
         if (currentUserObj.currentUser == null) {
             dispatch(getOrganizations());
+        } else {
+
         }
     }, []);
 

@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Button, Keyboard, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { createAnnouncement, getUserAnnouncements } from "../../../redux/actions";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
@@ -18,7 +18,7 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
         modalRef.current?.dismiss();
         dispatch(createAnnouncement(title, body, creator, uid));
         setIsModalOpen(!isModalOpen);
-        dispatch(getUserAnnouncements(currentUserObj.org, currentUserObj.chapter));
+        dispatch(getUserAnnouncements(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter));
         
     }
 
@@ -36,7 +36,10 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
             keyboardBehavior="interactive"
             keyboardBlurBehavior="restore">
             <View style={styles.topModalContainer}>
-                <Text style={styles.userModalInfo}>{currentUserObj.firstName} {currentUserObj.lastName}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center"}}> 
+                    <Image source={{ uri: currentUserObj.photoURL }} style={{ width: 30, height: 30, borderRadius: 30, marginRight: 10 }}/>
+                    <Text style={styles.userModalInfo}>{currentUserObj.currentUser.firstName} {currentUserObj.currentUser.lastName}</Text>
+                </View>
                 <Button
                     title="Cancel"
                     onPress={handleClosePress}/>
@@ -60,7 +63,7 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
                 <TouchableOpacity
                     disabled={title == "" || body == ""}
                     style={[styles.postButton,{backgroundColor: (title == "" || body == "") ? "#FFFFFF" : "#72AEBC"}]}
-                    onPress={() => {handlePost(title, body, currentUserObj)}}>
+                    onPress={() => {handlePost(title, body, currentUserObj.currentUser)}}>
                     <Text style={styles.postButtonText}>Post</Text>
                 </TouchableOpacity>
             </View>

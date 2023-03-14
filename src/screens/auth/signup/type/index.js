@@ -6,13 +6,11 @@ import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
 
 import { CheckBox } from 'react-native-elements'
-import { useDispatch } from "react-redux";
-import { getChapters } from "../../../../redux/actions/orgs";
 
 export default function TypeScreen({ route }) {
 
     const { org, firstName, lastName, phoneNumber } = route.params;
-    const [type, setType] = useState("active"); // active || pnm
+    const [type, setType] = useState("active");
     
     return(
         <View style={styles.mainContainer}>
