@@ -17,8 +17,6 @@ export default function PasswordScreen({ route }) {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    console.log(route.params);
-
     const handleSignup = () => {
         dispatch(register(getAuth(), email, password, org, firstName, lastName, chapter, phoneNumber, type))
         .then(() => {

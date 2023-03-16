@@ -30,7 +30,7 @@ export default function ChapterScreen({ route }) {
                 itemStyle={{ fontSize: 14}}
                 selectedValue={selectedChapter}
                 onValueChange={(itemValue, itemIndex) => setSelectedChapter(itemValue)}>
-                <Picker.Item label="Select a value..." value=""/>
+                <Picker.Item label="Pick Your Chapter..." value=""/>
                 {list}
             </Picker>
             <Text style={styles.bodyText}>Select your chapter.</Text>
