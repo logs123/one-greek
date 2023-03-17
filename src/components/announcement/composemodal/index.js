@@ -32,11 +32,11 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
             index={0}
             snapPoints={snapPoints}
             onDismiss={() => {setIsModalOpen(false); setTitle(""); setBody("")}}
-            style={{borderWidth: .5, borderRadius: 15, backgroundColor: "#E5FAFF"}}
+            style={styles.bottomSheetModal}
             keyboardBehavior="interactive"
             keyboardBlurBehavior="restore">
             <View style={styles.topModalContainer}>
-                <View style={{ flexDirection: "row", alignItems: "center"}}> 
+                <View style={styles.topModalInfoContainer}> 
                     <Image source={{ uri: currentUserObj.photoURL }} style={{ width: 30, height: 30, borderRadius: 30, marginRight: 10 }}/>
                     <Text style={styles.userModalInfo}>{currentUserObj.currentUser.firstName} {currentUserObj.currentUser.lastName}</Text>
                 </View>

@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#FFFFFF"
     },
+    checkboxContainer: {
+        marginBottom: 10,
+        minWidth: 350
+    },
     titleText: {
         color: "#72AEBC",
         fontFamily: "HelveticaNeue-Medium",

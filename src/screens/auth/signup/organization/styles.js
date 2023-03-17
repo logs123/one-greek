@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     picker: {
         width: 350
     },
+    pickerItem: {
+        fontSize: 14
+    },
     bodyText: {
         color: "#808080",
         marginBottom: 20,

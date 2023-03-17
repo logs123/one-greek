@@ -16,7 +16,7 @@ export default function TypeScreen({ route }) {
         <View style={styles.mainContainer}>
             <Text style={styles.titleText}>Why are you using One Greek?</Text>
             <CheckBox
-                containerStyle={{marginBottom: 10, minWidth: 350}}
+                containerStyle={styles.checkboxContainer}
                 title='I am already a member of an organization'
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
@@ -24,7 +24,7 @@ export default function TypeScreen({ route }) {
                 onPress={() => setType("active")}
                 />
             <CheckBox
-                containerStyle={{marginBottom: 10, minWidth: 350}}
+                containerStyle={styles.checkboxContainer}
                 title='I am looking to join an organization'
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'

@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
         borderTopWidth: 0.75,
         borderTopColor: "#808080"
     },
+    topModalInfoContainer: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
     userModalInfo: {
         fontWeight: "bold"
     },
@@ -50,6 +54,11 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         color: "#FFFFFF"
+    },
+    bottomSheetModal: {
+        borderWidth: .5,
+        borderRadius: 15,
+        backgroundColor: "#E5FAFF"
     }
 });
 

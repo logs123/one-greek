@@ -150,8 +150,8 @@ export const forgotPassword = (auth, email) => dispatch => new Promise((resolve,
     });
 });
 
-export const verify = (email, org, firstName, lastName, chapter, phoneNumber) => dispatch => new Promise((resolve, reject) => {
-    setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, getAuth().currentUser.uid), {
+export const verify = (org, chapter, uid, email, firstName, lastName, phoneNumber) => dispatch => new Promise((resolve, reject) => {
+    setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, uid), {
         org,
         firstName,
         lastName,
@@ -162,6 +162,6 @@ export const verify = (email, org, firstName, lastName, chapter, phoneNumber) =>
         verified: true
     })
     .then(() => {
-        deleteDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, getAuth().currentUser.uid));
+        deleteDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, uid));
     })
 });

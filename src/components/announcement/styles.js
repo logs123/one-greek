@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
     },
     editText: {
         backgroundColor: "#FFFFFF"
+    },
+    link: {
+        color: '#2980b9',
+        textDecorationLine: "underline"
     }
 });
 

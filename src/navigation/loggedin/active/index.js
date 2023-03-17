@@ -8,7 +8,7 @@ import AnnouncementsScreen from "../../../screens/loggedin/active/announcements"
 import MessagesScreen from "../../../screens/loggedin/active/messages";
 import CalendarScreen from "../../../screens/loggedin/active/calendar";
 import SearchScreen from "../../../screens/loggedin/active/search";
-import ProfileScreen from "../../../screens/loggedin/active/profile";
+import Profile from "../../../screens/loggedin/active/profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +42,7 @@ export default function Active() {
           <Tab.Screen name="Messages" component={MessagesScreen} options={{ headerShown: false }}/>
           <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }}/>
           <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false }}/>
-          <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+          <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
       </Tab.Navigator>
     </BottomSheetModalProvider>
   );

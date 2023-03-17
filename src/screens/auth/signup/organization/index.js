@@ -22,7 +22,7 @@ export default function OrganizationScreen() {
             <Text style={styles.titleText}>Pick Your Organization</Text>
             <Picker
                 style={styles.picker}
-                itemStyle={{ fontSize: 14}}
+                itemStyle={styles.pickerItem}
                 selectedValue={selectedOrganization}
                 onValueChange={(itemValue, itemIndex) => setSelectedOrganization(itemValue)}>
                 {list}
