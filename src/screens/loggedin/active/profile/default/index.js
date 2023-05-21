@@ -100,6 +100,24 @@ export default function ProfileScreen() {
                     </View>
                 </View>
             </View>
+            <View style={styles.infoContainer}>
+                <View style={styles.socialContainer}>
+                    <MaterialCommunityIcons name="snapchat" size={36} color="#000000"/>
+                    <Text style={styles.socialText}>@{currentUserObj.currentUser.socials[0]}</Text>
+                </View>
+                <View style={styles.socialContainer}>
+                    <MaterialCommunityIcons name="instagram" size={36} color="#962fbf"/>
+                    <Text style={styles.socialText}>@{currentUserObj.currentUser.socials[1]}</Text>
+                </View>
+                <View style={styles.socialContainer}>
+                    <MaterialCommunityIcons name="twitter" size={36} color="#00acee"/>
+                    <Text style={styles.socialText}>@{currentUserObj.currentUser.socials[2]}</Text>
+                </View>
+                <View style={styles.socialContainer}>
+                    <MaterialCommunityIcons name="facebook" size={36} color="#3b5998"/>
+                    <Text style={styles.socialText}>@{currentUserObj.currentUser.socials[3]}</Text>
+                </View>
+            </View>
             <Button title="Admin Panel" onPress={() => navigation.navigate("AdminScreen")}/>
             <View>
                 <TouchableOpacity

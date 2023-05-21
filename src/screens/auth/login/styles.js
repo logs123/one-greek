@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.25,
         padding: 10,
         width: 350,
-        fontSize: 20,
+        fontSize: 20
     },
     passwordInput: {
         borderColor: "#808080",

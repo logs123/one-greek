@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { deleteDoc, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
+import { deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore"; 
 import { USER_STATE_CHANGE } from "../constants";
 import { getUserAnnouncements } from "./announcement";
 
@@ -118,7 +118,8 @@ export const register = (auth, email, password, org, firstName, lastName, chapte
                     email,
                     type,
                     chapter: null,
-                    verified: false
+                    verified: false,
+                    socials: []
                 });
             } else {
                 setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, getAuth().currentUser.uid), {
@@ -129,7 +130,8 @@ export const register = (auth, email, password, org, firstName, lastName, chapte
                     email,
                     type,
                     chapter,
-                    verified: false
+                    verified: false,
+                    socials: []
                 });
             }
         })
@@ -150,7 +152,7 @@ export const forgotPassword = (auth, email) => dispatch => new Promise((resolve,
     });
 });
 
-export const verify = (org, chapter, uid, email, firstName, lastName, phoneNumber) => dispatch => new Promise((resolve, reject) => {
+export const verify = (org, chapter, uid, email, firstName, lastName, phoneNumber, socials) => dispatch => new Promise((resolve, reject) => {
     setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, uid), {
         org,
         firstName,
@@ -159,9 +161,30 @@ export const verify = (org, chapter, uid, email, firstName, lastName, phoneNumbe
         email,
         type: "active",
         chapter,
-        verified: true
+        verified: true,
+        socials
     })
     .then(() => {
         deleteDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, uid));
     })
+    .catch((error) => {
+        reject(error);
+    });
+});
+
+export const updateProfile = (org, chapter, snapchat, instagram, twitter, facebook) => dispatch => new Promise((resolve, reject) => {
+    updateDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, getAuth().currentUser.uid), {
+        socials: {
+            snapchat,
+            instagram,
+            twitter,
+            facebook
+        }
+    })
+    .then(() => {
+        resolve();
+    })
+    .catch((error) => {
+        reject(error);
+    });
 });

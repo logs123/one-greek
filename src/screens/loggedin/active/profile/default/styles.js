@@ -17,6 +17,24 @@ const styles = StyleSheet.create({
         width: 250,
         paddingLeft: 20
     },
+    infoContainer: {
+        borderWidth: 0.2,
+        borderRadius: 20,
+        width: 320,
+        alignSelf: "center",
+        backgroundColor: "#D2F7FF"
+    },
+    socialContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 30,
+        paddingVertical: 5
+    },
+    socialText: {
+        fontSize: 16,
+        fontWeight: "bold"
+    },
     headerText: {
         fontSize: 24,
         fontWeight: "bold"
