@@ -5,15 +5,17 @@ import DenyButton from "./deny";
 
 import styles from "./styles";
 
-export default function Unverified({}) {
+export default function Unverified({unverified}) {
 
     return(
         <View style={styles.mainContainer}>
-            <Text style={styles.text}>Hello</Text>
-            <View style={styles.interactionContainer}>
-                <AcceptButton />
-                <DenyButton />
-            </View>
+            {unverified.map((item) => (
+                <View style={styles.interactionContainer} key={item.id}>
+                    <Text>{item.data.firstName} {item.data.lastName}</Text>
+                    <AcceptButton id={item.id}/>
+                    <DenyButton id={item.id}/>
+                </View>
+            ))}
         </View>
     );
 }

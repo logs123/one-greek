@@ -19,9 +19,6 @@ export default function PasswordScreen({ route }) {
 
     const handleSignup = () => {
         dispatch(register(getAuth(), email, password, org, firstName, lastName, chapter, phoneNumber, type))
-        .then(() => {
-            
-        })
         .catch((error) => {
             switch(error.code) {
                 case "auth/invalid-email":

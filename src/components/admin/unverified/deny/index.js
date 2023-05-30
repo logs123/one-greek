@@ -1,16 +1,19 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deny } from "../../../../redux/actions/admin";
 
 import styles from "./styles";
 
-export default function DenyButton({  }) {
+export default function DenyButton({ id }) {
 
     const dispatch = useDispatch();
+    const unverified = useSelector(state => state.admin).unverified;
 
     const handleDeny = () => {
-        dispatch()
+        const updatedUnverified = unverified.filter((item) => item.id !== id)
+        dispatch(deny(updatedUnverified))
     }
 
     return(

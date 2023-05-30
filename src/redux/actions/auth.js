@@ -20,61 +20,33 @@ export const getCurrentUserData = () => dispatch => {
     .then((docSnap) => {
         if (docSnap.exists()) {
             if (docSnap.data().type === "pnm") {
-                getDoc(doc(getFirestore(), `organizations/${docSnap.data().org}/pnms`, getAuth().currentUser.uid))
-                .then((ds) => {
-                    if (ds.exists()) {
-                        dispatch(getUserAnnouncements(ds.data().org, ds.data().chapter));
-                        return dispatch({
-                            type: USER_STATE_CHANGE,
-                            currentUser: ds.data(),
-                            userID: getAuth().currentUser.uid,
-                            loaded: true,
-                            photoURL: getAuth().currentUser.photoURL
-                        })
-                    }
-                });
+                dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
+                return dispatch({
+                    type: USER_STATE_CHANGE,
+                    currentUser: docSnap.data(),
+                    userID: getAuth().currentUser.uid,
+                    loaded: true,
+                    photoURL: getAuth().currentUser.photoURL
+                })
             } else if (docSnap.data().verified === true) {
-                getDoc(doc(getFirestore(), `organizations/${docSnap.data().org}/chapters/${docSnap.data().chapter}/members`, getAuth().currentUser.uid))
-                .then((ds) => {
-                    if (ds.exists()) {
-                        dispatch(getUserAnnouncements(ds.data().org, ds.data().chapter));
-                        return dispatch({
-                            type: USER_STATE_CHANGE,
-                            currentUser: ds.data(),
-                            userID: getAuth().currentUser.uid,
-                            loaded: true,
-                            photoURL: getAuth().currentUser.photoURL
-                        })
-                    }
-                });
+                dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
+                return dispatch({
+                    type: USER_STATE_CHANGE,
+                    currentUser: docSnap.data(),
+                    userID: getAuth().currentUser.uid,
+                    loaded: true,
+                    photoURL: getAuth().currentUser.photoURL
+                })
             } else {
-                getDoc(doc(getFirestore(), `organizations/${docSnap.data().org}/chapters/${docSnap.data().chapter}/unverified`, getAuth().currentUser.uid))
-                .then((ds) => {
-                    if (ds.exists()) {
-                        dispatch(getUserAnnouncements(ds.data().org, ds.data().chapter));
-                        return dispatch({
-                            type: USER_STATE_CHANGE,
-                            currentUser: ds.data(),
-                            userID: getAuth().currentUser.uid,
-                            loaded: true,
-                            photoURL: getAuth().currentUser.photoURL
-                        })
-                    }
-                });
+                dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
+                return dispatch({
+                    type: USER_STATE_CHANGE,
+                    currentUser: docSnap.data(),
+                    userID: getAuth().currentUser.uid,
+                    loaded: true,
+                    photoURL: getAuth().currentUser.photoURL
+                })
             }
-            getDoc(doc(getFirestore(), `organizations/${docSnap.data().org}/users`, getAuth().currentUser.uid))
-            .then((docSnap2) => {
-                if (docSnap2.exists()) {
-                    dispatch(getUserAnnouncements(docSnap2.data().org, docSnap2.data().chapter));
-                    return dispatch({
-                        type: USER_STATE_CHANGE,
-                        currentUser: docSnap2.data(),
-                        userID: getAuth().currentUser.uid,
-                        loaded: true,
-                        photoURL: getAuth().currentUser.photoURL
-                    })
-                }
-            });
         }
     });
 }
@@ -102,38 +74,27 @@ export const logout = () => dispatch => new Promise((resolve, reject) => {
 export const register = (auth, email, password, org, firstName, lastName, chapter, phoneNumber, type) => dispatch => new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
+        if (type === "pnm") {
+            setDoc(doc(getFirestore(), `organizations/${org}/pnms`, getAuth().currentUser.uid), {
+                firstName,
+                lastName
+            });
+        } else if (type === "active") {
+            setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, getAuth().currentUser.uid), {
+                firstName,
+                lastName
+            });
+        }
         setDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
             org,
-            chapter: (type === "active" ? chapter : null),
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
             type,
-            verified: false
-        })
-        .then(() => {
-            if (type === "pnm") {
-                setDoc(doc(getFirestore(), `organizations/${org}/pnms`, getAuth().currentUser.uid), {
-                    org,
-                    firstName,
-                    lastName,
-                    phoneNumber,
-                    email,
-                    type,
-                    chapter: null,
-                    verified: false,
-                    socials: []
-                });
-            } else {
-                setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, getAuth().currentUser.uid), {
-                    org,
-                    firstName,
-                    lastName,
-                    phoneNumber,
-                    email,
-                    type,
-                    chapter,
-                    verified: false,
-                    socials: []
-                });
-            }
+            chapter: (type === "active" ? chapter : null),
+            verified: false,
+            socials: []
         })
         resolve();
     })
@@ -152,26 +113,7 @@ export const forgotPassword = (auth, email) => dispatch => new Promise((resolve,
     });
 });
 
-export const verify = (org, chapter, uid, email, firstName, lastName, phoneNumber, socials) => dispatch => new Promise((resolve, reject) => {
-    setDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, uid), {
-        org,
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        type: "active",
-        chapter,
-        verified: true,
-        socials
-    })
-    .then(() => {
-        deleteDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/unverified`, uid));
-    })
-    .catch((error) => {
-        reject(error);
-    });
-});
-
+// UPDATE THIS
 export const updateProfile = (org, chapter, snapchat, instagram, twitter, facebook) => dispatch => new Promise((resolve, reject) => {
     updateDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, getAuth().currentUser.uid), {
         socials: {

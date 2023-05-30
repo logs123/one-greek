@@ -1,16 +1,19 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { verify } from "../../../../redux/actions/admin";
 
 import styles from "./styles";
 
-export default function AcceptButton({  }) {
+export default function AcceptButton({ id }) {
 
     const dispatch = useDispatch();
+    const unverified = useSelector(state => state.admin).unverified;
 
     const handleAccept = () => {
-        dispatch()
+        const updatedUnverified = unverified.filter((item) => item.id !== id)
+        dispatch(verify(id, updatedUnverified))
     }
 
     return(

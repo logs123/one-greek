@@ -62,7 +62,7 @@ export default function ProfileScreen() {
         });
         
         try {
-            const storageRef = ref(getStorage(), `organizations/${currentUserObj.currentUser.org}/users/${currentUserObj.currentUser.uid}/profile.jpeg`);
+            const storageRef = ref(getStorage(), `organizations/${currentUserObj.currentUser.org}/users/${currentUserObj.userID}/profile.jpeg`);
             const result = await uploadBytes(storageRef, blob);
 
             blob.close();
