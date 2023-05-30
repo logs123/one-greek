@@ -6,21 +6,29 @@ import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
 import { useDispatch, useSelector } from "react-redux";
-import { getChapters } from "../../../../redux/actions/orgs";
+import { getChapters, updateSelectedChapter } from "../../../../redux/actions/orgs";
 
 export default function ChapterScreen({ route }) {
 
     const { org, firstName, lastName, phoneNumber, type } = route.params;
-    const [selectedChapter, setSelectedChapter] = useState("");
+    const chapters = useSelector(state => state.orgs).chapters;
+    const selectedChapter = useSelector(state => state.orgs).selectedChapter;
 
     const dispatch = useDispatch();
-    dispatch(getChapters(org)).then(() => {setSelectedChapter(useSelector(state => state.orgs).chapters[0].id)})
 
-    let list = useSelector(state => state.orgs).chapters.map((myValue, myIndex) => {
-        return(
-            <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
-        )
-    });
+    useEffect(() => {
+        dispatch(getChapters(org));
+      }, [dispatch]);
+
+    useEffect(() => {
+        if (chapters.length > 0 && !selectedChapter) {
+            dispatch(updateSelectedChapter(chapters[0].id));
+        }
+    }, [chapters, selectedChapter, dispatch])
+
+    const handleChapterChange = (chapter) => {
+        dispatch(updateSelectedChapter(chapter));
+    }
     
     return(
         <View style={styles.mainContainer}>
@@ -29,9 +37,10 @@ export default function ChapterScreen({ route }) {
                 style={styles.picker}
                 itemStyle={{ fontSize: 14}}
                 selectedValue={selectedChapter}
-                onValueChange={(itemValue, itemIndex) => setSelectedChapter(itemValue)}>
-                <Picker.Item label="Pick Your Chapter..." value=""/>
-                {list}
+                onValueChange={handleChapterChange}>
+                {chapters.map((item) => (
+                    <Picker.Item label={item.data} key={item.id} value={item.id}/>
+                ))}
             </Picker>
             <Text style={styles.bodyText}>Select your chapter.</Text>
             <NextButton

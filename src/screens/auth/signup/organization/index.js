@@ -5,17 +5,19 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import NextButton from "../../../../components/signup/next";
 import AlreadyExistsButton from "../../../../components/signup/exists";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSelectedOrg } from "../../../../redux/actions/orgs";
 
 export default function OrganizationScreen() {
 
-    let list = useSelector(state => state.orgs).orgs.map((myValue, myIndex) => {
-        return(
-            <Picker.Item label={myValue.data} value={myValue.id} key={myIndex}/>
-        )
-    });
+    const orgs = useSelector(state => state.orgs).orgs;
+    const selectedOrg = useSelector(state => state.orgs).selectedOrg;
 
-    const [selectedOrganization, setSelectedOrganization] = useState(useSelector(state => state.orgs).orgs[0].id);
+    const dispatch = useDispatch();
+
+    const handleOrgChange = (org) => {
+        dispatch(updateSelectedOrg(org));
+    }
     
     return(
         <View style={styles.mainContainer}>
@@ -23,14 +25,16 @@ export default function OrganizationScreen() {
             <Picker
                 style={styles.picker}
                 itemStyle={styles.pickerItem}
-                selectedValue={selectedOrganization}
-                onValueChange={(itemValue, itemIndex) => setSelectedOrganization(itemValue)}>
-                {list}
+                selectedValue={selectedOrg}
+                onValueChange={handleOrgChange}>
+                {orgs.map((item) => (
+                    <Picker.Item label={item.data} key={item.id} value={item.id}/>
+                ))}
             </Picker>
             <Text style={styles.bodyText}>Select your school and Greek organization.</Text>
             <NextButton
                 navigateTo={"Name"}
-                params={{org: selectedOrganization}}/>
+                params={{org: selectedOrg}}/>
             <AlreadyExistsButton/>
         </View>
     )

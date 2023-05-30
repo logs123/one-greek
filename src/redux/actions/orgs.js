@@ -1,5 +1,5 @@
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { CHAPTER_LIST_LOAD, ORG_LIST_LOAD } from "../constants";
+import { CHAPTER_LIST_LOAD, ORG_LIST_LOAD, UPDATE_SELECTED_CHAPTER, UPDATE_SELECTED_ORG } from "../constants";
 
 require("firebase/auth");
 
@@ -35,4 +35,14 @@ export const getChapters = (org) => dispatch => new Promise((resolve, reject) =>
     .catch((error) => {
         reject(error)
     });
-})
+});
+
+export const updateSelectedOrg = (org) => ({
+    type: UPDATE_SELECTED_ORG,
+    payload: org
+});
+
+export const updateSelectedChapter = (chapter) => ({
+    type: UPDATE_SELECTED_CHAPTER,
+    payload: chapter
+});
