@@ -1,4 +1,4 @@
-import { USER_STATE_CHANGE } from "../constants";
+import { UPDATE_PROFILE_IMAGE, USER_STATE_CHANGE } from "../constants";
 
 const initialState = {
     currentUser: null,
@@ -14,6 +14,11 @@ export const auth = (state = initialState, action) => {
             currentUser: action.currentUser,
             userID: action.userID,
             loaded: action.loaded,
+            photoURL: action.photoURL
+        }
+    } else if (action.type === UPDATE_PROFILE_IMAGE) {
+        return {
+            ...state,
             photoURL: action.photoURL
         }
     } else {

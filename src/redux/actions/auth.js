@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore"; 
-import { USER_STATE_CHANGE } from "../constants";
+import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore"; 
+import { UPDATE_PROFILE_IMAGE, USER_STATE_CHANGE } from "../constants";
 import { getUserAnnouncements } from "./announcement";
 
 require("firebase/auth");
@@ -113,9 +113,13 @@ export const forgotPassword = (auth, email) => dispatch => new Promise((resolve,
     });
 });
 
-// UPDATE THIS
-export const updateProfile = (org, chapter, snapchat, instagram, twitter, facebook) => dispatch => new Promise((resolve, reject) => {
-    updateDoc(doc(getFirestore(), `organizations/${org}/chapters/${chapter}/members`, getAuth().currentUser.uid), {
+export const updateProfileImage = (photoURL) => ({
+    type: UPDATE_PROFILE_IMAGE,
+    photoURL: photoURL
+})
+
+export const updateProfile = (snapchat, instagram, twitter, facebook) => dispatch => new Promise((resolve, reject) => {
+    updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
         socials: {
             snapchat,
             instagram,

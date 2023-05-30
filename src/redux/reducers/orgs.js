@@ -21,12 +21,12 @@ export const orgs = (state = initialState, action) => {
     } else if (action.type === UPDATE_SELECTED_ORG) {
         return {
             ...state,
-            selectedOrg: action.payload
+            selectedOrg: action.org
         }
     } else if (action.type === UPDATE_SELECTED_CHAPTER) {
         return {
             ...state,
-            selectedChapter: action.payload
+            selectedChapter: action.chapter
         }
     } else {
         return state;

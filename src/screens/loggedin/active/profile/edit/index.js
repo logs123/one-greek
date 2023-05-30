@@ -23,7 +23,7 @@ export default function EditScreen() {
     const navigation = useNavigation();
 
     const handleSave = () => {
-        dispatch(updateProfile(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter, snapchat, instagram, twitter, facebook))
+        dispatch(updateProfile(snapchat, instagram, twitter, facebook))
         .then(() =>
             navigation.goBack()
         )

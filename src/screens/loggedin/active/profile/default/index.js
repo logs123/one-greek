@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../../../../redux/actions";
+import { logout, updateProfileImage } from "../../../../../redux/actions";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -17,7 +17,8 @@ export default function ProfileScreen() {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    const [image, setImage] = useState(currentUserObj.photoURL);
+    const image = useSelector(state => state.auth).photoURL;
+
     const [isLoading, setIsLoading] = useState(false);
 
     const pickImage = async () => {
@@ -31,7 +32,7 @@ export default function ProfileScreen() {
 
         if (!result.canceled) {
             const uploadURL = await uploadImageAsync(result.assets[0].uri);
-            setImage(uploadURL);
+            dispatch(updateProfileImage(uploadURL));
             updateProfile(getAuth().currentUser, {
                 photoURL: uploadURL
             })
@@ -39,7 +40,7 @@ export default function ProfileScreen() {
                 setIsLoading(false);
             }, 2000);
         } else {
-            setImage(null);
+            dispatch(updateProfileImage(null));
             setInterval(() => {
                 setIsLoading(false);
             }, 2000);

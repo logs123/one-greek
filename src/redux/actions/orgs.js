@@ -39,10 +39,10 @@ export const getChapters = (org) => dispatch => new Promise((resolve, reject) =>
 
 export const updateSelectedOrg = (org) => ({
     type: UPDATE_SELECTED_ORG,
-    payload: org
+    org: org
 });
 
 export const updateSelectedChapter = (chapter) => ({
     type: UPDATE_SELECTED_CHAPTER,
-    payload: chapter
+    chapter: chapter
 });
