@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { like, unlike } from "../../../redux/actions";
 
 import styles from "./styles";
@@ -10,44 +10,56 @@ export default function LikeButton({ likedBy, creator, announcementID, uid }) {
 
     const [name, setName] = useState("");
     const [color, setColor] = useState("");
-    const [hasLiked, setHasLiked] = useState();
-    const [likeCount, setLikedCount] = useState(likedBy.length);
-    const [currentLikedBy, setCurrentLikedBy] = useState(likedBy);
+    const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
+    const hasLiked = useSelector(state => state.announcement).currentUserAnnouncements.some((item) => item.id === announcementID && item.likedBy.some((item) => item === uid));
+    const likeCount = useSelector(state => state.announcement).currentUserAnnouncements.find((item) => item.id === announcementID).likedBy.length;
+    const currentLikedBy = useSelector(state => state.announcement).currentUserAnnouncements.find((item) => item.id === announcementID).likedBy;
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (likedBy.indexOf(uid) > -1) {
-            setHasLiked(true);
             setName("thumb-up");
             setColor("#72AEBC");
-            setLikedCount(likedBy.length);
-            setCurrentLikedBy(likedBy);
         } else {
-            setHasLiked(false);
             setName("thumb-up-outline");
             setColor("#808080");
-            setLikedCount(likedBy.length);
-            setCurrentLikedBy(likedBy);
         }
     }, []);
 
     const handleLike = () => {
         if (hasLiked) {
-            currentLikedBy.splice(currentLikedBy.indexOf(uid),1);
-            dispatch(unlike(creator.org, creator.chapter, announcementID, currentLikedBy))
-            setHasLiked(false);
+            const updatedAnnouncements = currentUserAnnouncements.map((item) => {
+                if (item.id === announcementID) {
+                    return {
+                        ...item,
+                        likedBy: currentLikedBy.filter((item) => item !== uid)
+                    }
+                } else {
+                    return {
+                        ...item
+                    }
+                }
+            })
+            dispatch(unlike(creator.org, creator.chapter, announcementID, currentLikedBy.filter((item) => item !== uid), updatedAnnouncements));
             setName("thumb-up-outline");
             setColor("#808080");
-            setCurrentLikedBy(currentLikedBy.splice(likedBy.indexOf(uid),1));
-            setLikedCount(likeCount - 1);
         } else {
-            dispatch(like(creator.org, creator.chapter, announcementID, [...currentLikedBy, uid]));
-            setHasLiked(true);
+            const updatedAnnouncements = currentUserAnnouncements.map((item) => {
+                if (item.id === announcementID) {
+                    return {
+                        ...item,
+                        likedBy: [...currentLikedBy, uid]
+                    }
+                } else {
+                    return {
+                        ...item
+                    }
+                }
+            })
+            dispatch(like(creator.org, creator.chapter, announcementID, [...currentLikedBy, uid], updatedAnnouncements));
             setName("thumb-up");
             setColor("#72AEBC");
-            setCurrentLikedBy([...currentLikedBy, uid]);
-            setLikedCount(likeCount + 1);
         }
     }
 

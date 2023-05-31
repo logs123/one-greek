@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore"
-import { CREATE_ANNOUNCEMENT, CURRENT_USER_GET_ANNOUNCEMENTS, DELETE_ANNOUNCEMENT } from "../constants";
+import { CREATE_ANNOUNCEMENT, CURRENT_USER_GET_ANNOUNCEMENTS, DELETE_ANNOUNCEMENT, LIKE_ANNOUNCEMENT, UNLIKE_ANNOUNCEMENT } from "../constants";
 
 require("firebase/auth");
 
@@ -57,24 +57,30 @@ export const deleteAnnouncement = (org, chapter, id, announcements) => dispatch 
     });
 });
 
-export const like = (org, chapter, id, likedBy) => dispatch => new Promise((resolve, reject) => {
+export const like = (org, chapter, id, likedBy, announcements) => dispatch => new Promise((resolve, reject) => {
     updateDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id), {
         likedBy: likedBy
     })
     .then(() => {
-        resolve();
+        return dispatch({
+            type: LIKE_ANNOUNCEMENT,
+            currentUserAnnouncements: announcements
+        })
     })
     .catch((error) => {
         reject(error);
     })
 });
 
-export const unlike = (org, chapter, id, likedBy) => dispatch => new Promise((resolve, reject) => {
+export const unlike = (org, chapter, id, likedBy, announcements) => dispatch => new Promise((resolve, reject) => {
     updateDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id), {
         likedBy: likedBy
     })
     .then(() => {
-        resolve();
+        return dispatch({
+            type: UNLIKE_ANNOUNCEMENT,
+            currentUserAnnouncements: announcements
+        })
     })
     .catch((error) => {
         reject(error);

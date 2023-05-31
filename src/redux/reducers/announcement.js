@@ -1,4 +1,4 @@
-import { CREATE_ANNOUNCEMENT, CURRENT_USER_GET_ANNOUNCEMENTS, DELETE_ANNOUNCEMENT } from "../constants";
+import { CREATE_ANNOUNCEMENT, CURRENT_USER_GET_ANNOUNCEMENTS, DELETE_ANNOUNCEMENT, LIKE_ANNOUNCEMENT, UNLIKE_ANNOUNCEMENT } from "../constants";
 
 const initialState = {
     currentUserAnnouncements: null
@@ -17,7 +17,17 @@ export const announcement = (state = initialState, action) => {
                 currentUserAnnouncements: action.currentUserAnnouncements
             }
         case DELETE_ANNOUNCEMENT:
-            return{
+            return {
+                ...state,
+                currentUserAnnouncements: action.currentUserAnnouncements
+            }
+        case LIKE_ANNOUNCEMENT:
+            return {
+                ...state,
+                currentUserAnnouncements: action.currentUserAnnouncements
+            }
+        case UNLIKE_ANNOUNCEMENT:
+            return {
                 ...state,
                 currentUserAnnouncements: action.currentUserAnnouncements
             }
