@@ -2,9 +2,9 @@ import React from "react";
 import { Alert, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAnnouncement, getUserAnnouncements } from "../../../redux/actions";
+import { deleteAnnouncement } from "../../../redux/actions";
 
-export default function DeleteButton({ creator, id, viewer }) {
+export default function DeleteButton({ creator, id }) {
 
     const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
     const dispatch = useDispatch();

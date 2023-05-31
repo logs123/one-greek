@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { createAnnouncement, getUserAnnouncements } from "../../../redux/actions";
+import { createAnnouncement } from "../../../redux/actions";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 import styles from "./styles";

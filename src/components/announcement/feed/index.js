@@ -17,7 +17,7 @@ export default function AnnouncementFeed() {
 
     const handleRefresh = () => {
         setRefreshing(true);
-        dispatch(getUserAnnouncements(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter))
+        dispatch(getUserAnnouncements(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter));
         setRefreshing(false);
     }
 

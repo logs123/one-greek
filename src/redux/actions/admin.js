@@ -35,11 +35,11 @@ export const verify = (uid, list) => dispatch => new Promise((resolve, reject) =
                 .then(() => {
                     updateDoc(doc(getFirestore(), "users", uid), {
                         verified: true
-                    })
+                    });
                     return dispatch({
                         type: VERIFY,
                         unverified: list
-                    })
+                    });
                 })
             })
         }

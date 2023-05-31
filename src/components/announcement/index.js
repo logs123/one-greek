@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Linking, Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
 import Hyperlink from "react-native-hyperlink";
 import { useSelector } from "react-redux";
 import timeSince from "../../services/timeSince";
