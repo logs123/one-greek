@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createAnnouncement, getUserAnnouncements } from "../../../redux/actions";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 import styles from "./styles";
 
-export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, currentUserObj, uid }) {
+export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen }) {
 
     const dispatch = useDispatch();
+    const currentUserObj = useSelector(state => state.auth);
+    const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
@@ -16,10 +18,15 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen, cu
 
     const handlePost = (title, body, creator) => {
         modalRef.current?.dismiss();
-        dispatch(createAnnouncement(title, body, creator, uid));
+        const date = new Date();
+        dispatch(createAnnouncement(title, body, creator, currentUserObj.userID, date.getTime(), [], currentUserAnnouncements));
+        // ID CAN'T BE NULL. NEED TO GET ANNOUNCEMENT DOCUMENT ID
+        if (currentUserAnnouncements.length > 0) {
+            currentUserAnnouncements.unshift({ body, creator, date, id: null, likedBy: [], title, uid: currentUserObj.userID })
+        } else {
+            currentUserAnnouncements.push({ body, creator, date, id: null, likedBy: [], title, uid: currentUserObj.userID })
+        }
         setIsModalOpen(!isModalOpen);
-        dispatch(getUserAnnouncements(currentUserObj.currentUser.org, currentUserObj.currentUser.chapter));
-        
     }
 
     const handleClosePress = () => {

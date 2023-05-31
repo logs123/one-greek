@@ -12,8 +12,8 @@ export default function DenyButton({ id }) {
     const unverified = useSelector(state => state.admin).unverified;
 
     const handleDeny = () => {
-        const updatedUnverified = unverified.filter((item) => item.id !== id)
-        dispatch(deny(updatedUnverified))
+        const updatedUnverified = unverified.filter((item) => item.id !== id);
+        dispatch(deny(updatedUnverified));
     }
 
     return(

@@ -12,8 +12,8 @@ export default function AcceptButton({ id }) {
     const unverified = useSelector(state => state.admin).unverified;
 
     const handleAccept = () => {
-        const updatedUnverified = unverified.filter((item) => item.id !== id)
-        dispatch(verify(id, updatedUnverified))
+        const updatedUnverified = unverified.filter((item) => item.id !== id);
+        dispatch(verify(id, updatedUnverified));
     }
 
     return(

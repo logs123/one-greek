@@ -1,11 +1,12 @@
 import React from "react";
 import { Alert, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteAnnouncement, getUserAnnouncements } from "../../../redux/actions";
 
 export default function DeleteButton({ creator, id, viewer }) {
 
+    const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
     const dispatch = useDispatch();
 
     const handleDelete = () => {
@@ -14,8 +15,8 @@ export default function DeleteButton({ creator, id, viewer }) {
             "Are you sure you want to delete this announcement?",
             [{text: "Cancel", style: "cancel"}, {text: "Yes", onPress: () => 
             {
-                dispatch(deleteAnnouncement(creator.org, creator.chapter, id));
-                dispatch(getUserAnnouncements(viewer.org, viewer.chapter));
+                const updatedAnnouncements = currentUserAnnouncements.filter((item) => item.id !== id)
+                dispatch(deleteAnnouncement(creator.org, creator.chapter, id, updatedAnnouncements));
             }
         }]);
     }

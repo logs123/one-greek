@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import AcceptButton from "./accept";
 import DenyButton from "./deny";

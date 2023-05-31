@@ -5,9 +5,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center"
     },
-    text: {
-
-    },
     interactionContainer: {
         flexDirection: "row",
         justifyContent: "space-between",justifyContent: "space-between",

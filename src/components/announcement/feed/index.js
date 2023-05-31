@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Announcement from "..";
 import { getUserAnnouncements } from "../../../redux/actions";
 
-export default function AnnouncementFeed({ currentUserObj, currentUserAnnouncements}) {
+export default function AnnouncementFeed() {
 
     const dispatch = useDispatch();
+    const currentUserObj = useSelector(state => state.auth);
+    const currentUserAnnouncements = useSelector(state => state.announcement).currentUserAnnouncements;
     const [refreshing, setRefreshing] = useState(false);
 
     const renderItem = ({item}) => (
-        <Announcement announcement={item} uid={currentUserObj.userID} viewer={currentUserObj.currentUser}/>
+        <Announcement announcement={item}/>
     );
 
     const handleRefresh = () => {
@@ -25,7 +27,7 @@ export default function AnnouncementFeed({ currentUserObj, currentUserAnnounceme
             renderItem={renderItem}
             keyExtractor={item => item.id}
             refreshing={refreshing}
-            onRefresh={() => handleRefresh()}
+            onRefresh={handleRefresh}
             showsVerticalScrollIndicator={false}
         />
     );

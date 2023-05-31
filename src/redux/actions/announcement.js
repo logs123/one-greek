@@ -1,19 +1,22 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc } from "firebase/firestore"
-import { CURRENT_USER_GET_ANNOUNCEMENTS } from "../constants";
+import { CREATE_ANNOUNCEMENT, CURRENT_USER_GET_ANNOUNCEMENTS, DELETE_ANNOUNCEMENT } from "../constants";
 
 require("firebase/auth");
 
-export const createAnnouncement = (title, body, creator, uid) => dispatch => new Promise((resolve, reject) => {
+export const createAnnouncement = (title, body, creator, uid, date, likedBy, announcements) => dispatch => new Promise((resolve, reject) => {
     addDoc(collection(getFirestore(), "organizations/" + creator.org + "/chapters/" + creator.chapter + "/announcements"), {
         title,
         body,
         creator,
         uid,
-        date: new Date(),
-        likedBy: []
+        date,
+        likedBy
     })
     .then(() => {
-        resolve();
+        return dispatch({
+            type: CREATE_ANNOUNCEMENT,
+            currentUserAnnouncements: announcements
+        })
     })
     .catch((error) => {
         reject(error);
@@ -36,10 +39,13 @@ export const getUserAnnouncements = (org, chapter) => dispatch => new Promise((r
     })
 });
 
-export const deleteAnnouncement = (org, chapter, id) => dispatch => new Promise((resolve, reject) => {
+export const deleteAnnouncement = (org, chapter, id, announcements) => dispatch => new Promise((resolve, reject) => {
     deleteDoc(doc(getFirestore(), "organizations/" + org + "/chapters/" + chapter + "/announcements", id))
     .then(() => {
-        resolve();
+        return dispatch({
+            type: DELETE_ANNOUNCEMENT,
+            currentUserAnnouncements: announcements
+        })
     })
     .catch((error) => {
         reject(error);
