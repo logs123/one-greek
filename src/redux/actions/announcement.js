@@ -12,7 +12,12 @@ export const createAnnouncement = (title, body, creator, uid, date, likedBy, ann
         date,
         likedBy
     })
-    .then(() => {
+    .then((doc) => {
+        if (announcements.length > 0) {
+            announcements.unshift({ body, creator, date, id: doc.id, likedBy, title, uid })
+        } else {
+            announcements.push({ body, creator, date, id: doc.id, likedBy, title, uid })
+        }
         return dispatch({
             type: CREATE_ANNOUNCEMENT,
             currentUserAnnouncements: announcements

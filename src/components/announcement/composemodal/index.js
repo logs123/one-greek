@@ -20,12 +20,6 @@ export default function ComposeModal({ modalRef, isModalOpen, setIsModalOpen }) 
         modalRef.current?.dismiss();
         const date = new Date();
         dispatch(createAnnouncement(title, body, creator, currentUserObj.userID, date.getTime(), [], currentUserAnnouncements));
-        // ID CAN'T BE NULL. NEED TO GET ANNOUNCEMENT DOCUMENT ID
-        if (currentUserAnnouncements.length > 0) {
-            currentUserAnnouncements.unshift({ body, creator, date, id: null, likedBy: [], title, uid: currentUserObj.userID })
-        } else {
-            currentUserAnnouncements.push({ body, creator, date, id: null, likedBy: [], title, uid: currentUserObj.userID })
-        }
         setIsModalOpen(!isModalOpen);
     }
 
