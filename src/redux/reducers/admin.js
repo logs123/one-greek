@@ -5,22 +5,23 @@ const initialState = {
 }
 
 export const admin = (state = initialState, action) => {
-    if (action.type === UNVERIFIED_LIST_LOAD) {
-        return {
-            ...state,
-            unverified: action.unverified
-        }
-    } else if (action.type === VERIFY) {
-        return {
-            ...state,
-            unverified: action.unverified
-        }
-    } else if (action.type === DENY) {
-        return {
-            ...state,
-            unverified: action.unverified
-        }
-    } else {
-        return state;
+    switch (action.type) {
+        case UNVERIFIED_LIST_LOAD:
+            return {
+                ...state,
+                unverified: action.unverified
+            }
+        case VERIFY:
+            return {
+                ...state,
+                unverified: action.unverified
+            }
+        case DENY:
+            return {
+                ...state,
+                unverified: action.unverified
+            }
+        default:
+            return state;
     }
 }

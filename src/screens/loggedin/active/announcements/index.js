@@ -24,7 +24,7 @@ export default function AnnouncementsScreen() {
     }
 
     return(
-        <SafeAreaView edges={["top", "left","right"]} style={[styles.mainContainer]}>
+        <SafeAreaView edges={["top"]} style={[styles.mainContainer]}>
             <StatusBar/>
             <AnnouncementFeed/>
             <TouchableOpacity style={styles.composeButton} onPress={handlePresentModal}>

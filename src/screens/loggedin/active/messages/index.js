@@ -1,36 +1,63 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
+import React, { useLayoutEffect, useState } from "react";
+import { RefreshControl, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {Dimensions} from 'react-native';
+import { useDispatch, useSelector } from "react-redux";
+import { getMessagePreviews } from "../../../../redux/actions/messages";
 
 import styles from "./styles";
 
 export default function MessagesScreen() {
 
-    const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height;
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    const previews = useSelector(state => state.messages).previews;
+    const [refreshing, setRefreshing] = useState(false);
+
+    const handleCreateMessage = () => {
+        navigation.navigate("CreateMessage");
+    }
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        dispatch(getMessagePreviews());
+        setRefreshing(false);
+    }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: "Messages",
+            headerRight: () => (
+                <TouchableOpacity style={styles.headerButtonContainer} onPress={handleCreateMessage}>
+                    <Text style={styles.headerButton}>+</Text>
+                </TouchableOpacity>
+            )
+        })
+    }, [navigation])
+
+    const handleMessageSelect = (chatID) => {
+        navigation.navigate("ChatScreen", { chatID });
+    }
+
+    const renderPreview = ({ item }) => (
+        <TouchableOpacity onPress={() => handleMessageSelect(item.id)}>
+          <View style={styles.messagePreview}>
+            <Text style={styles.title}>{item.title}</Text>
+          </View>
+        </TouchableOpacity>
+      );
 
     return(
-        <SafeAreaView edges={["top", "left","right"]} style={[styles.mainContainer]}>
-            <View>
-                <Text style={{ backgroundColor: "#dddddd"}}>Messages</Text>
-                <FlatList
-                    data={[
-                    {key: 'Devin'},
-                    {key: 'Dan'},
-                    {key: 'Dominic'},
-                    {key: 'Jackson'},
-                    {key: 'James'},
-                    {key: 'Joel'},
-                    {key: 'John'},
-                    {key: 'Jillian'},
-                    {key: 'Jimmy'},
-                    {key: 'Julie'},
-                    ]}
-                    renderItem={({item}) => <Text style={{ backgroundColor: "#aaaaaa", padding: 10, width: windowWidth}}>{item.key}</Text>}
-                />
-            </View>
-        </SafeAreaView>
+        <View style={styles.mainContainer}>
+            <FlatList
+                data={previews}
+                renderItem={renderPreview}
+                keyExtractor={(item) => item.id}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh}/>
+                }
+            />
+        </View>
     );
 }

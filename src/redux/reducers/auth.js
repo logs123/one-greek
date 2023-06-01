@@ -8,20 +8,21 @@ const initialState = {
 }
 
 export const auth = (state = initialState, action) => {
-    if (action.type === USER_STATE_CHANGE) {
-        return {
-            ...state,
-            currentUser: action.currentUser,
-            userID: action.userID,
-            loaded: action.loaded,
-            photoURL: action.photoURL
-        }
-    } else if (action.type === UPDATE_PROFILE_IMAGE) {
-        return {
-            ...state,
-            photoURL: action.photoURL
-        }
-    } else {
-        return state;
+    switch (action.type) {
+        case USER_STATE_CHANGE:
+            return {
+                ...state,
+                currentUser: action.currentUser,
+                userID: action.userID,
+                loaded: action.loaded,
+                photoURL: action.photoURL
+            }
+        case UPDATE_PROFILE_IMAGE:
+            return {
+                ...state,
+                photoURL: action.photoURL
+            }
+        default:
+            return state;
     }
 }

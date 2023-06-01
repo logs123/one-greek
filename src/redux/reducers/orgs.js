@@ -8,27 +8,28 @@ const initialState = {
 }
 
 export const orgs = (state = initialState, action) => {
-    if (action.type === ORG_LIST_LOAD) {
-        return {
-            ...state,
-            orgs: action.orgs
-        }
-    } else if (action.type === CHAPTER_LIST_LOAD) {
-        return {
-            ...state,
-            chapters: action.chapters
-        }
-    } else if (action.type === UPDATE_SELECTED_ORG) {
-        return {
-            ...state,
-            selectedOrg: action.org
-        }
-    } else if (action.type === UPDATE_SELECTED_CHAPTER) {
-        return {
-            ...state,
-            selectedChapter: action.chapter
-        }
-    } else {
-        return state;
+    switch (action.type) {
+        case ORG_LIST_LOAD:
+            return {
+                ...state,
+                orgs: action.orgs
+            }
+        case CHAPTER_LIST_LOAD:
+            return {
+                ...state,
+                chapters: action.chapters
+            }
+        case UPDATE_SELECTED_ORG:
+            return {
+                ...state,
+                selectedOrg: action.org
+            }
+        case UPDATE_SELECTED_CHAPTER:
+            return {
+                ...state,
+                selectedChapter: action.chapter
+            }
+        default:
+            return state;
     }
 }
