@@ -18,24 +18,7 @@ export default function PasswordScreen({ route }) {
     const navigation = useNavigation();
 
     const handleSignup = () => {
-        dispatch(register(getAuth(), email, password, org, firstName, lastName, chapter, phoneNumber, type))
-        .catch((error) => {
-            switch(error.code) {
-                case "auth/invalid-email":
-                    Keyboard.dismiss();
-                    Alert.alert("Invalid Email", "The email that you have entered is not valid.");
-                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber, type});
-                    break;
-                case "auth/email-already-in-use":
-                    Keyboard.dismiss();
-                    Alert.alert("Email Already In Use", "The email you have entered already belongs to someone.");
-                    navigation.navigate("Email", {org, firstName, lastName, phoneNumber, type});
-                    break;
-                default:
-                    console.log(error);
-                    break;
-            }
-        })
+        dispatch(register(getAuth(), email, password, org, firstName, lastName, chapter, phoneNumber, type));
     }
 
     return(

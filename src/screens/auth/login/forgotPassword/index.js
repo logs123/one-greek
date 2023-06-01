@@ -17,21 +17,6 @@ export default function ForgotPasswordScreen() {
 
     const handleForgotPassword = () => {
         dispatch(forgotPassword(getAuth(), email))
-        .then(() => {
-            Alert.alert("Reset Email Sent!", "Password reset email has been successfully sent.");
-            navigation.navigate("Auth");
-        })
-        .catch((error) => {
-            switch(error.code) {
-                case "auth/invalid-email":
-                    Alert.alert("Invalid Email", "The email that you have entered is not valid.");
-                    break;
-                case "auth/user-not-found":
-                    Alert.alert("User Not Found", "The email you entered does not match an account.");
-                default:
-                    console.log(error);
-            }
-        })
     }
 
     return(

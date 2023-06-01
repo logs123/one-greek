@@ -16,25 +16,6 @@ export default function LoginScreen() {
 
     const handleLogin = () => {
         dispatch(login(getAuth(), email, password))
-        .then(() => {
-             
-        })
-        .catch((error) => {
-            switch(error.code) {
-                case "auth/invalid-email":
-                    Alert.alert("Invalid Email", "The email that you have entered is not valid.");
-                    break;
-                case "auth/user-not-found":
-                    Alert.alert("User Not Found", "The credentials you have entered do not match an account.");
-                    break;
-                case "auth/wrong-password":
-                    Alert.alert("Wrong Password", "The password you have entered does not match the username.");
-                    break;
-                default:
-                    console.log(error);
-                    break;
-            }
-        })
     }
 
     return(
