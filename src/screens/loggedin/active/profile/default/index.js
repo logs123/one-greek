@@ -53,8 +53,8 @@ export default function ProfileScreen() {
             xhr.onload = function () {
                 resolve(xhr.response);
             };
-            xhr.onerror = function (e) {
-                console.log(e);
+            xhr.onerror = function (error) {
+                console.log(error);
                 reject(new TypeError("Network request failed"));
             };
             xhr.responseType = "blob";

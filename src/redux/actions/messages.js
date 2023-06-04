@@ -9,8 +9,14 @@ export const createMessage = (selectedUsers, type) => {
         try {
             await addDoc(collection(getFirestore(), "messages"), {
                 type: type === true ? "group" : "individual",
-                title: "New Chat",
-                members: [getAuth().currentUser.uid, ...selectedUsers]
+                title: type === true ? "Group" : await getDoc(doc(getFirestore(), "users", selectedUsers[0]))
+                .then((docSnap) => {
+                    if (docSnap.exists()) {
+                        return `${docSnap.data().firstName} ${docSnap.data().lastName}`;
+                    }
+                }),
+                members: [getAuth().currentUser.uid, ...selectedUsers],
+                messages: []
             })
             .then((message) => {
                 dispatch({ type: CREATE_MESSAGE, chatID: message.id })
@@ -21,10 +27,10 @@ export const createMessage = (selectedUsers, type) => {
     }
 }
 
-export const getUserMessages = () => {
+export const getUserMessages = (chatID) => {
     return async (dispatch) => {
         try {
-            await getDocs(query(collection(getFirestore(), "messages"), where("members", "array-contains", getAuth().currentUser.uid)))
+            await getDoc(doc(getFirestore(), "messages", chatID))
             .then((docs) => {
                 const messages = [];
                 docs.forEach((doc) => {
@@ -47,18 +53,7 @@ export const getMessagePreviews = () => {
             .then((docs) => {
                 const list = [];
                 docs.forEach((ds) => {
-                    const preview = {id: ds.id, ...ds.data()};
-                    if (ds.data().type === "individual") {
-                        const otherPersonID = ds.data().members.find((memberId) => memberId !== getAuth().currentUser.uid);
-                        getDoc(doc(getFirestore(), "users", otherPersonID))
-                        .then((docSnap) => {
-                            if (docSnap.exists()) {
-                                preview.title = `${docSnap.data().firstName} ${docSnap.data().lastName}`;
-
-                            }
-                        })
-                    }
-                    list.push(preview)
+                    list.push({id: ds.id, ...ds.data()})
                 });
                 dispatch({ type: GET_MESSAGE_PREVIEWS, previews: list });
             })

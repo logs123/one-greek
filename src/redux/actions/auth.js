@@ -3,8 +3,6 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswo
 import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore"; 
 import { Alert } from "react-native";
 import { UPDATE_PROFILE_IMAGE, USER_STATE_CHANGE } from "../constants";
-import { getUserAnnouncements } from "./announcement";
-import { getMessagePreviews } from "./messages";
 
 require("firebase/auth");
 
@@ -38,8 +36,6 @@ export const getCurrentUserData = () => {
                             loaded: true,
                             photoURL: getAuth().currentUser.photoURL
                         });
-                        dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
-                        dispatch(getMessagePreviews());
                     } else if (docSnap.data().verified === true) {
                         dispatch({
                             type: USER_STATE_CHANGE,
@@ -48,8 +44,6 @@ export const getCurrentUserData = () => {
                             loaded: true,
                             photoURL: getAuth().currentUser.photoURL
                         });
-                        dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
-                        dispatch(getMessagePreviews());
                     } else {
                         dispatch({
                             type: USER_STATE_CHANGE,
@@ -58,8 +52,6 @@ export const getCurrentUserData = () => {
                             loaded: true,
                             photoURL: getAuth().currentUser.photoURL
                         });
-                        dispatch(getUserAnnouncements(docSnap.data().org, docSnap.data().chapter));
-                        dispatch(getMessagePreviews());
                     }
                 }
             });
