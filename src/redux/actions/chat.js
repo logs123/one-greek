@@ -4,22 +4,22 @@ import { CREATE_MESSAGE, GET_MESSAGE_PREVIEWS, GET_USER_MESSAGES } from "../cons
 
 require("firebase/auth");
 
-export const createMessage = (selectedUsers, type) => {
+export const createChat = (title, members, isGroupChat) => {
     return async (dispatch) => {
         try {
-            await addDoc(collection(getFirestore(), "messages"), {
-                type: type === true ? "group" : "individual",
-                title: type === true ? "Group" : await getDoc(doc(getFirestore(), "users", selectedUsers[0]))
+            const name = "";
+            await addDoc(collection(getFirestore(), "chats"), {
+                title: isGroupChat ? title : await getDoc(doc(getFirestore(), "users", members[1]))
                 .then((docSnap) => {
-                    if (docSnap.exists()) {
-                        return `${docSnap.data().firstName} ${docSnap.data().lastName}`;
-                    }
+                    name = `${docSnap.data().firstName} ${docSnap.data().lastName}`;
+                    return `${docSnap.data().firstName} ${docSnap.data().lastName}`;
                 }),
-                members: [getAuth().currentUser.uid, ...selectedUsers],
-                messages: []
+                members,
+                messages: [],
+                isGroupChat
             })
-            .then((message) => {
-                dispatch({ type: CREATE_MESSAGE, chatID: message.id })
+            .then((chat) => {
+                dispatch({ type: CREATE_MESSAGE, chatID: chat.id, title: isGroupChat ? title : name, members, isGroupChat })
             })
         } catch (error) {
             console.log(error);
@@ -30,7 +30,7 @@ export const createMessage = (selectedUsers, type) => {
 export const getUserMessages = (chatID) => {
     return async (dispatch) => {
         try {
-            await getDoc(doc(getFirestore(), "messages", chatID))
+            await getDoc(doc(getFirestore(), "chats", chatID))
             .then((docs) => {
                 const messages = [];
                 docs.forEach((doc) => {
@@ -46,10 +46,10 @@ export const getUserMessages = (chatID) => {
     }
 }
 
-export const getMessagePreviews = () => {
+export const getChatPreviews = () => {
     return async (dispatch) => {
         try {
-            await getDocs(query(collection(getFirestore(),"messages"), where("members", "array-contains", getAuth().currentUser.uid)))
+            await getDocs(query(collection(getFirestore(),"chats"), where("members", "array-contains", getAuth().currentUser.uid)))
             .then((docs) => {
                 const list = [];
                 docs.forEach((ds) => {

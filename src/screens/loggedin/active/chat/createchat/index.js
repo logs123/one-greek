@@ -3,42 +3,47 @@ import { FlatList, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { createMessage } from "../../../../../redux/actions/messages";
+import { createChat } from "../../../../../redux/actions/chat";
 import { getUsersByChapter } from "../../../../../redux/actions/users";
 
 import styles from "./styles";
 
-export default function CreateMessageScreen({ navigation }) {
+export default function CreateChatScreen({ navigation, route }) {
 
+    const { chatType } = route.params;
     const dispatch = useDispatch();
-    const [selectedUsers, setSelectedUsers] = useState([]);
     const currentUserObj = useSelector(state => state.auth);
     const chapterUsers = useSelector(state => state.users).chapterUsers;
+    const [title, setTitle] = useState("");
+    const [members, setMembers] = useState([currentUserObj.userID]);
+    const [isGroupChat, setIsGroupChat] = useState(true);
 
     useEffect(() => {
         navigation.setOptions({
+            title: chatType === "group" ? "New Group Chat" : "New Direct Message",
             headerRight: () => (
-                <Button title="Create" onPress={handleCreateMessage} disabled={selectedUsers.length === 0} />
+                <Button title="Create" onPress={handleCreateChat} disabled={members.length < 2} />
             ),
         });
         dispatch(getUsersByChapter(currentUserObj.currentUser.chapter))
-    }, [selectedUsers]);
+    }, [members]);
 
     const handleUserPress = (userID) => {
-        const isSelected = selectedUsers.includes(userID);
+        const isSelected = members.includes(userID);
         if (isSelected) {
-            setSelectedUsers(selectedUsers.filter((id) => id !== userID));
+            setMembers(members.filter((id) => id !== userID));
         } else {
-            setSelectedUsers([...selectedUsers, userID]);
+            setMembers([...members, userID]);
         }
     };
 
-    const handleCreateMessage = () => {
-        if (selectedUsers.length === 0) {
+    const handleCreateChat = () => {
+        if (members.length < 2) {
             return;
+        } else if (chatType === "individual") {
+            setIsGroupChat(false);
         }
-        const isGroupChat = selectedUsers.length > 1;
-        dispatch(createMessage(selectedUsers, isGroupChat));
+        dispatch(createChat(title, members, isGroupChat));
         navigation.goBack();
     };
 
@@ -48,9 +53,9 @@ export default function CreateMessageScreen({ navigation }) {
                 data={chapterUsers}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handleUserPress(item.id)}>
-                        <View style={[styles.userItem, selectedUsers.includes(item.id) && styles.selectedUserItem]}>
+                        <View style={[styles.userItem, members.includes(item.id) && styles.membersItem]}>
                             <Text>{item.firstName} {item.lastName}</Text>
-                            {selectedUsers.includes(item.id) && <Text>Selected</Text>}
+                            {members.includes(item.id) && <Text>Selected</Text>}
                         </View>
                     </TouchableOpacity>
                 )}
@@ -61,13 +66,13 @@ export default function CreateMessageScreen({ navigation }) {
     
 }
 
-CreateMessageScreen.navigationOptions = ({ navigation }) => ({
+CreateChatScreen.navigationOptions = ({ navigation }) => ({
     title: "New Message",
     headerRight: () => (
         <Button
             title="Create"
-            onPress={() => navigation.getParam("handleCreateMessage")()}
-            disabled={!navigation.getParam("canCreateMessage")}
+            onPress={() => navigation.getParam("handleCreateChat")()}
+            disabled={!navigation.getParam("canCreateChat")}
             color="#000"
         />
     ),

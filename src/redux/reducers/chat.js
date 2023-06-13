@@ -1,12 +1,11 @@
-import { CREATE_MESSAGE, GET_MESSAGE_PREVIEWS, GET_USER_MESSAGES } from "../constants";
+import { CREATE_MESSAGE, GET_MESSAGE_PREVIEWS } from "../constants";
 
 
 const initialState = {
-    messages: {},
     previews: []
 }
 
-export const messages = (state = initialState, action) => {
+export const chat = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_MESSAGE:
             return {
@@ -24,14 +23,6 @@ export const messages = (state = initialState, action) => {
             return {
                 ...state,
                 previews: action.previews
-            }
-        case GET_USER_MESSAGES:
-            return {
-                ...state,
-                messages: {
-                    ...state.messages,
-                    [action.chatID]: action.messages
-                }
             }
         default:
             return state;

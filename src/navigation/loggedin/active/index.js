@@ -5,7 +5,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import AnnouncementsScreen from "../../../screens/loggedin/active/announcements";
-import MessagesStack from "./messages";
+import ChatStack from "./chat";
 import CalendarScreen from "../../../screens/loggedin/active/calendar";
 import SearchScreen from "../../../screens/loggedin/active/search";
 import Profile from "../../../screens/loggedin/active/profile";
@@ -21,7 +21,7 @@ export default function Active() {
             let iconName;
             if (route.name === 'Announcements') {
               iconName = focused ? 'newspaper' : 'newspaper-outline';
-            } else if (route.name === 'MessageStack') {
+            } else if (route.name === 'ChatStack') {
               iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
             } else if (route.name === 'Calendar') {
               iconName = focused ? 'calendar' : 'calendar-outline';
@@ -39,7 +39,7 @@ export default function Active() {
           tabBarStyle: {backgroundColor: "#D2F7FF"}
         })}>
           <Tab.Screen name="Announcements" component={AnnouncementsScreen} options={{ headerShown: false }}/>
-          <Tab.Screen name="MessageStack" component={MessagesStack} options={{ headerShown: false }}/>
+          <Tab.Screen name="ChatStack" component={ChatStack} options={{ headerShown: false }}/>
           <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }}/>
           <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false }}/>
           <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>

@@ -3,7 +3,7 @@ import { auth } from "./auth";
 import { announcement } from "./announcement";
 import { orgs } from "./orgs";
 import { admin } from "./admin";
-import { messages } from "./messages";
+import { chat } from "./chat";
 import { users } from "./users";
 
 const Reducers = combineReducers({
@@ -11,7 +11,7 @@ const Reducers = combineReducers({
     announcement,
     orgs,
     admin,
-    messages,
+    chat,
     users
 });
 

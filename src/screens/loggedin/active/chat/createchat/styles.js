@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 10,
+        backgroundColor: "#FFFFFF"
     },
     userItem: {
         flexDirection: 'row',
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: 'gray',
     },
-    selectedUserItem: {
+    membersItem: {
         backgroundColor: 'lightblue',
     },
 });

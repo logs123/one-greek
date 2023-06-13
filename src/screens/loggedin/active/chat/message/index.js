@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FlatList, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserMessages } from "../../../../../redux/actions/messages";
+import { getUserMessages } from "../../../../../redux/actions/chat";
 
 import styles from "./styles";
 

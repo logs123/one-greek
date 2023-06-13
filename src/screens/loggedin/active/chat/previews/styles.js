@@ -14,6 +14,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+    },
+    modalSelectionContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
+    modal: {
+        position: "absolute",
+        backgroundColor: "white",
+        padding: 10,
+        borderRadius: 10
+    },
+    line: {
+        height: 1,
+        backgroundColor: 'gray',
+        marginVertical: 10
+    },
+    createText: {
+        fontSize: 16
+    },
     deleteButton: {
         backgroundColor: 'red',
         justifyContent: 'center',
