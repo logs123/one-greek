@@ -30,7 +30,7 @@ export default function ForgotPasswordScreen() {
                         placeholder="Email"
                         clearButtonMode="while-editing"
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         keyboardType="email-address"
                         spellCheck="false"
                         onChangeText={(text) => setEmail(text.trim())}/>

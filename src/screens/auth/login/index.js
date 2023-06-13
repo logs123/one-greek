@@ -30,7 +30,7 @@ export default function LoginScreen() {
                         placeholder="Email"
                         clearButtonMode="while-editing"
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         keyboardType="email-address"
                         spellCheck="false"
                         onChangeText={(text) => setEmail(text.trim())}/>
@@ -39,7 +39,7 @@ export default function LoginScreen() {
                         placeholder="Password"
                         clearButtonMode="while-editing"
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         spellCheck="false"
                         secureTextEntry="true"
                         onChangeText={(text) => setPassword(text)}/>

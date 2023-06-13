@@ -40,7 +40,7 @@ export default function EditScreen() {
                     <MaterialCommunityIcons name="snapchat" size={36} color="#000000"/>
                     <TextInput
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         clearButtonMode="while-editing"
                         style={styles.socialInput}
                         value={snapchat}
@@ -51,7 +51,7 @@ export default function EditScreen() {
                     <MaterialCommunityIcons name="instagram" size={36} color="#962fbf"/>
                     <TextInput
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         clearButtonMode="while-editing"
                         style={styles.socialInput}
                         value={instagram}
@@ -62,7 +62,7 @@ export default function EditScreen() {
                     <MaterialCommunityIcons name="twitter" size={36} color="#00acee"/>
                     <TextInput
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         clearButtonMode="while-editing"
                         style={styles.socialInput}
                         value={facebook}
@@ -73,7 +73,7 @@ export default function EditScreen() {
                     <MaterialCommunityIcons name="facebook" size={36} color="#3b5998"/>
                     <TextInput
                         autoCapitalize="none"
-                        autoCorrect="false"
+                        autoCorrect={false}
                         clearButtonMode="while-editing"
                         style={styles.socialInput}
                         value={twitter}
