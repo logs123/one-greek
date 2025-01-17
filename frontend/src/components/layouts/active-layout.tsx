@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../assets/images/logo-alt-white.png';
 import useAuth from '../../hooks/useAuth';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSendLogoutMutation } from '../../features/auth/api/authApi';
 import Spinner from '../ui/spinner/spinner';
 import { LuLayoutDashboard } from 'react-icons/lu';
@@ -16,7 +16,6 @@ type LayoutProps = {
 
 const ActiveLayout = ({ children }: LayoutProps) => {
     const auth = useAuth();
-    const navigate = useNavigate();
     const location = useLocation();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

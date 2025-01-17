@@ -9,7 +9,7 @@ export const userApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { userId, chapterId }
             }),
-            invalidatesTags: (result, error, { chapterId }) => [{ type: 'PNMChapter', id: chapterId }]
+            invalidatesTags: (_result, _error, { chapterId }) => [{ type: 'PNMChapter', id: chapterId }]
         }),
         getActiveMemebers: builder.query<ActiveUser[], { chapterId: string }>({
             query: ({ chapterId }) => `/users/actives?chapterId=${chapterId}`,
@@ -24,7 +24,7 @@ export const userApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { userId }
             }),
-            invalidatesTags: (result, error, { userId }) => [{ type: 'ActiveUser', id: userId }]
+            invalidatesTags: (_result, _error, { userId }) => [{ type: 'ActiveUser', id: userId }]
         }),
         toggleAdmin: builder.mutation<void, { userId: string; position?: string }>({
             query: ({ userId, position }) => ({
@@ -32,7 +32,7 @@ export const userApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { userId, position }
             }),
-            invalidatesTags: (result, error, { userId }) => [{ type: 'ActiveUser', id: userId }]
+            invalidatesTags: (_result, _error, { userId }) => [{ type: 'ActiveUser', id: userId }]
         })
     })
 });

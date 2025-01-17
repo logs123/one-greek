@@ -12,7 +12,7 @@ export const chapterApi = apiSlice.injectEndpoints({
         }),
         getChapter: builder.query<ActiveChapter, string>({
             query: (chapterId) => `/chapters/${chapterId}`,
-            providesTags: (result, error, chapterId) =>
+            providesTags: (result, _error, chapterId) =>
                 result
                     ? [{ type: 'ActiveChapter' as const, id: result._id }]
                     : [{ type: 'ActiveChapter' as const, id: chapterId }],

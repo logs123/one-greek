@@ -14,7 +14,7 @@ interface SignupModalProps {
     onClose: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ signup, error, organizations, isOpen, onClose }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen, onClose }) => {
     const [formData, setFormData] = useState<SignupCredentials>({
         firstName: '',
         lastName: '',

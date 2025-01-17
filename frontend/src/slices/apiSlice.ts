@@ -4,7 +4,7 @@ import { setCredentials } from './authSlice';
 import { AccessToken } from '../types/authTypes';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://api.onegreek.com',
+    baseUrl: 'http://localhost:3500',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
@@ -44,5 +44,5 @@ const baseQueryWithReauth = async (
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ['PNMChapter', 'PNMEvent', 'ActiveUser', 'ActiveEvent', 'ActiveChapter'],
-    endpoints: (builder) => ({})
+    endpoints: (_builder) => ({})
 });

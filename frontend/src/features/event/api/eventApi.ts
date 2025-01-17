@@ -16,7 +16,7 @@ export const eventApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { userId, eventId }
             }),
-            invalidatesTags: (result, error, { eventId }) => [{ type: 'PNMEvent', id: eventId }]
+            invalidatesTags: (_result, _error, { eventId }) => [{ type: 'PNMEvent', id: eventId }]
         }),
         getActiveEvents: builder.query<ActiveEvent[], { chapterId: string }>({
             query: ({ chapterId }) => `/events/active?chapterId=${chapterId}`,
@@ -31,7 +31,7 @@ export const eventApi = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { eventId },
             }),
-            invalidatesTags: (result, error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }, { type: 'ActiveEvent', id: 'LIST' }]
+            invalidatesTags: (_result, _error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }, { type: 'ActiveEvent', id: 'LIST' }]
         }),
         createEvent: builder.mutation<void, EventPayload>({
             query: (payload) => ({
@@ -47,7 +47,7 @@ export const eventApi = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: updateData
             }),
-            invalidatesTags: (result, error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }, { type: 'ActiveEvent', id: 'LIST' }],
+            invalidatesTags: (_result, _error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }, { type: 'ActiveEvent', id: 'LIST' }],
         })
         
     })
