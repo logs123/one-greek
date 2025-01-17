@@ -4,7 +4,7 @@ import { setCredentials } from './authSlice';
 import { AccessToken } from '../types/authTypes';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:3500',
+    baseUrl: 'https://api.onegreek.com',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
