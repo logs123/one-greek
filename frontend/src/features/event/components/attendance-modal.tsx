@@ -29,7 +29,7 @@ const AttendanceModal: React.FC<AttendanceModalProps> = ({ selectedEvent, isOpen
                     </button>
                 </div>
                 <div>
-                    {selectedEvent.attendees.map((attendee) => (
+                    {selectedEvent.attendees?.map((attendee) => (
                         <div
                             key={attendee.user._id}
                             className='flex items-center'
