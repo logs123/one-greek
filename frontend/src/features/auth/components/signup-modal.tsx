@@ -104,11 +104,11 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
 
     const options = countryList().getData();
 
-    const sortedOrganizations = [...organizations]
+    const sortedOrganizations = [...(organizations || [])]
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(org => ({
             ...org,
-            chapters: [...org.chapters].sort((a, b) => a.name.localeCompare(b.name)),
+            chapters: [...(org.chapters || [])].sort((a, b) => a.name.localeCompare(b.name)),
         }));
 
     useEffect(() => {
