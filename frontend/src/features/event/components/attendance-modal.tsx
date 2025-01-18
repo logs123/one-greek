@@ -10,15 +10,8 @@ interface AttendanceModalProps {
 }
 
 const AttendanceModal: React.FC<AttendanceModalProps> = ({ selectedEvent, isOpen, onClose }) => {
-    const [verify, { isLoading }] = useVerfiyAttendanceMutation();
+    const [] = useVerfiyAttendanceMutation();
 
-    const handleVerify = async () => {
-        try {
-
-        } catch (error) {
-            console.error('Error verifying attendance', error);
-        }
-    }
     
     if (!isOpen || !selectedEvent) return null;
 
