@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../assets/images/logo-alt-white.png';
 import useAuth from '../../hooks/useAuth';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSendLogoutMutation } from '../../features/auth/api/authApi';
 import Spinner from '../ui/spinner/spinner';
 import { LuLayoutDashboard } from 'react-icons/lu';
@@ -17,16 +17,25 @@ type LayoutProps = {
 const ActiveLayout = ({ children }: LayoutProps) => {
     const auth = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const [logout, { isLoading }] = useSendLogoutMutation();
+
+    const handleNavigate = (path: string) => {
+        if (location.pathname !== path) {
+            navigate(path)
+        } else {
+            setIsModalOpen(false);
+        }
+    }
     
     const handleLogout = async () => {
         try {
             await logout();
         } catch (err) {
-            console.log('Logout failed:', err);
+            console.error('Logout failed:', err);
         }
     }
 
@@ -40,7 +49,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
 
     return (
         <div className='flex flex-col lg:flex-row h-screen bg-[#E4EFF3]'>
-            <div className='hidden lg:flex lg:flex-col justify-between bg-[#325D6C] w-64 px-6 gap-8'>
+            <div className='hidden fixed z-50 h-full lg:flex lg:flex-col justify-between bg-[#325D6C] w-64 px-6 gap-8'>
                 <div className='flex flex-col'>
                     <img
                         src={Logo}
@@ -76,7 +85,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                     Log Out
                 </button>
             </div>
-            <div className='lg:hidden flex items-center bg-[#325D6C] justify-between p-4'>
+            <div className='lg:hidden fixed z-50 w-full flex items-center bg-[#325D6C] justify-between p-4'>
                 <img
                     src={Logo}
                     alt='Alt Logo'
@@ -94,42 +103,46 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                     />
                 </button>
                 {isModalOpen && (
-                    <div className='absolute flex flex-col right-1 top-[100px] border-gray-200 bg-white justify-center w-40 rounded-lg shadow-xl drop-shadow z-50'>
-                        <Link
-                            to='/'
-                            className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25 rounded-t-lg'
+                    <div className='absolute flex flex-col right-1 top-[100px] border-gray-200 bg-white justify-center w-44 rounded-lg shadow-xl drop-shadow z-50'>
+                        <button
+                            type='button'
+                            className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25 rounded-t-lg'
+                            onClick={() => handleNavigate('/')}
                         >
                             <p className='font-bold'>Dashboard</p>
                             <LuLayoutDashboard size={20} />
-                        </Link>
-                        <hr className='h-px bg-gray-300 border-0'/>
-                        <Link
-                            to='/events'
-                            className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25'
-                        >
-                            <p className='font-bold'>Events</p>
-                            <FaRegCalendarAlt size={20} />
-                        </Link>
-                        <hr className='h-px bg-gray-300 border-0'/>
-                        <Link
-                            to='/recruitment'
-                            className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25'
-                        >
-                            <p className='font-bold'>Recruitment</p>
-                            <IoPeople size={20} />
-                        </Link>
-                        <hr className='h-px bg-gray-300 border-0'/>
-                        <Link
-                            to='/profile'
-                            className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25'
-                        >
-                            <p className='font-bold'>Profile</p>
-                            <CgProfile size={20} />
-                        </Link>
+                        </button>
                         <hr className='h-px bg-gray-300 border-0'/>
                         <button
                             type='button'
-                            className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'
+                            className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25'
+                            onClick={() => handleNavigate('/events')}
+                        >
+                            <p className='font-bold'>Events</p>
+                            <FaRegCalendarAlt size={20} />
+                        </button>
+                        <hr className='h-px bg-gray-300 border-0'/>
+                        <button
+                            type='button'
+                            className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25'
+                            onClick={() => handleNavigate('/recruitment')}
+                        >
+                            <p className='font-bold'>Recruitment</p>
+                            <IoPeople size={20} />
+                        </button>
+                        <hr className='h-px bg-gray-300 border-0'/>
+                        <button
+                            type='button'
+                            className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25'
+                            onClick={() => handleNavigate('/profile')}
+                        >
+                            <p className='font-bold'>Profile</p>
+                            <CgProfile size={20} />
+                        </button>
+                        <hr className='h-px bg-gray-300 border-0'/>
+                        <button
+                            type='button'
+                            className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'
                             onClick={handleLogout}
                         >
                             <p className='font-bold'>Logout</p>
@@ -138,7 +151,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                     </div>
                 )}
             </div>
-            <div className='flex-1 flex-col px-14 py-8 lg:py-0'>
+            <div className='flex-1 flex-col px-4 lg:px-14 py-4 lg:py-0 mt-24 lg:mt-0 ml-0 lg:ml-64'>
                 {children}
             </div>
         </div>

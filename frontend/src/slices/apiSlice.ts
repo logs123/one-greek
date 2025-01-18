@@ -3,6 +3,7 @@ import { RootState } from '../stores/store';
 import { setCredentials } from './authSlice';
 import { AccessToken } from '../types/authTypes';
 
+// render: 'https://api.onegreek.com'
 const baseQuery = fetchBaseQuery({
     baseUrl: 'https://api.onegreek.com',
     credentials: 'include',

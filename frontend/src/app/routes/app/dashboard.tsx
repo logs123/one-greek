@@ -3,18 +3,15 @@ import ActiveLayout from '../../../components/layouts/active-layout';
 import useAuth from '../../../hooks/useAuth';
 import ChapterList from '../../../features/chapter/components/chapter-list';
 import PNMEvents from '../../../features/event/components/pnm-events';
-import { useState } from 'react';
 import { useGetActiveMemebersQuery } from '../../../features/user/api/userApi';
 import Spinner from '../../../components/ui/spinner/spinner';
 import ActiveList from '../../../features/user/components/actives-list';
-import VerifyModal from '../../../features/user/components/verify-modal';
 import { useNavigate } from 'react-router-dom';
 import { useGetChapterQuery } from '../../../features/chapter/api/chapterApi';
 
 const DashboardRoute = () => {
     const auth = useAuth();
     const navigate = useNavigate();
-    const [isVerifyModalOpen, setIsVerifyModalOpen] = useState<boolean>(false);
 
     const { data: actives = [], isLoading: isActiveMembersLoading } = useGetActiveMemebersQuery({ chapterId: auth?.chapter ?? '' }, { skip:  !auth?.chapter });
     const { data: chapter, isLoading: isGetChapterLoading } = useGetChapterQuery(auth?.chapter ?? '', { skip: !auth?.chapter});
@@ -32,7 +29,7 @@ const DashboardRoute = () => {
     if (auth?.roles.includes('PNM')) {
         return (
             <PnmLayout>
-                <div className='flex flex-col p-4 h-screen gap-10'>
+                <div className='flex flex-col p-4 gap-10'>
                     <div className='flex flex-col gap-2'>
                         <p className='font-bold text-lg ml-2'>Find Chapters</p>
                         <ChapterList />
@@ -50,12 +47,12 @@ const DashboardRoute = () => {
         <ActiveLayout>
             <div className='hidden lg:flex h-[184px] py-8'>
                 <div className='flex w-full justify-between gap-8'>
-                    <div className='flex-1 h-full bg-white rounded-2xl flex items-center'>
+                    <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
                         <div className='ml-10 font-bold text-3xl'>{chapter?.name}</div>
                     </div>
                     <button
                         type='button'
-                        className='flex flex-col w-40 bg-white h-full justify-center items-center rounded-2xl gap-3'
+                        className='shadow drop-shadow hover:drop-shadow-xl flex flex-col w-40 bg-white h-full justify-center items-center rounded-2xl gap-3'
                         onClick={() => navigate('/profile')}
                     >
                         <div className='h-16 w-16 rounded-full overflow-hidden'>
@@ -69,19 +66,14 @@ const DashboardRoute = () => {
                     </button>
                 </div>
             </div>
-            <div className='lg:hidden flex mb-8'>
+            <div className='lg:hidden flex mb-4'>
                 <div className='flex w-full justify-between'>
-                    <div className='flex-1 h-full bg-white rounded-lg p-1 flex justify-center items-center'>
+                    <div className='flex-1 h-full bg-white rounded-lg p-1 flex justify-center items-center shadow drop-shadow'>
                         <div className='font-bold text-xl'>{chapter?.name}</div>
                     </div>
                 </div>
             </div>
             <ActiveList actives={actives}/>
-            <VerifyModal
-                actives={actives}
-                isOpen={isVerifyModalOpen}
-                onClose={() => setIsVerifyModalOpen(false)}
-            />
         </ActiveLayout>
     );
 }

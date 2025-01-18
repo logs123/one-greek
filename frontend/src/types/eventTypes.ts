@@ -60,5 +60,23 @@ export interface ActiveEvent {
     type: string;
     visibility: boolean;
     semester: string;
-    attendees: string;
+    attendees: {
+        user: {
+            firstName: string;
+            lastName: string;
+            profilePicture: string;
+            _id: string;
+        }
+        checkedInAt: Date;
+        verified: false;
+    }[];
+}
+
+export interface Attendee {
+    user: string;
+    checkInAt: Date;
+    verified: boolean;
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
 }

@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Select, { SingleValue } from 'react-select';
+import countryList from 'react-select-country-list';
 import { IoIosClose } from 'react-icons/io';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { IoAddCircleOutline } from "react-icons/io5";
 import { SignupCredentials, SignupPayload } from '../../../types/authTypes';
 import { Organization } from '../../../types/organizationTypes';
 import { SerializedError } from '@reduxjs/toolkit';
@@ -41,18 +44,91 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
     const [step, setStep] = useState<number>(1);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
-    const [isOtherCountry, setIsOtherCountry] = useState<boolean>(false);
+    const [isSecondFormValid, setIsSecondFormValid] = useState<boolean>(false);
     const [canCheck, setCanCheck] = useState(false);
     const termsRef = useRef(null);
     const [orgIndex, setOrgIndex] = useState<number>(0);
+
+    const states = [
+        { value: 'Alabama', label: 'Alabama' },
+        { value: 'Alaska', label: 'Alaska' },
+        { value: 'Arizona', label: 'Arizona' },
+        { value: 'Arkansas', label: 'Arkansas' },
+        { value: 'California', label: 'California' },
+        { value: 'Colorado', label: 'Colorado' },
+        { value: 'Connecticut', label: 'Connecticut' },
+        { value: 'Delaware', label: 'Delaware' },
+        { value: 'Florida', label: 'Florida' },
+        { value: 'Georgia', label: 'Georgia' },
+        { value: 'Hawaii', label: 'Hawaii' },
+        { value: 'Idaho', label: 'Idaho' },
+        { value: 'Illinois', label: 'Illinois' },
+        { value: 'Indiana', label: 'Indiana' },
+        { value: 'Iowa', label: 'Iowa' },
+        { value: 'Kansas', label: 'Kansas' },
+        { value: 'Kentucky', label: 'Kentucky' },
+        { value: 'Louisiana', label: 'Louisiana' },
+        { value: 'Maine', label: 'Maine' },
+        { value: 'Maryland', label: 'Maryland' },
+        { value: 'Massachusetts', label: 'Massachusetts' },
+        { value: 'Michigan', label: 'Michigan' },
+        { value: 'Minnesota', label: 'Minnesota' },
+        { value: 'Mississippi', label: 'Mississippi' },
+        { value: 'Missouri', label: 'Missouri' },
+        { value: 'Montana', label: 'Montana' },
+        { value: 'Nebraska', label: 'Nebraska' },
+        { value: 'Nevada', label: 'Nevada' },
+        { value: 'New Hampshire', label: 'New Hampshire' },
+        { value: 'New Jersey', label: 'New Jersey' },
+        { value: 'New Mexico', label: 'New Mexico' },
+        { value: 'New York', label: 'New York' },
+        { value: 'North Carolina', label: 'North Carolina' },
+        { value: 'North Dakota', label: 'North Dakota' },
+        { value: 'Ohio', label: 'Ohio' },
+        { value: 'Oklahoma', label: 'Oklahoma' },
+        { value: 'Oregon', label: 'Oregon' },
+        { value: 'Pennsylvania', label: 'Pennsylvania' },
+        { value: 'Rhode Island', label: 'Rhode Island' },
+        { value: 'South Carolina', label: 'South Carolina' },
+        { value: 'South Dakota', label: 'South Dakota' },
+        { value: 'Tennessee', label: 'Tennessee' },
+        { value: 'Texas', label: 'Texas' },
+        { value: 'Utah', label: 'Utah' },
+        { value: 'Vermont', label: 'Vermont' },
+        { value: 'Virginia', label: 'Virginia' },
+        { value: 'Washington', label: 'Washington' },
+        { value: 'West Virginia', label: 'West Virginia' },
+        { value: 'Wisconsin', label: 'Wisconsin' },
+        { value: 'Wyoming', label: 'Wyoming' },
+    ];
+
+    const options = countryList().getData();
+
+    const sortedOrganizations = [...organizations]
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(org => ({
+            ...org,
+            chapters: [...org.chapters].sort((a, b) => a.name.localeCompare(b.name)),
+        }));
 
     useEffect(() => {
         const { firstName, lastName, studentId, phoneNumber, email, password, organization, roles, profilePicture, chapter } = formData;
         const basicFieldsFilled = Boolean(firstName && lastName && email && phoneNumber && roles && studentId && password && organization && (typeof profilePicture === 'string' || profilePicture instanceof File));
         const isFormComplete = roles.includes('Active') ? (basicFieldsFilled && !!chapter) : basicFieldsFilled;
 
+        const secondBasicFields = Boolean(formData.city && formData.country && formData.gradeLevel && formData.gpa)
+        const isSecondFormComplete = formData.country === 'US' ? (secondBasicFields && !!formData.state) : secondBasicFields;
         setIsFormValid(isFormComplete);
+        setIsSecondFormValid(isSecondFormComplete);
     }, [formData]);
+
+    const handleStateChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
+        setFormData({ ...formData, state: selectedOption ? selectedOption.value : '' });
+    };
+
+    const handleCountryChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
+        setFormData({ ...formData, country: selectedOption ? selectedOption.value : '' });
+    };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -118,7 +194,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
 
     return (
         <div className='flex justify-center items-center fixed inset-0 bg-black bg-opacity-50'>
-            <div className='bg-white w-full max-w-md p-6 rounded-lg'>
+            <div className='bg-white w-full max-w-md p-6 rounded-lg overflow-y-auto'>
                 <div className='flex justify-between items-center mb-4'>
                     <h2 className='text-xl font-bold'>Sign Up</h2>
                     <button
@@ -133,7 +209,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                 </div>
                 {step === 1 && (
                     <form
-                        className='flex flex-col gap-4'
+                        className='flex flex-col items-center gap-4'
                         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                             e.preventDefault();
                             if (formData.roles.includes('Active')) {
@@ -163,46 +239,48 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, lastName: e.target.value})}
                             />
                         </div>
-                        <input
-                            type='string'
-                            id='studentId'
-                            value={formData.studentId}
-                            placeholder='ASUID Number'
-                            required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const value = e.target.value;
+                        <div className='flex'>
+                            <input
+                                type='string'
+                                id='studentId'
+                                value={formData.studentId}
+                                placeholder='ASUID Number'
+                                required
+                                className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 mr-2'
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    const value = e.target.value;
 
-                                if (/^\d*$/.test(value) && (value === '' || (Number(value) >= 0 && Number(value) <= 9999999999))) {
-                                    setFormData({...formData, studentId: value});
-                                }
-                            }}
-                        />
-                        <input
-                            type='string'
-                            id='phoneNumber'
-                            value={formData.phoneNumber}
-                            placeholder='Phone Number'
-                            required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const value = e.target.value;
+                                    if (/^\d*$/.test(value) && (value === '' || (Number(value) >= 0 && Number(value) <= 9999999999))) {
+                                        setFormData({...formData, studentId: value});
+                                    }
+                                }}
+                            />
+                            <input
+                                type='string'
+                                id='phoneNumber'
+                                value={formData.phoneNumber}
+                                placeholder='Phone Number'
+                                required
+                                className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 mr-l'
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    const value = e.target.value;
 
-                                if (/^\d*$/.test(value)) {
-                                    setFormData({...formData, phoneNumber: value});
-                                }
-                            }}
-                        />
+                                    if (/^\d*$/.test(value)) {
+                                        setFormData({...formData, phoneNumber: value});
+                                    }
+                                }}
+                            />
+                        </div>
                         <input
                             type='email'
                             id='email'
                             value={formData.email}
                             placeholder='Email'
                             required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
+                            className='border border-gray-300 text-gray-900 rounded-lg p-3 w-full'
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, email: e.target.value})}
                         />
-                        <div className='relative'>
+                        <div className='relative w-full flex'>
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 id='password'
@@ -223,12 +301,25 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                         <select
                             value={formData.roles}
                             required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
+                            className='border border-gray-300 text-gray-900 rounded-lg p-3 w-full'
                             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                                 if (e.target.value === 'PNM') {
                                     setFormData({...formData, chapter: '', roles: e.target.value});
                                 } else {
-                                    setFormData({...formData, roles: e.target.value});
+                                    setFormData({
+                                        ...formData,
+                                        roles: e.target.value,
+                                        city: '',
+                                        state: '',
+                                        country: '',
+                                        gradeLevel: '',
+                                        major: '',
+                                        secondMajor: '',
+                                        minor: '',
+                                        gpa: '',
+                                        instagram: '',
+                                        linkedin: '',
+                                    });
                                 }
                             }}
                         >
@@ -244,7 +335,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                         <select
                             value={formData.organization}
                             required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
+                            className='border border-gray-300 text-gray-900 rounded-lg p-3 w-full'
                             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                                 setFormData({...formData, organization: e.target.value});
                                 setOrgIndex(e.target.selectedIndex);
@@ -256,7 +347,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                             >
                                 Select Organization
                             </option>
-                            {organizations?.map((org) => (
+                            {sortedOrganizations?.map((org) => (
                                 <option
                                     key={org._id}
                                     value={org._id}
@@ -277,7 +368,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                                 >
                                     Select Chapter
                                 </option>
-                                {organizations[orgIndex - 1].chapters?.map((chapter) => (
+                                {sortedOrganizations[orgIndex - 1].chapters?.map((chapter) => (
                                     <option
                                         key={chapter.chapterId}
                                         value={chapter.chapterId}
@@ -287,37 +378,40 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                                 ))}
                             </select>
                         )}
-                        <div className='flex flex-col items-center gap-4'>
+                        <button
+                            type='button'
+                            className='flex justify-center items-center flex-col hover:brightness-95'
+                            onClick={handleTakePicture}
+                        >
                             {formData.profilePicture ? (
-                                <img
-                                    src={URL.createObjectURL(formData.profilePicture)}
-                                    alt='Profile Picture'
-                                    className='h-32 w-32 object-cover rounded-full'
-                                />
+                                <div className='flex relative'>
+                                    <img
+                                        src={URL.createObjectURL(formData.profilePicture)}
+                                        alt='Profile Picture'
+                                        className='h-32 w-32 object-cover rounded-full'
+                                    />
+                                    <IoAddCircleOutline size={36} className='bg-pacific-blue text-white rounded-full absolute right-0'/>
+                                </div>
                             ) : (
-                                <div className='flex justify-center items-center bg-gray-200 rounded-full h-32 w-32'>
-                                    <span>No Image</span>
+                                <div className='flex relative'>
+                                    <div className='flex justify-center items-center bg-gray-200 rounded-full h-32 w-32'>
+                                        <span>Add Image</span>
+                                    </div>
+                                    <IoAddCircleOutline size={36} className='bg-pacific-blue text-white rounded-full absolute right-0'/>
                                 </div>
                             )}
-                            <input
-                                type='file'
-                                accept='image/*'
-                                id='imageInput'
-                                className='hidden'
-                                onChange={handleImageChange}
-                            />
-                            <button
-                                type='button'
-                                className='bg-pacific-blue hover:bg-turquoise-blue text-white font-bold py-2 px-4 rounded'
-                                onClick={handleTakePicture}
-                            >
-                                Add/Take Image
-                            </button>
-                        </div>
+                        </button>
+                        <input
+                            type='file'
+                            accept='image/*'
+                            id='imageInput'
+                            className='hidden'
+                            onChange={handleImageChange}
+                        />
                         <button
                             type='submit'
                             disabled={!isFormValid}
-                            className={`bg-pacific-blue hover:bg-turquoise-blue text-white font-bold py-2 px-4 rounded ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`bg-pacific-blue w-full hover:bg-turquoise-blue text-white font-bold py-2 px-4 rounded ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             Next
                         </button>
@@ -331,72 +425,63 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                             setStep(3);
                         }}
                     >
-                        <select
-                            value={isOtherCountry ? 'Other' : formData.country}
-                            required
-                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                if (e.target.value === 'Other') {
-                                    setIsOtherCountry(true);
-                                    setFormData({...formData, country: '', state: ''});
-                                } else {
-                                    setIsOtherCountry(false);
-                                    setFormData({...formData, country: e.target.value});
+                        <div className='flex'>
+                            <input
+                                type='text'
+                                id='city'
+                                placeholder='City'
+                                value={formData.city}
+                                required
+                                className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 mr-2 h-12'
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                    setFormData({ ...formData, city: e.target.value })
                                 }
+                            />
+                            <Select
+                                id='state'
+                                options={states}
+                                value={states.find((option) => option.value === formData.state || null)}
+                                onChange={handleStateChange}
+                                placeholder='State'
+                                isClearable
+                                className='w-1/2'
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        height: '48px',
+                                        minHeight: '48px',
+                                        borderRadius: '0.5rem',
+                                        borderColor: '#d1d5db',
+                                        boxShadow: 'none',
+                                        '&:hover': {
+                                            borderColor: '#9ca3af',
+                                        },
+                                    }),
+                                }}
+                            />
+                        </div>
+
+                        <Select
+                            id='country'
+                            options={options}
+                            value={options.find((option: { value: string; }) => option.value === formData.country)}
+                            onChange={handleCountryChange}
+                            placeholder='Select Country'
+                            isClearable
+                            styles={{
+                                control: (base) => ({
+                                    ...base,
+                                    height: '48px',
+                                    minHeight: '48px',
+                                    borderRadius: '0.5rem',
+                                    borderColor: '#d1d5db',
+                                    boxShadow: 'none',
+                                    '&:hover': {
+                                        borderColor: '#9ca3af',
+                                    },
+                                }),
                             }}
-                        >
-                            <option
-                                value=''
-                                disabled
-                            >
-                                Select Country
-                            </option>
-                            <option value='United States'>United States</option>
-                            <option value='Other'>Other</option>
-                        </select>
-                        {formData.country === 'United States' && (
-                            <div className='flex'>
-                                <input
-                                    type='text'
-                                    id='city'
-                                    placeholder='Hometown City'
-                                    value={formData.city}
-                                    required
-                                    className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 mr-2'
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, city: e.target.value})}
-                                />
-                                <input
-                                    type='text'
-                                    id='state'
-                                    placeholder='Hometown State'
-                                    value={formData.state}
-                                    className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 ml-2'
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, state: e.target.value})}
-                                />
-                            </div>
-                        )}
-                        {formData.country !== 'United States' && (
-                            <div className='flex'>
-                                <input
-                                    type='text'
-                                    id='city'
-                                    placeholder='Hometown City'
-                                    value={formData.city}
-                                    required
-                                    className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 mr-2'
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, city: e.target.value})}
-                                />
-                                <input
-                                    type='text'
-                                    id='country'
-                                    placeholder='Country'
-                                    value={isOtherCountry ? formData.country : ''}
-                                    required
-                                    className='border border-gray-300 text-gray-900 rounded-lg p-3 w-1/2 ml-2'
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, country: e.target.value})}
-                                />
-                            </div>
-                        )}
+                        />
                         <select
                             value={formData.gradeLevel}
                             required
@@ -466,7 +551,8 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                             </button>
                             <button
                                 type='submit'
-                                className={`bg-pacific-blue hover:bg-turquoise-blue text-white font-bold py-2 px-4 rounded w-1/2 ml-2`}
+                                disabled={!isSecondFormValid}
+                                className={`bg-pacific-blue hover:bg-turquoise-blue text-white font-bold py-2 px-4 rounded w-1/2 ml-2 ${!isSecondFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
                                 Next
                             </button>
@@ -481,20 +567,20 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                             setStep(4);
                         }}
                     >
-                        <div className="text-lg">Social Media Handles (Optional)</div>
+                        <div className='text-lg'>Social Media Handles (Optional)</div>
                         <input
-                            type="text"
-                            name="instagram"
-                            placeholder="Instagram Handle"
-                            className="border border-gray-300 text-gray-900 rounded-lg p-3"
+                            type='text'
+                            name='instagram'
+                            placeholder='Instagram Handle'
+                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
                             value={formData.instagram}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, instagram: e.target.value})}
                         />
                         <input
-                            type="text"
-                            name="linkedin"
-                            placeholder="LinkedIn Handle"
-                            className="border border-gray-300 text-gray-900 rounded-lg p-3"
+                            type='text'
+                            name='linkedin'
+                            placeholder='LinkedIn Handle'
+                            className='border border-gray-300 text-gray-900 rounded-lg p-3'
                             value={formData.linkedin}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, linkedin: e.target.value})}
                         />

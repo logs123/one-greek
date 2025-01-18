@@ -89,7 +89,15 @@ const PNMEvents = () => {
                                     {event.location.address}
                                 </a>
                             )}
-                            {!event.isAttendee && (
+                            {event.isAttendee ? (
+                                <div className='absolute w-full left-0 bottom-6 flex justify-center'>
+                                    <div className='flex items-center h-full justify-center text-white rounded p-1 px-3 bg-gray-300'>
+                                        <p>Checked In</p>
+                                    </div>
+                                </div>
+                            )
+                            :
+                            (
                                 <div className='absolute bottom-6 left-0 w-full'>
                                     <div className='flex justify-center'>
                                         <CheckinButton

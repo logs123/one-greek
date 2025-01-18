@@ -13,7 +13,7 @@ const CheckinButton: React.FC<CheckinButtonProps> = ({ userId, eventId }) => {
         try {
             await checkIntoEvent({ userId, eventId }).unwrap();
         } catch (error) {
-            console.log('Error checkin in:', error);
+            console.error('Error checkin in:', error);
         }
     }
 

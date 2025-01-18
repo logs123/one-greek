@@ -55,7 +55,7 @@ const ActiveList: React.FC<ActiveListProps> = ({ actives }) => {
 
     return (
         <div className='mx-auto overflow-x-auto'>
-            <div>
+            <div className=''>
                 <table className='w-full min-w-max'>
                     <thead>
                         <tr className='bg-[#7CAFC0]'>
@@ -85,7 +85,7 @@ const ActiveList: React.FC<ActiveListProps> = ({ actives }) => {
                                 Phone
                             </th>
                             {auth?.roles.includes('Admin') &&
-                                <th className='w-20 border rounded-tr-lg border-[#DEEFF3] text-white'>Verify</th>
+                                <th className='w-20 border rounded-tr-lg border-[#DEEFF3] text-xs sm:text-sm text-white'>Verify</th>
                             }
                         </tr>
                     </thead>
@@ -93,18 +93,19 @@ const ActiveList: React.FC<ActiveListProps> = ({ actives }) => {
                         {sortedUsers.map((user) => (
                             <tr key={user._id} className='bg-white'>
                                 <td className='border border-[#DEEFF3]'>
-                                    <div className='flex justify-center p-1 relative'>
-                                        <img
-                                            src={user.profilePicture}
-                                            alt='Profile Picture'
-                                            className='w-10 h-10 rounded-full object-cover'
-                                        />
-                                        {auth?.roles.includes('Admin') && user.isVerified &&
-                                            <div className='absolute bottom-0 right-4'>
-                                                {user._id !== auth?.id &&
-                                                    <AdminButton userId={user._id} isAdmin={user.roles.includes('Admin')} />
-                                                }
-                                            </div>
+                                    <div className='flex p-1 justify-center'>
+                                        {(auth?.roles.includes('Admin') && user.isVerified && user._id !== auth.id) ?
+                                            <AdminButton
+                                                userId={user._id}
+                                                profilePicture={user.profilePicture}
+                                                isAdmin={user.roles.includes('Admin')}
+                                            />
+                                        :
+                                            <img
+                                                src={user.profilePicture}
+                                                alt='Profile Picture'
+                                                className='w-10 h-10 rounded-full object-cover'
+                                            />
                                         }
                                     </div>
                                 </td>

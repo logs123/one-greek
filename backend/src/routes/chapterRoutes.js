@@ -9,11 +9,11 @@ router.route('/')
     .post(chapterController.createChapter)
     .delete(chapterController.deleteChapter)
 
-router.route('/semester')
-    .post(chapterController.createNewSemester)
-
 router.route('/:chapterId')
     .get(chapterController.getChapter)
     .patch(upload.single('profilePicture'), chapterController.updateChapter)
+
+router.route('/semester')
+    .post(chapterController.createNewSemester)
 
 module.exports = router;

@@ -17,7 +17,7 @@ export const authApi = apiSlice.injectEndpoints({
                     dispatch(setCredentials({ accessToken }));
                     localStorage.setItem('persist', 'true');
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
         }),
@@ -52,7 +52,7 @@ export const authApi = apiSlice.injectEndpoints({
                     dispatch(setCredentials({ accessToken }));
                     localStorage.setItem('persist', 'true');
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             } 
         }),
@@ -68,7 +68,7 @@ export const authApi = apiSlice.injectEndpoints({
                     localStorage.setItem('persist', 'false');
                     dispatch(apiSlice.util.resetApiState());
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
         }),
@@ -83,7 +83,7 @@ export const authApi = apiSlice.injectEndpoints({
                     const { accessToken } = data;
                     dispatch(setCredentials({ accessToken }));
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                     localStorage.setItem('persist', JSON.stringify(false));
                 }
             }

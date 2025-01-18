@@ -112,29 +112,6 @@ const deleteChapter = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: 'Chapter deleted' });
 });
 
-// @desc Create new semester
-// @route POST /chapters/semester
-// @access Private
-const createNewSemester = asyncHandler(async (req, res) => {
-    const { chapterId, semesterName } = req.body;
-
-    if (!chapterId || !semesterName) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
-
-    const chapter = await Chapter.findByIdAndUpdate(
-        chapterId,
-        { $push: { semesters: { semester: semesterName, pnmList: [] } } },
-        { new: true }
-    );
-
-    if (!chapter) {
-        return res.status(404).json({ message: 'Chapter not found' });
-    }
-    
-    return res.status(200).json({ message: 'New semester created' });
-});
-
 // @desc Get a chapter
 // @route GET /chapters/:chapterId
 // @access Private
@@ -203,11 +180,34 @@ const updateChapter = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: 'Chapter updated successfully' });
 });
 
+// @desc Create new semester
+// @route POST /chapters/semester
+// @access Private
+const createNewSemester = asyncHandler(async (req, res) => {
+    const { chapterId, semesterName } = req.body;
+
+    if (!chapterId || !semesterName) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const chapter = await Chapter.findByIdAndUpdate(
+        chapterId,
+        { $push: { semesters: { semester: semesterName, pnmList: [] } } },
+        { new: true }
+    );
+
+    if (!chapter) {
+        return res.status(404).json({ message: 'Chapter not found' });
+    }
+    
+    return res.status(200).json({ message: 'New semester created' });
+});
+
 module.exports = {
     getPNMChapters,
     createChapter,
     deleteChapter,
-    createNewSemester,
     getChapter,
     updateChapter,
+    createNewSemester,
 };

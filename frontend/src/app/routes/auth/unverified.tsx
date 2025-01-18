@@ -9,7 +9,7 @@ const UnverifiedRoute = () => {
         try {
             await logout();
         } catch (err) {
-            console.log('Logout failed:', err);
+            console.error('Logout failed:', err);
         }
     }
 

@@ -48,8 +48,15 @@ export const eventApi = apiSlice.injectEndpoints({
                 body: updateData
             }),
             invalidatesTags: (_result, _error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }, { type: 'ActiveEvent', id: 'LIST' }],
-        })
-        
+        }),
+        verfiyAttendance: builder.mutation<void, { eventId: string; userId: string; }>({
+            query: ({ eventId, userId }) => ({
+                url: '/events/verify',
+                method: 'POST',
+                body: { eventId, userId }
+            }),
+            invalidatesTags: (_result, _error, { eventId }) => [{ type: 'ActiveEvent', id: eventId }]
+        }),
     })
 });
 
@@ -60,4 +67,5 @@ export const {
     useDeleteEventMutation,
     useCreateEventMutation,
     useUpdateEventMutation,
+    useVerfiyAttendanceMutation,
 } = eventApi;

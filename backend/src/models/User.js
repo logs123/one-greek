@@ -49,18 +49,15 @@ const userSchema = new mongoose.Schema(
             default: () => new Map(),
             validate: {
                 validator: function (map) {
-                    // If socialMediaHandles is not set, it should pass validation
                     if (!map || map.size === 0) {
                         return true;
                     }
                     
-                    // If user roles include PNM, validate socialMediaHandles keys
                     if (this.roles.includes('PNM')) {
                         const allowedKeys = ['Instagram', 'LinkedIn'];
                         return Array.from(map.keys()).every((key) => allowedKeys.includes(key));
                     }
                     
-                    // If user is not a PNM and socialMediaHandles exist, fail validation
                     return false;
                 },
                 message: 'Invalid social media handles. Only Instagram and LinkedIn are allowed for PNMs.'
@@ -90,7 +87,7 @@ const userSchema = new mongoose.Schema(
                     trim: true,
                     validate: {
                         validator: function (value) {
-                            return this.country !== 'United States' || (value && value.length > 0);
+                            return this.country !== 'US' || (value && value.length > 0);
                         },
                         message: 'State missing'
                     }

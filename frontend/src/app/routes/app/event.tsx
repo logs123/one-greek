@@ -5,14 +5,17 @@ import { useCreateEventMutation, useDeleteEventMutation, useGetActiveEventsQuery
 import ActiveEvents from "../../../features/event/components/active-events";
 import useAuth from "../../../hooks/useAuth";
 import CreateEventModal from "../../../features/event/components/create-modal";
-import { EventPayload } from "../../../types/eventTypes";
+import { ActiveEvent, EventPayload } from "../../../types/eventTypes";
 import DeleteEventModal from "../../../features/event/components/delete-modal";
+import AttendanceModal from "../../../features/event/components/attendance-modal";
+import { IoMdAdd } from "react-icons/io";
 
 const EventRoute = () => {
     const auth = useAuth();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    const [selectedEvent, setSelectedEvent] = useState<string>('');
+    const [selectedEvent, setSelectedEvent] = useState<ActiveEvent | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState<boolean>(false);
 
     const { data: events = [], isLoading: isEventsLoading } = useGetActiveEventsQuery({ chapterId: auth?.chapter || '' }, { skip: !auth?.chapter });
     const [createEvent, { isLoading: isCreateEventLoading, error: createEventError }] = useCreateEventMutation();
@@ -22,7 +25,7 @@ const EventRoute = () => {
         try {
             await createEvent(payload).unwrap();
         } catch (error) {
-            console.log('Error creating event:', error);
+            console.error('Error creating event:', error);
         }
     }
 
@@ -30,7 +33,7 @@ const EventRoute = () => {
         try {
             await deleteEvent({ eventId }).unwrap();
         } catch (error) {
-            console.log('Error creating event:', error);
+            console.error('Error creating event:', error);
         }
     }
 
@@ -46,22 +49,47 @@ const EventRoute = () => {
 
     return (
         <ActiveLayout>
-            <div className='flex justify-between items-center mb-4'>
-                <p className='font-bold text-lg'>Events</p>
-                {auth.roles.includes('Admin') && (
-                    <button
-                        type='button'
-                        className='text-white rounded-lg py-1 px-3 bg-pacific-blue hover:bg-turquoise-blue'
-                        onClick={() => setIsCreateModalOpen(true)}
-                    >
-                        Create Event
-                    </button>
-                )}
+            <div className='hidden lg:flex h-[184px] py-8 gap-[86px]'>
+                <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
+                    <div className='ml-10 font-bold text-3xl'>Events</div>
+                </div>
+                {auth.roles.includes('Admin') &&
+                    <div className='flex justify-center items-end'>
+                        <div>
+                            <button
+                                type='button'
+                                className='text-white rounded-lg px-3 py-2 bg-pacific-blue hover:bg-turquoise-blue flex items-center justify-between shadow drop-shadow hover:drop-shadow-xl'
+                                onClick={() => setIsCreateModalOpen(true)}
+                            >
+                                <IoMdAdd size={28}/>
+                                <p className='text-lg'>Create</p>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div className='lg:hidden flex mb-4'>
+                <div className='flex w-full justify-between gap-4'>
+                    <div className='flex-1 h-full bg-white rounded-lg p-1 flex justify-center items-center shadow drop-shadow'>
+                        <div className='font-bold text-xl'>Events</div>
+                    </div>
+                    {auth.roles.includes('Admin') &&
+                        <button
+                            type='button'
+                            className='text-white rounded-lg px-2 bg-pacific-blue hover:bg-turquoise-blue flex items-center justify-between shadow drop-shadow hover:drop-shadow-xl'
+                            onClick={() => setIsCreateModalOpen(true)}
+                        >
+                            <IoMdAdd size={20}/>
+                            <p className='text-lg'>Create</p>
+                        </button>
+                    }
+                </div>
             </div>
             <ActiveEvents
                 events={events}
                 isDeleteLoading={isDeleteEventLoading}
                 onDeleteOpen={() => setIsDeleteModalOpen(true)}
+                onAttendanceOpen={() => setIsAttendanceModalOpen(true)}
                 setSelectedEvent={setSelectedEvent}
             />
             <CreateEventModal
@@ -78,6 +106,11 @@ const EventRoute = () => {
                 error={deleteEventError}
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
+            />
+            <AttendanceModal
+                selectedEvent={selectedEvent}
+                isOpen={isAttendanceModalOpen}
+                onClose={() => setIsAttendanceModalOpen(false)}
             />
         </ActiveLayout>
     )

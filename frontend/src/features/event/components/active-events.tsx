@@ -8,10 +8,11 @@ interface ActiveEventsProps {
     events: ActiveEvent[];
     isDeleteLoading: boolean;
     onDeleteOpen: () => void;
-    setSelectedEvent: (eventId: string) => void;
+    onAttendanceOpen: () => void;
+    setSelectedEvent: (eventId: ActiveEvent) => void;
 }
 
-const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, setSelectedEvent }) => {
+const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, onAttendanceOpen, setSelectedEvent }) => {
     const auth = useAuth();
     const sortedEvents = Array.isArray(events)
         ? [...events]
@@ -56,13 +57,24 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                         </a>
                     )}
                     {auth?.roles.includes('Admin') && ( 
-                        <div className='flex justify-end items-end'>
+                        <div className='flex justify-between items-center mt-4'>
                             <button
                                 type='button'
                                 disabled={isDeleteLoading}
                                 className=''
                                 onClick={() => {
-                                    setSelectedEvent(event._id);
+                                    setSelectedEvent(event);
+                                    onAttendanceOpen();
+                                }}
+                            >
+                                <p className='text-white text-xs rounded-lg py-2 px-2 bg-pacific-blue hover:bg-turquoise-blue'>View PNMs</p>
+                            </button>
+                            <button
+                                type='button'
+                                disabled={isDeleteLoading}
+                                className='ml-2'
+                                onClick={() => {
+                                    setSelectedEvent(event);
                                     onDeleteOpen();
                                 }}
                             >

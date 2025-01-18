@@ -27,7 +27,7 @@ const LoginRoute = () => {
         try {
             await signup(payload).unwrap();
         } catch (err) {
-            console.log('Signup failed:', err);
+            console.error('Signup failed:', err);
         }
     }
 

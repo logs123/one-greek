@@ -1,3 +1,41 @@
+/* Tailwind base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* React-Select custom styles */
+.react-select__control {
+    @apply border border-gray-300 rounded-lg h-12 px-3 text-gray-900;
+}
+
+.react-select__control:hover {
+    @apply border-gray-400;
+}
+
+.react-select__value-container {
+    @apply p-0;
+}
+
+.react-select__placeholder {
+    @apply text-gray-400;
+}
+
+.react-select__single-value {
+    @apply text-gray-900;
+}
+
+.react-select__menu {
+    @apply bg-white shadow-lg rounded-lg border border-gray-300;
+}
+
+.react-select__option {
+    @apply text-gray-900 cursor-pointer px-3 py-2;
+}
+
+.react-select__option--is-selected {
+    @apply bg-blue-500 text-white;
+}
+
+.react-select__option--is-focused {
+    @apply bg-blue-100;
+}

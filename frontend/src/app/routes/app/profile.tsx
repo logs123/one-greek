@@ -5,8 +5,6 @@ import useAuth from '../../../hooks/useAuth';
 const ProfileRoute = () => {
     const auth = useAuth();
 
-    console.log(auth)
-
     if (auth?.roles.includes('PNM')) {
         return (
             <PnmLayout>

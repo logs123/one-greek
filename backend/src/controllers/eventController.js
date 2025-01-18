@@ -7,7 +7,6 @@ const asyncHandler = require('express-async-handler');
 // @route POST /events
 // @access Private
 const createNewEvent = asyncHandler(async (req, res) => {
-    console.log(req.body)
     const { name, chapter, organization, author, locationName, locationAddress, start, end, type, visibility, semester } = req.body;
 
     if (!name || !organization || !author || !start || !end || !type || !semester) {
@@ -245,6 +244,10 @@ const getActiveEvents = asyncHandler(async (req, res) => {
     .populate({
         path: 'author',
         select: 'firstName lastName profilePicture'
+    })
+    .populate({
+        path: 'attendees.user',
+        select: 'firstName lastName profilePicture'
     });
 
     if (!events?.length) {
@@ -252,7 +255,36 @@ const getActiveEvents = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json(events);
-})
+});
+
+// @desc Verify PNM attendance
+// @route POST /events/verify
+// @access Private
+const verifyAttendance = asyncHandler(async (req, res) => {
+    const { eventId, userId } = req.body;
+
+    if (!eventId || !userId) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+        return res.status(404).json({ message: 'Event not found' });
+    }
+
+    const attendee = event.attendees.find((attendee) => attendee.user.toString() === userId);
+
+    if (!attendee) {
+        return res.status(404).json({ message: 'User is not an attendee' });
+    }
+
+    attendee.verified = !attendee.verified;
+
+    await event.save();
+
+    return res.status(200).json({ message: 'User attendance toggled' })
+});
 
 module.exports = {
     createNewEvent,
@@ -261,4 +293,5 @@ module.exports = {
     getPNMEvents,
     checkIntoEvent,
     getActiveEvents,
+    verifyAttendance,
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import Logo from '../../assets/images/logo-alt-white.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSendLogoutMutation } from '../../features/auth/api/authApi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { CgProfile } from 'react-icons/cg';
@@ -14,18 +14,27 @@ type LayoutProps = {
 
 const PnmLayout = ({ children }: LayoutProps) => {
     const auth = useAuth();
+    const location = useLocation();
 
     const [isNavModalOpen, setIsNavModalOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const [logout, { isLoading }] = useSendLogoutMutation();
 
+    const handleNavigate = (path: string) => {
+        if (location.pathname !== path) {
+            navigate(path)
+        } else {
+            setIsNavModalOpen(false);
+        }
+    }
+
     const handleLogout = async () => {
         try {
             await logout();
             navigate('/', { replace: true });
         } catch (err) {
-            console.log('Logout failed:', err);
+            console.error('Logout failed:', err);
         }
     }
 
@@ -39,7 +48,7 @@ const PnmLayout = ({ children }: LayoutProps) => {
 
     return (
         <div className='flex flex-col h-screen bg-[#E4EFF3]'>
-            <div className='flex justify-between items-center w-full bg-pacific-blue py-2 px-4 border-b-2 border-gray-200'>
+            <div className='flex fixed z-50 justify-between items-center w-full bg-pacific-blue py-2 px-4 border-b-2 border-gray-200'>
                 <img
                     src={Logo}
                     alt='Alt Logo'
@@ -58,11 +67,11 @@ const PnmLayout = ({ children }: LayoutProps) => {
                 </button>
             </div>
             {isNavModalOpen && (
-                <div className='absolute flex flex-col right-1 top-[84px] border-gray-200 bg-white justify-center w-40 rounded-lg shadow-xl drop-shadow'>
+                <div className='fixed flex flex-col right-1 top-[84px] border-gray-200 bg-white justify-center w-44 rounded-lg shadow-xl drop-shadow'>
                     <button
                         type='button'
-                        className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25 rounded-t-lg'
-                        onClick={() => navigate('/')}
+                        className='flex justify-between items-center px-4 py-3 hover:bg-gray-300 hover:bg-opacity-25 rounded-t-lg'
+                        onClick={() => handleNavigate('/')}
                     >
                         <p className='font-bold'>Dashboard</p>
                         <LuLayoutDashboard size={20} />
@@ -70,8 +79,8 @@ const PnmLayout = ({ children }: LayoutProps) => {
                     <hr className='h-px bg-gray-300 border-0'/>
                     <button
                         type='button'
-                        className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25'
-                        onClick={() => navigate('/profile')}
+                        className='flex justify-between items-center px-4 py-3 hover:bg-gray-300 hover:bg-opacity-25'
+                        onClick={() => handleNavigate('/profile')}
                     >
                         <p className='font-bold'>Profile</p>
                         <CgProfile size={20} />
@@ -79,7 +88,7 @@ const PnmLayout = ({ children }: LayoutProps) => {
                     <hr className='h-px bg-gray-300 border-0'/>
                     <button
                         type='button'
-                        className='flex justify-between items-center px-3 py-1 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'
+                        className='flex justify-between items-center px-4 py-3 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'
                         onClick={handleLogout}
                     >
                         <p className='font-bold'>Logout</p>
@@ -87,7 +96,9 @@ const PnmLayout = ({ children }: LayoutProps) => {
                     </button>
                 </div>
             )}
-            {children}
+            <div className='pt-20'>
+                {children}
+            </div>
         </div>
     );
 }

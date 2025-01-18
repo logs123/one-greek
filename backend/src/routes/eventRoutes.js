@@ -19,4 +19,7 @@ router.route('/pnm/checkin')
 router.route('/active')
     .get(eventController.getActiveEvents)
 
+router.route('/verify')
+    .post(eventController.verifyAttendance)
+
 module.exports = router;
