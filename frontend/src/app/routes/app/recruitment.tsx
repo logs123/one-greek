@@ -12,7 +12,7 @@ const RecruitmentRoute = () => {
     const [selectedPNM, setSelectedPNM] = useState<string>(''); // Use string ID
     const [filteredPNMs, setFilteredPNMs] = useState<PNMUser[]>([]);
 
-    const { data: pnms = [], isLoading } = useGetPNMListQuery(
+    const { data: pnms = [] } = useGetPNMListQuery(
         { userId: auth?.id || '', chapterId: auth?.chapter || '', semesterName: 'Spring 2025' },
         { skip: !auth }
     );

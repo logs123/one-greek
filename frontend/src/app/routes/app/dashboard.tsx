@@ -6,12 +6,11 @@ import PNMEvents from '../../../features/event/components/pnm-events';
 import { useGetActiveMemebersQuery } from '../../../features/user/api/userApi';
 import Spinner from '../../../components/ui/spinner/spinner';
 import ActiveList from '../../../features/user/components/actives-list';
-import { useNavigate } from 'react-router-dom';
 import { useGetChapterQuery } from '../../../features/chapter/api/chapterApi';
 
 const DashboardRoute = () => {
     const auth = useAuth();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const { data: actives = [], isLoading: isActiveMembersLoading } = useGetActiveMemebersQuery({ chapterId: auth?.chapter ?? '' }, { skip:  !auth?.chapter });
     const { data: chapter, isLoading: isGetChapterLoading } = useGetChapterQuery(auth?.chapter ?? '', { skip: !auth?.chapter});
