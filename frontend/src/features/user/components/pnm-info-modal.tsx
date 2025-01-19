@@ -6,8 +6,6 @@ import useAuth from '../../../hooks/useAuth';
 import { IoLogoInstagram } from "react-icons/io";
 import countryList from "react-select-country-list";
 
-import Spinner from '../../../components/ui/spinner/spinner';
-
 interface PNMInfoModalProps {
     pnms: PNMUser[];
     selectedPNM: string | null;
