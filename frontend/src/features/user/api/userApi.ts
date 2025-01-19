@@ -1,5 +1,5 @@
 import { apiSlice } from "../../../slices/apiSlice";
-import { ActiveUser } from "../../../types/userTypes";
+import { ActiveUser, PNMUser } from "../../../types/userTypes";
 
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -33,7 +33,14 @@ export const userApi = apiSlice.injectEndpoints({
                 body: { userId, position }
             }),
             invalidatesTags: (_result, _error, { userId }) => [{ type: 'ActiveUser', id: userId }]
-        })
+        }),
+        getPNMList: builder.query<PNMUser[], { userId: string; chapterId: string; semesterName: string; }>({
+            query: ({ userId, chapterId, semesterName }) => `/users/pnms?userId=${userId}&chapterId=${chapterId}&semesterName=${semesterName}`,
+            providesTags: (result) =>
+                result
+                    ? [...result.map((user) => ({ type: 'PNMUser', id: user.pnm._id } as const)), { type: 'PNMUser', id: 'LIST' }]
+                    : [{ type: 'PNMUser', id: 'LIST' }]
+        }),
     })
 });
 
@@ -42,4 +49,5 @@ export const {
     useGetActiveMemebersQuery,
     useVerifyMemberMutation,
     useToggleAdminMutation,
+    useGetPNMListQuery,
 } = userApi;

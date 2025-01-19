@@ -19,7 +19,7 @@ const DashboardRoute = () => {
     if (!auth || isActiveMembersLoading || isGetChapterLoading) {
         return (
             <ActiveLayout>
-                <div className="flex h-full justify-center items-center">
+                <div className='flex h-full justify-center items-center'>
                     <Spinner/>
                 </div>
             </ActiveLayout>
@@ -45,35 +45,37 @@ const DashboardRoute = () => {
     
     return (
         <ActiveLayout>
-            <div className='hidden lg:flex h-[184px] py-8'>
-                <div className='flex w-full justify-between gap-8'>
-                    <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
-                        <div className='ml-10 font-bold text-3xl'>{chapter?.name}</div>
-                    </div>
-                    <button
-                        type='button'
-                        className='shadow drop-shadow hover:drop-shadow-xl flex flex-col w-40 bg-white h-full justify-center items-center rounded-2xl gap-3'
-                        onClick={() => navigate('/profile')}
-                    >
-                        <div className='h-16 w-16 rounded-full overflow-hidden'>
-                            <img
-                                src={auth.profilePicture}
-                                alt='Profile Picture'
-                                className='w-full h-full object-cover'
-                            />
+            <div className='px-4 lg:px-14'>
+                <div className='hidden lg:flex h-[184px] py-8'>
+                    <div className='flex w-full justify-between gap-8'>
+                        <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
+                            <div className='ml-10 font-bold text-3xl'>{chapter?.name}</div>
                         </div>
-                        <p className='text-sm text-center'>{auth.name}</p>
-                    </button>
-                </div>
-            </div>
-            <div className='lg:hidden flex mb-4'>
-                <div className='flex w-full justify-between'>
-                    <div className='flex-1 h-full bg-white rounded-lg p-1 flex justify-center items-center shadow drop-shadow'>
-                        <div className='font-bold text-xl'>{chapter?.name}</div>
+                        <button
+                            type='button'
+                            className='shadow drop-shadow hover:drop-shadow-xl flex flex-col w-40 bg-white h-full justify-center items-center rounded-2xl gap-3'
+                            // onClick={() => navigate('/profile')}
+                        >
+                            <div className='h-16 w-16 rounded-full overflow-hidden'>
+                                <img
+                                    src={auth.profilePicture}
+                                    alt='Profile Picture'
+                                    className='w-full h-full object-cover'
+                                />
+                            </div>
+                            <p className='text-sm text-center'>{auth.name}</p>
+                        </button>
                     </div>
                 </div>
+                <div className='lg:hidden flex mb-4'>
+                    <div className='flex w-full justify-between'>
+                        <div className='flex-1 h-full bg-white rounded-lg p-1 flex justify-center items-center shadow drop-shadow'>
+                            <div className='font-bold text-xl'>{chapter?.name}</div>
+                        </div>
+                    </div>
+                </div>
+                <ActiveList actives={actives}/>
             </div>
-            <ActiveList actives={actives}/>
         </ActiveLayout>
     );
 }

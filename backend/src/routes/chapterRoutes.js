@@ -16,4 +16,10 @@ router.route('/:chapterId')
 router.route('/semester')
     .post(chapterController.createNewSemester)
 
+router.route('/pnm/vote')
+    .post(chapterController.togglePNMVote)
+
+router.route('/pnm/note')
+    .post(chapterController.togglePNMNote)
+
 module.exports = router;

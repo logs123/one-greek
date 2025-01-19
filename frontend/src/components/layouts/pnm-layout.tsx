@@ -4,7 +4,6 @@ import Logo from '../../assets/images/logo-alt-white.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSendLogoutMutation } from '../../features/auth/api/authApi';
 import { LuLayoutDashboard } from 'react-icons/lu';
-import { CgProfile } from 'react-icons/cg';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Spinner from '../ui/spinner/spinner';
 
@@ -77,14 +76,14 @@ const PnmLayout = ({ children }: LayoutProps) => {
                         <LuLayoutDashboard size={20} />
                     </button>
                     <hr className='h-px bg-gray-300 border-0'/>
-                    <button
+                    {/* <button
                         type='button'
                         className='flex justify-between items-center px-4 py-3 hover:bg-gray-300 hover:bg-opacity-25'
                         onClick={() => handleNavigate('/profile')}
                     >
                         <p className='font-bold'>Profile</p>
                         <CgProfile size={20} />
-                    </button>
+                    </button> */}
                     <hr className='h-px bg-gray-300 border-0'/>
                     <button
                         type='button'

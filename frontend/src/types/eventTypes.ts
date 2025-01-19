@@ -58,7 +58,7 @@ export interface ActiveEvent {
     start: Date;
     end: Date;
     type: string;
-    visibility: boolean;
+    visibility: string;
     semester: string;
     attendees: {
         user: {

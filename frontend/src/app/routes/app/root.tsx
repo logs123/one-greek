@@ -5,7 +5,6 @@ import AppLayout from '../../../components/layouts';
 import LoginRoute from '../auth/login';
 import DashboardRoute from './dashboard';
 import UnverifiedRoute from '../auth/unverified';
-import ProfileRoute from './profile';
 import RequireAuth from '../../../features/auth/components/require-auth';
 import EventRoute from './event';
 import RecruitmentRoute from './recruitment';
@@ -25,7 +24,7 @@ const AppRoot = () => {
                     </Route>
 
                     <Route element={<RequireAuth allowedRoles={['PNM', 'Active']} />}>
-                        <Route path='/profile' element={auth ? ((auth.roles.includes('PNM') || auth.isVerified) ? <ProfileRoute /> : <UnverifiedRoute/>) : <LoginRoute />} />
+                        {/* <Route path='/profile' element={auth ? ((auth.roles.includes('PNM') || auth.isVerified) ? <ProfileRoute /> : <UnverifiedRoute/>) : <LoginRoute />} /> */}
                     </Route>
                     
                     <Route path='/*' element={<Navigate to='/' replace />} />

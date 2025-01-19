@@ -20,7 +20,7 @@ const ActiveList: React.FC<ActiveListProps> = ({ actives }) => {
         setSortedColumn(column);
         setSortOrder(order);
     }
-    
+
     const sortedUsers = auth?.roles.includes('Admin')
     ? [...actives]
         .sort((a, b) => {

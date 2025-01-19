@@ -3,13 +3,14 @@ import { ActiveEvent } from '../../../types/eventTypes';
 import { format } from 'date-fns';
 import { FaMapPin, FaRegTrashAlt } from 'react-icons/fa';
 import useAuth from '../../../hooks/useAuth';
+import { MdOutlineEdit } from "react-icons/md";
 
 interface ActiveEventsProps {
     events: ActiveEvent[];
     isDeleteLoading: boolean;
     onDeleteOpen: () => void;
     onAttendanceOpen: () => void;
-    setSelectedEvent: (eventId: ActiveEvent) => void;
+    setSelectedEvent: (event: ActiveEvent) => void;
 }
 
 const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, onAttendanceOpen, setSelectedEvent }) => {
@@ -27,7 +28,7 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                     className='bg-white shadow-lg drop-shadow-lg rounded-lg p-4 flex flex-col'
                 >
                     <p className='font-bold text-lg'>{event.name}</p>
-                    <p className='text-xs mb-2'>{event.type}</p>
+                    <p className='text-xs mb-2'>{event.visibility.charAt(0).toUpperCase() + event.visibility.slice(1)} {event.type}</p>
                     <div className='flex justify-between mb-2'>
                         <p className='text-xs text-gray-500'>{format(new Date(event.start), 'M/dd/yy')}</p>
                         <p className='text-xs text-gray-500'>{format(new Date(event.start), 'h:mmaaa')}-{format(new Date(event.end), 'h:mmaaa')}</p>
@@ -69,6 +70,10 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                             >
                                 <p className='text-white text-xs rounded-lg py-2 px-2 bg-pacific-blue hover:bg-turquoise-blue'>View PNMs</p>
                             </button>
+                            <div className=''>
+                            <button>
+                                <MdOutlineEdit size={16} color={'gray'} />
+                            </button>
                             <button
                                 type='button'
                                 disabled={isDeleteLoading}
@@ -80,6 +85,7 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                             >
                                 <FaRegTrashAlt size={16} color={'gray'}/>
                             </button>
+                            </div>
                         </div>
                     )}
                 </div>

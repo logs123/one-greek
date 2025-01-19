@@ -22,14 +22,14 @@ const UnverifiedRoute = () => {
     }
 
     return (
-        <div className='flex flex-col gap-8 h-screen justify-center items-center bg-[#E4EFF3]'>
+        <div className='flex flex-col px-4 gap-8 h-screen justify-center items-center bg-[#E4EFF3]'>
             <img
                 src={Logo}
                 alt='Logo'
                 className='h-12'
             />
             <div className='flex flex-col items-center gap-4 border-red-300 border rounded-lg p-6 bg-red-100'>
-                <div className='text-center text-xl font-bold text-red-500'>Pending Verification from Your Chapter</div>
+                <div className='text-center text-2xl font-bold text-red-500'>Pending Verification</div>
                 <div className='text-center'>Please wait for your chapter leadership to accept your account.</div>
             </div>
             <div className='flex'>

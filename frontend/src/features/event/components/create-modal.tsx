@@ -115,6 +115,26 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ createEvent, isLoad
                         />
                     </div>
                     <div>
+                        <label className='block text-sm font-medium text-gray-700'>Location Name</label>
+                        <input
+                            type='text'
+                            id='locationName'
+                            value={formData.locationName}
+                            className='w-full px-3 py-2 border rounded-lg'
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, locationName: e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-sm font-medium text-gray-700'>Location Address</label>
+                        <input
+                            type='text'
+                            id='locationAddress'
+                            value={formData.locationAddress}
+                            className='w-full px-3 py-2 border rounded-lg'
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, locationAddress: e.target.value})}
+                        />
+                    </div>
+                    <div>
                         <label className='block text-sm font-medium text-gray-700'>Start Date & Time</label>
                         <input
                             type='datetime-local'
@@ -144,32 +164,12 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ createEvent, isLoad
                             required
                         />
                     </div>
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Location Name</label>
-                        <input
-                            type='text'
-                            id='locationName'
-                            value={formData.locationName}
-                            className='w-full px-3 py-2 border rounded-lg'
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, locationName: e.target.value})}
-                        />
-                    </div>
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Location Address</label>
-                        <input
-                            type='text'
-                            id='locationAddress'
-                            value={formData.locationAddress}
-                            className='w-full px-3 py-2 border rounded-lg'
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, locationAddress: e.target.value})}
-                        />
-                    </div>
                     <div className='flex items-center space-x-2'>
                         <input
                             type='checkbox'
                             id='visibility'
                             checked={formData.visibility === 'private'}
-                            className='w-4 h-4'
+                            className='w-4 h-4 accent-pacific-blue'
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, visibility: e.target.checked ? 'private' : 'public'})
                             }
                         />

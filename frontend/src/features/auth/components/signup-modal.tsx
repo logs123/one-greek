@@ -359,7 +359,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                         {formData.roles.includes('Active') && formData.organization && (
                             <select
                                 value={formData.chapter}
-                                className='border border-gray-300 text-gray-900 rounded-lg p-3'
+                                className='border border-gray-300 text-gray-900 rounded-lg p-3 w-full'
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({...formData, chapter: e.target.value})}
                             >
                                 <option

@@ -203,6 +203,100 @@ const createNewSemester = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: 'New semester created' });
 });
 
+// @desc Vote on a PNM
+// @route POST /chapters/pnm/vote
+// @access Private
+const togglePNMVote = asyncHandler(async (req, res) => {
+    const { chapterId, pnmId, userId, semesterName, vote } = req.body;
+
+    if (!chapterId || !pnmId || !userId || !semesterName || !vote) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const chapter = await Chapter.findById(chapterId);
+
+    if (!chapter) {
+        return res.status(404).json({ message: 'Chapter not found' });
+    }
+
+    const semester = chapter.semesters.find((sem) => sem.semester === semesterName);
+
+    if (!semester) {
+        return res.status(404).json({ message: 'Semester not found' });
+    }
+
+    const pnmEntry = semester.pnmList.find((pnmEntry) => pnmEntry.pnm.toString() === pnmId);
+
+    if (!pnmEntry) {
+        return res.status(404).json({ message: 'PNM not found' });
+    }
+
+    ['yes', 'maybe', 'no'].forEach((voteType) => {
+        const index = pnmEntry.votes[voteType].findIndex((id) => id.toString() === userId);
+        if (index !== -1) {
+            pnmEntry.votes[voteType].splice(index, 1);
+        }
+    });
+
+    if (['yes', 'maybe', 'no'].includes(vote)) {
+        if (!pnmEntry.votes[vote].includes(userId)) {
+            pnmEntry.votes[vote].push(userId);
+        }
+    } else {
+        return res.status(400).json({ message: 'Invalid vote type' });
+    }
+
+    await chapter.save();
+
+    res.status(200).json({ message: 'Vote toggled' });
+});
+
+// @desc Toggle note on a PNM
+// @route POST /chapters/pnm/note
+// @access Private
+const togglePNMNote = asyncHandler(async (req, res) => {
+    const { chapterId, pnmId, userId, semesterName, note } = req.body;
+
+    if (!chapterId || !pnmId || !userId || !semesterName || !note) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const chapter = await Chapter.findById(chapterId);
+
+    if (!chapter) {
+        return res.status(40).json({ message: 'Chapter not found' });
+    }
+
+    const semester = chapter.semesters.find((sem) => sem.semester === semesterName);
+
+    if (!semester) {
+        return res.status(404).json({ message: 'Semester not found' });
+    }
+
+    const pnmEntry = semester.pnmList.find((pnmEntry) => pnmEntry.pnm.toString() === pnmId);
+
+    if (!pnmEntry) {
+        return res.status(404).json({ message: 'PNM not found' });
+    }
+
+    const existingNoteIndex = pnmEntry.notes.findIndex((note) => note.addedBy.toString() === userId);
+
+    if (existingNoteIndex !== -1) {
+        pnmEntry.notes[existingNoteIndex].content = note;
+        pnmEntry.notes[existingNoteIndex].createdAt = new Date();
+    } else {
+        pnmEntry.notes.push({
+            addedBy: userId,
+            content: note,
+            createdAt: new Date()
+        });
+    }
+
+    await chapter.save();
+
+    return res.status(200).json({ message: 'Note toggled' })
+});
+
 module.exports = {
     getPNMChapters,
     createChapter,
@@ -210,4 +304,6 @@ module.exports = {
     getChapter,
     updateChapter,
     createNewSemester,
+    togglePNMVote,
+    togglePNMNote,
 };

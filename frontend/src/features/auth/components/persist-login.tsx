@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
-import usePersist from "../../../hooks/usePersist";
-import { selectCurrentToken } from "../../../slices/authSlice";
-import { useEffect, useRef, useState } from "react";
-import { useRefreshMutation } from "../api/authApi";
-import { Outlet } from "react-router-dom";
-import Spinner from "../../../components/ui/spinner/spinner";
+import { useSelector } from 'react-redux';
+import usePersist from '../../../hooks/usePersist';
+import { selectCurrentToken } from '../../../slices/authSlice';
+import { useEffect, useRef, useState } from 'react';
+import { useRefreshMutation } from '../api/authApi';
+import { Outlet } from 'react-router-dom';
+import Spinner from '../../../components/ui/spinner/spinner';
 
 const PersistLogin = () => {
     const { persist } = usePersist();
@@ -44,7 +44,7 @@ const PersistLogin = () => {
         content = <Outlet />
     } else if (isLoading) {
         content = (
-            <div className="flex justify-center items-center h-svh w-full">
+            <div className='flex justify-center items-center h-svh w-full'>
                 <Spinner />
             </div>
         )

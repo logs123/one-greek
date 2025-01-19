@@ -48,7 +48,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
     }
 
     return (
-        <div className='flex flex-col lg:flex-row h-screen bg-[#E4EFF3]'>
+        <div className='flex h-svh flex-col lg:flex-row bg-[#E4EFF3]'>
             <div className='hidden fixed z-50 h-full lg:flex lg:flex-col justify-between bg-[#325D6C] w-64 px-6 gap-8'>
                 <div className='flex flex-col'>
                     <img
@@ -151,7 +151,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                     </div>
                 )}
             </div>
-            <div className='flex-1 flex-col px-4 lg:px-14 py-4 lg:py-0 mt-24 lg:mt-0 ml-0 lg:ml-64'>
+            <div className='flex-1 flex-col py-4 lg:py-0 mt-24 lg:mt-0 ml-0 lg:ml-64'>
                 {children}
             </div>
         </div>

@@ -35,12 +35,12 @@ const toggleFollowChapter = asyncHandler(async (req, res) => {
 });
 
 // @desc Get PNM list for active user
-// @route GET /users/pnms <- NEED TO UPDATE to req.query
+// @route GET /users/pnms?userId={userId}&chapterId={chapterId}&semesterName={semesterName}
 // @access Private
 const getPNMList = asyncHandler(async (req, res) => {
-    const { userId, chapterId, semesterName } = req.body;
+    const { userId, chapterId, semesterName } = req.query;
 
-    if (!chapterId || !semesterName) {
+    if (!userId || !chapterId || !semesterName) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -50,7 +50,19 @@ const getPNMList = asyncHandler(async (req, res) => {
     }).populate({
         path: 'semesters.pnmList.pnm',
         select: '_id firstName lastName phoneNumber profilePicture socialMediaHandles pnmInfo'
-    })
+    }).populate({
+        path: 'semesters.pnmList.votes.yes',
+        select: 'firstName lastName profilePicture'
+    }).populate({
+        path: 'semesters.pnmList.votes.maybe',
+        select: 'firstName lastName profilePicture'
+    }).populate({
+        path: 'semesters.pnmList.votes.no',
+        select: 'firstName lastName profilePicture'
+    }).populate({
+        path: 'semesters.pnmList.notes.addedBy',
+        select: 'firstName lastName profilePicture'
+    });
 
     if (!chapter) {
         return res.status(404).json({ message: 'Chapter not found' });
@@ -66,20 +78,51 @@ const getPNMList = asyncHandler(async (req, res) => {
         const { votes, notes, pnm } = pnmEntry;
 
         let userVote = 'pending';
-        if (votes.yes.some((id) => id.toString() === userId)) {
+        if (votes.yes.some((voter) => voter._id.toString() === userId)) {
             userVote = 'yes';
-        } else if (votes.maybe.some((id) => id.toString() === userId)) {
+        } else if (votes.maybe.some((voter) => voter._id.toString() === userId)) {
             userVote = 'maybe';
-        } else if (votes.no.some((id) => id.toString() === userId)) {
+        } else if (votes.no.some((voter) => voter._id.toString() === userId)) {
             userVote = 'no';
         }
 
-        const userNote = notes.find((note) => note.addedBy.toString() === userId);
+        const userNote = notes.find((note) => note.addedBy._id.toString() === userId);
 
         return {
             pnm,
             userVote,
-            userNote: userNote ? userNote : null
+            userNote: userNote || null,
+            votes: {
+                yes: votes.yes.map((voter) => ({
+                    _id: voter._id,
+                    firstName: voter.firstName,
+                    lastName: voter.lastName,
+                    profilePicture: voter.profilePicture
+                })),
+                maybe: votes.maybe.map((voter) => ({
+                    _id: voter._id,
+                    firstName: voter.firstName,
+                    lastName: voter.lastName,
+                    profilePicture: voter.profilePicture
+                })),
+                no: votes.no.map((voter) => ({
+                    _id: voter._id,
+                    firstName: voter.firstName,
+                    lastName: voter.lastName,
+                    profilePicture: voter.profilePicture
+                }))
+            },
+            notes: notes.map((note) => ({
+                _id: note._id,
+                addedBy: {
+                    _id: note.addedBy._id,
+                    firstName: note.addedBy.firstName,
+                    lastName: note.addedBy.lastName,
+                    profilePicture: note.addedBy.profilePicture
+                },
+                content: note.content,
+                createdAt: note.createdAt
+            }))
         }
     })
 

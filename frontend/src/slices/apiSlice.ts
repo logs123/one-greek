@@ -44,6 +44,6 @@ const baseQueryWithReauth = async (
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['PNMChapter', 'PNMEvent', 'ActiveUser', 'ActiveEvent', 'ActiveChapter'],
+    tagTypes: ['PNMChapter', 'PNMEvent', 'ActiveUser', 'ActiveEvent', 'ActiveChapter', 'PNMUser'],
     endpoints: (_builder) => ({})
 });
