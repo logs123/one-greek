@@ -262,6 +262,7 @@ const getActiveEvents = asyncHandler(async (req, res) => {
 // @access Private
 const verifyAttendance = asyncHandler(async (req, res) => {
     const { eventId, userId } = req.body;
+    console.log(userId)
 
     if (!eventId || !userId) {
         return res.status(400).json({ message: 'All fields are required' });

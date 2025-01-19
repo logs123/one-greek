@@ -7,7 +7,6 @@ import Spinner from '../ui/spinner/spinner';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
-import { CgProfile } from 'react-icons/cg';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 type LayoutProps = {
@@ -131,7 +130,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                             <IoPeople size={20} />
                         </button>
                         <hr className='h-px bg-gray-300 border-0'/>
-                        <button
+                        {/* <button
                             type='button'
                             className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25'
                             onClick={() => handleNavigate('/profile')}
@@ -139,7 +138,7 @@ const ActiveLayout = ({ children }: LayoutProps) => {
                             <p className='font-bold'>Profile</p>
                             <CgProfile size={20} />
                         </button>
-                        <hr className='h-px bg-gray-300 border-0'/>
+                        <hr className='h-px bg-gray-300 border-0'/> */}
                         <button
                             type='button'
                             className='flex justify-between items-center px-3 py-2 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'

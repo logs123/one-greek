@@ -115,6 +115,7 @@ const EventRoute = () => {
                     onClose={() => setIsDeleteModalOpen(false)}
                 />
                 <AttendanceModal
+                    events={events}
                     selectedEvent={selectedEvent}
                     isOpen={isAttendanceModalOpen}
                     onClose={() => setIsAttendanceModalOpen(false)}

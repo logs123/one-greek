@@ -83,8 +83,8 @@ const PnmLayout = ({ children }: LayoutProps) => {
                     >
                         <p className='font-bold'>Profile</p>
                         <CgProfile size={20} />
-                    </button> */}
-                    <hr className='h-px bg-gray-300 border-0'/>
+                    </button>
+                    <hr className='h-px bg-gray-300 border-0'/> */}
                     <button
                         type='button'
                         className='flex justify-between items-center px-4 py-3 hover:bg-gray-300 hover:bg-opacity-25 rounded-b-lg'
