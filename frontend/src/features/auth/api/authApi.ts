@@ -1,10 +1,10 @@
 import { apiSlice } from '../../../slices/apiSlice'
 import { logOut, setCredentials } from '../../../slices/authSlice';
-import { AccessToken, LoginCredentials, LogoutResponse, SignupPayload } from '../../../types/authTypes';
+import { AccessToken, LoginCredentials, LoginResponse, LogoutResponse, SignupPayload, SignupResponse } from '../../../types/authTypes';
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<AccessToken, LoginCredentials>({
+        login: builder.mutation<LoginResponse, LoginCredentials>({
             query: (credentials) => ({
                 url: '/auth/login',
                 method: 'POST',
@@ -21,7 +21,7 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             }
         }),
-        signup: builder.mutation<AccessToken, SignupPayload>({
+        signup: builder.mutation<SignupResponse, SignupPayload>({
             query: (payload) => {
                 const formData = new FormData();
 

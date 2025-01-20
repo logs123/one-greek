@@ -61,6 +61,16 @@ export interface AccessToken {
     accessToken: string;
 }
 
+export interface LoginResponse {
+    accessToken: string;
+    userId: string;
+}
+
+export interface SignupResponse {
+    accessToken: string;
+    userId: string;
+}
+
 export interface LogoutResponse {
     success: boolean;
 }

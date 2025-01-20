@@ -99,7 +99,7 @@ const signup = asyncHandler(async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
         
-        return res.status(201).json({ accessToken });
+        return res.status(201).json({ userId: user._id, accessToken });
     } else {
         return res.status(400).json({ message: `Invalid user data received` });
     }
@@ -169,7 +169,7 @@ const login = asyncHandler(async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
     
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ userId: foundUser._id, accessToken });
 });
 
 // @desc Refresh

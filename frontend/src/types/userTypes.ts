@@ -38,7 +38,7 @@ export interface PNMUser {
             LinkedIn?: string;
         };
     };
-    votes: Votes; // Use the defined Votes type
+    votes: Votes;
     notes: {
         _id: string;
         content: string;

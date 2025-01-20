@@ -207,6 +207,13 @@ const deleteUser = asyncHandler(async (req, res) => {
         { $pull: { attendees: { user: userId } } }
     );
 
+    await Chapter.updateMany(
+        { 'semesters.pnmList.pnm': userId },
+        {
+            $pull: { 'semesters.$[].pnmList': { pnm: userId } }
+        }
+    );
+
     await user.deleteOne();
 
     return res.status(200).json({ message: 'User deleted' });

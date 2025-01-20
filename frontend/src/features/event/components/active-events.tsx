@@ -10,10 +10,11 @@ interface ActiveEventsProps {
     isDeleteLoading: boolean;
     onDeleteOpen: () => void;
     onAttendanceOpen: () => void;
+    onQROpen: () => void;
     setSelectedEvent: (event: ActiveEvent) => void;
 }
 
-const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, onAttendanceOpen, setSelectedEvent }) => {
+const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, onAttendanceOpen, onQROpen, setSelectedEvent }) => {
     const auth = useAuth();
     const sortedEvents = Array.isArray(events)
         ? [...events]
@@ -59,32 +60,45 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                     )}
                     {auth?.roles.includes('Admin') && ( 
                         <div className='flex justify-between items-center mt-4'>
-                            <button
-                                type='button'
-                                disabled={isDeleteLoading}
-                                className=''
-                                onClick={() => {
-                                    setSelectedEvent(event);
-                                    onAttendanceOpen();
-                                }}
-                            >
-                                <p className='text-white text-xs rounded-lg py-2 px-2 bg-pacific-blue hover:bg-turquoise-blue'>View PNMs</p>
-                            </button>
+                            <div className='flex gap-2'>
+                                <button
+                                        type='button'
+                                        disabled={isDeleteLoading}
+                                        className=''
+                                        onClick={() => {
+                                            setSelectedEvent(event);
+                                            onQROpen();
+                                        }}
+                                    >
+                                        <p className='text-white text-xs rounded-lg py-2 px-2 bg-pacific-blue hover:bg-turquoise-blue'>Generate QR</p>
+                                </button>
+                                <button
+                                    type='button'
+                                    disabled={isDeleteLoading}
+                                    className=''
+                                    onClick={() => {
+                                        setSelectedEvent(event);
+                                        onAttendanceOpen();
+                                    }}
+                                >
+                                    <p className='text-white text-xs rounded-lg py-2 px-2 bg-pacific-blue hover:bg-turquoise-blue'>View PNMs</p>
+                                </button>
+                            </div>
                             <div className=''>
-                            <button>
-                                <MdOutlineEdit size={16} color={'gray'} />
-                            </button>
-                            <button
-                                type='button'
-                                disabled={isDeleteLoading}
-                                className='ml-2'
-                                onClick={() => {
-                                    setSelectedEvent(event);
-                                    onDeleteOpen();
-                                }}
-                            >
-                                <FaRegTrashAlt size={16} color={'gray'}/>
-                            </button>
+                                <button>
+                                    <MdOutlineEdit size={16} color={'gray'} />
+                                </button>
+                                <button
+                                    type='button'
+                                    disabled={isDeleteLoading}
+                                    className='ml-2'
+                                    onClick={() => {
+                                        setSelectedEvent(event);
+                                        onDeleteOpen();
+                                    }}
+                                >
+                                    <FaRegTrashAlt size={16} color={'gray'}/>
+                                </button>
                             </div>
                         </div>
                     )}

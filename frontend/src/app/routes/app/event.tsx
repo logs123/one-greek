@@ -9,6 +9,7 @@ import { ActiveEvent, EventPayload } from '../../../types/eventTypes';
 import DeleteEventModal from '../../../features/event/components/delete-modal';
 import AttendanceModal from '../../../features/event/components/attendance-modal';
 import { IoMdAdd } from 'react-icons/io';
+import QRModal from '../../../features/event/components/qr-modal';
 
 const EventRoute = () => {
     const auth = useAuth();
@@ -16,6 +17,7 @@ const EventRoute = () => {
     const [selectedEvent, setSelectedEvent] = useState<ActiveEvent | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState<boolean>(false);
+    const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
 
     const { data: events = [], isLoading: isEventsLoading } = useGetActiveEventsQuery({ chapterId: auth?.chapter || '' }, { skip: !auth?.chapter });
     const [createEvent, { isLoading: isCreateEventLoading, error: createEventError }] = useCreateEventMutation();
@@ -92,6 +94,7 @@ const EventRoute = () => {
                         isDeleteLoading={isDeleteEventLoading}
                         onDeleteOpen={() => setIsDeleteModalOpen(true)}
                         onAttendanceOpen={() => setIsAttendanceModalOpen(true)}
+                        onQROpen={() => setIsQRModalOpen(true)}
                         setSelectedEvent={setSelectedEvent}
                     />
                 :
@@ -120,7 +123,12 @@ const EventRoute = () => {
                     isOpen={isAttendanceModalOpen}
                     onClose={() => setIsAttendanceModalOpen(false)}
                 />
-                </div>
+                <QRModal
+                    selectedEvent={selectedEvent}
+                    isOpen={isQRModalOpen}
+                    onClose={() => setIsQRModalOpen(false)}
+                />
+            </div>
         </ActiveLayout>
     )
 }
