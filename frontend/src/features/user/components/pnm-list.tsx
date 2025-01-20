@@ -10,7 +10,7 @@ interface PNMListProps {
     isTableView: boolean;
 }
 
-const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, setFilteredPNMs, isTableView }) => {
+const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, setFilteredPNMs }) => {
     const [filter, setFilter] = useState<string | null>(null);
     const previousFilteredPnms = useRef<PNMUser[]>([]);
 
