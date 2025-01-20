@@ -87,7 +87,7 @@ const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, 
             </div>
 
             {/* PNM Grid */}
-            <div className="px-4 lg:px-14 lg:py-4 h-[calc(100vh-240px)] overflow-y-auto">
+            <div className="px-4 lg:px-14 lg:py-4 h-[calc(100vh-240px)] bg-[#E4EFF3] overflow-y-auto">
                 <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
                     {filteredPnms.map((pnm) => (
                         <div

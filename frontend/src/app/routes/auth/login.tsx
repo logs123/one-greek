@@ -7,7 +7,7 @@ import { useLoginMutation, useSignupMutation } from '../../../features/auth/api/
 import { LoginCredentials, SignupPayload } from '../../../types/authTypes';
 import Spinner from '../../../components/ui/spinner/spinner';
 import { useGetOrganizationsQuery } from '../../../features/organization/api/organizationApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCheckIntoEventMutation } from '../../../features/event/api/eventApi';
 
 const LoginRoute = () => {
@@ -15,6 +15,7 @@ const LoginRoute = () => {
     const [login, { isLoading: isLoginLoading, error: loginError }] = useLoginMutation();
     const [signup, { isLoading: isSignupLoading, error: signupError}] = useSignupMutation();
     const [checkin, {}] = useCheckIntoEventMutation();
+    const navigate = useNavigate();
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -30,6 +31,7 @@ const LoginRoute = () => {
             if (eventParam) {
                 checkin({ userId, eventId: eventParam });
             }
+            navigate('/', { replace: true });
         } catch (err) {
             console.error('Login failed:', err);
         }
@@ -41,6 +43,7 @@ const LoginRoute = () => {
             if (eventParam) {
                 checkin({ userId, eventId: eventParam });
             }
+            navigate('/', { replace: true });
         } catch (err) {
             console.error('Signup failed:', err);
         }

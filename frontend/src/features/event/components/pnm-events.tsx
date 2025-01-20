@@ -64,39 +64,41 @@ const PNMEvents = () => {
                 style={{padding: '10px'}}
             >
                 {sortedEvents?.map((event) => (
-                    <SwiperSlide key={event._id}>
-                        <div className='relative bg-white h-64 p-4 rounded-lg drop-shadow-lg'>
-                            <p className='font-bold mb-1'>{event.name}</p>
-                            <div className='flex flex-col md:flex-row justify-between mb-2'>
-                                <p className='text-xs text-gray-500'>{format(new Date(event.start), 'M/dd/yy')}</p>
-                                <p className='text-xs text-gray-500'>{format(new Date(event.start), 'h:mmaaa')}-{format(new Date(event.end), 'h:mmaaa')}</p>
+                    <SwiperSlide key={event._id} style={{ height: 'auto', display: 'flex', alignItems: 'stretch'}}>
+                        <div className='flex flex-col justify-between gap-1 bg-white p-4 w-full rounded-lg drop-shadow-lg'>
+                            <div>
+                                <p className='font-bold mb-1'>{event.name}</p>
+                                <div className='flex flex-col md:flex-row justify-between mb-2'>
+                                    <p className='text-xs text-gray-500'>{format(new Date(event.start), 'M/dd/yy')}</p>
+                                    <p className='text-xs text-gray-500'>{format(new Date(event.start), 'h:mmaaa')}-{format(new Date(event.end), 'h:mmaaa')}</p>
+                                </div>
+                                <p className='text-xs text-gray-500'>Hosted by:</p>
+                                {event.chapter && 
+                                    <div className='flex items-center mb-3 gap-1'>
+                                        <p className='text-sm'>{event.chapter.name}</p>
+                                        {auth.pnmInfo?.chaptersFollowing.includes(event.chapter._id) &&
+                                            <FaStar size={12} color={'#d4af37'}/>
+                                        }
+                                    </div>
+                                }
+                                {event.location?.name && (
+                                    <div className='flex items-center'>
+                                        <p className='text-sm'>{event.location?.name}</p>
+                                        
+                                    </div>
+                                )}
+                                {event.location?.address && ( 
+                                    <a
+                                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location.address)}`}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='text-blue-500 text-sm hover:underline flex items-center gap-2'
+                                    >
+                                        <FaMapPin size={12} color='red'/>
+                                        Address
+                                    </a>
+                                )}
                             </div>
-                            <p className='text-xs text-gray-500'>Hosted by:</p>
-                            {event.chapter && 
-                                <div className='flex items-center mb-3 gap-1'>
-                                    <p className='text-sm'>{event.chapter.name}</p>
-                                    {auth.pnmInfo?.chaptersFollowing.includes(event.chapter._id) &&
-                                        <FaStar size={12} color={'#d4af37'}/>
-                                    }
-                                </div>
-                            }
-                            {event.location?.name && (
-                                <div className='flex items-center'>
-                                    <p className='text-sm'>{event.location?.name}</p>
-                                    
-                                </div>
-                            )}
-                            {event.location?.address && ( 
-                                <a
-                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location.address)}`}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='text-blue-500 text-sm hover:underline flex items-center gap-2'
-                                >
-                                    <FaMapPin size={12} color='red'/>
-                                    Address
-                                </a>
-                            )}
                             {event.isAttendee ? (
                                 <div className='absolute w-full left-0 bottom-6 flex justify-center'>
                                     <div className='flex items-center h-full justify-center text-white rounded p-1 px-3 bg-gray-300'>
@@ -105,8 +107,8 @@ const PNMEvents = () => {
                                 </div>
                             )
                             :
-                            (
-                                <div className='absolute bottom-6 left-0 w-full'>
+                            (event.start <= new Date() && event.end <= new Date() &&
+                                <div className='w-full'>
                                     <div className='flex justify-center'>
                                         <CheckinButton
                                             userId={auth.id}

@@ -51,7 +51,7 @@ const EventRoute = () => {
 
     return (
         <ActiveLayout>
-            <div className='px-4 lg:px-14'>
+            <div className='px-4 lg:px-14 bg-[#E4EFF3]'>
                 <div className='hidden lg:flex h-[184px] py-8 gap-[86px]'>
                     <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
                         <div className='ml-10 font-bold text-3xl'>Events</div>

@@ -131,7 +131,7 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                     )}
 
                     <div className={`flex flex-col w-full ${auth?.roles.includes('Admin') ? 'lg:w-1/2' : ''} items-center`}>
-                        <div className="w-48 h-48 rounded-full overflow-hidden">
+                        <div className="w-28 h-28 sm:w-48 smh-48 rounded-full overflow-hidden">
                             <img
                                 src={pnmData.pnm.profilePicture}
                                 alt="Profile"

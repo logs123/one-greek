@@ -196,8 +196,8 @@ const checkIntoEvent = asyncHandler(async (req, res) => {
     }
 
     const event = await Event.findByIdAndUpdate(
-        eventId,
-        { $addToSet: { attendees: { user: userId, checkInAt: new Date } } },
+        { _id: eventId, "attendees.user": { $ne: userId } },
+        { $addToSet: { attendees: { user: userId, checkInAt: new Date() } } },
         { new: true }
     );
 
