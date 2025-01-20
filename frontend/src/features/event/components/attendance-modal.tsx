@@ -15,7 +15,7 @@ const AttendanceModal: React.FC<AttendanceModalProps> = ({ events, selectedEvent
     const [verify, { isLoading }] = useVerfiyAttendanceMutation();
 
     const eventData = useMemo(
-        () => events.find((event) => event._id === selectedEvent?._id) || null,
+        () => (events || []).find((event) => event._id === selectedEvent?._id) || null,
         [events, selectedEvent]
     );
 
