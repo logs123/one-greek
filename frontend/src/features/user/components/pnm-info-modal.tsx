@@ -167,7 +167,7 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                         <p>Major: {pnmData.pnm.pnmInfo.major}</p>
                         <p>GPA: {pnmData.pnm.pnmInfo.gpa}</p>
                         <p>Grade: {pnmData.pnm.pnmInfo.gradeLevel}</p>
-                        {pnmData.pnm.pnmInfo.minor &&
+                        {pnmData.pnm.pnmInfo.secondMajor &&
                             <p>Second Major: {pnmData.pnm.pnmInfo.secondMajor}</p>
                         }
                         {pnmData.pnm.pnmInfo.minor &&

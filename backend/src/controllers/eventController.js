@@ -155,10 +155,12 @@ const getPNMEvents = asyncHandler(async (req, res) => {
 
     const chapterIds = chapters.map((chapter) => chapter._id);
 
+    const currentDate = new Date();
+
     const events = await Event.find({
         $or: [
-            { type: 'Recruitment', organization: organizationId, visibility: 'public' },
-            { type: 'Recruitment', organization: organizationId, visibility: 'private', chapter: { $in: chapterIds  } }
+            { type: 'Recruitment', organization: organizationId, visibility: 'public', start: { $gte: currentDate } },
+            { type: 'Recruitment', organization: organizationId, visibility: 'private', chapter: { $in: chapterIds  }, start: { $gte: currentDate } }
         ]
     })
     .populate({

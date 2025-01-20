@@ -8,7 +8,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production' ?
 ]
 : [
     'http://localhost:5173',
-    'http://192.168.0.112:5173'
+    'http://192.168.1.183:5173'
 ];
 
 module.exports = allowedOrigins;

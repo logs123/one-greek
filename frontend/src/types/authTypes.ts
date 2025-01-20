@@ -85,6 +85,7 @@ export interface CustomJwtPayload extends JwtPayload {
         secondMajor?: string;
         minor?: string;
         gpa?: string;
+        chaptersFollowing: string[];
     }
     socialMediaHandles?: {
         Instagram?: string;
