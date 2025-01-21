@@ -61,4 +61,5 @@ export interface PNMUser {
         content: string;
         createdAt: Date;
     }
+    finalVote: string;
 }

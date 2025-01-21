@@ -571,7 +571,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                         <input
                             type='text'
                             name='instagram'
-                            placeholder='Instagram Handle'
+                            placeholder='Instagram Handle @'
                             className='border border-gray-300 text-gray-900 rounded-lg p-3'
                             value={formData.instagram}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, instagram: e.target.value})}
@@ -579,7 +579,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ signup, organizations, isOpen
                         <input
                             type='text'
                             name='linkedin'
-                            placeholder='LinkedIn Handle'
+                            placeholder='LinkedIn Handle @'
                             className='border border-gray-300 text-gray-900 rounded-lg p-3'
                             value={formData.linkedin}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, linkedin: e.target.value})}

@@ -1,5 +1,5 @@
 import { apiSlice } from '../../../slices/apiSlice';
-import { ActiveEvent, EventPayload, PNMEvent, PNMEventsPaylod } from '../../../types/eventTypes';
+import { ActiveEvent, EditEventPayload, EventPayload, PNMEvent, PNMEventsPaylod } from '../../../types/eventTypes';
 
 export const eventApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -41,7 +41,7 @@ export const eventApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: [{ type: 'ActiveEvent', id: 'LIST' }]
         }),
-        updateEvent: builder.mutation<void, { eventId: string; updateData: Record<string, any> }>({
+        updateEvent: builder.mutation<void, EditEventPayload>({
             query: ({ eventId, updateData }) => ({
                 url: `/events/${eventId}`,
                 method: 'PATCH',

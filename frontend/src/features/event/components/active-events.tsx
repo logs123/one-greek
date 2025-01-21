@@ -8,13 +8,14 @@ import { MdOutlineEdit } from "react-icons/md";
 interface ActiveEventsProps {
     events: ActiveEvent[];
     isDeleteLoading: boolean;
+    onEditOpen: () => void;
     onDeleteOpen: () => void;
     onAttendanceOpen: () => void;
     onQROpen: () => void;
     setSelectedEvent: (event: ActiveEvent) => void;
 }
 
-const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onDeleteOpen, onAttendanceOpen, onQROpen, setSelectedEvent }) => {
+const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, onEditOpen, onDeleteOpen, onAttendanceOpen, onQROpen, setSelectedEvent }) => {
     const auth = useAuth();
     const sortedEvents = Array.isArray(events)
         ? [...events]
@@ -22,7 +23,7 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
         : [];
     
     return (
-        <div className='grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
             {sortedEvents?.map((event) => (
                 <div
                     key={event._id}
@@ -85,7 +86,13 @@ const ActiveEvents: React.FC<ActiveEventsProps> = ({ events, isDeleteLoading, on
                                 </button>
                             </div>
                             <div className=''>
-                                <button>
+                                <button
+                                    type='button'
+                                    onClick={() => {
+                                        setSelectedEvent(event);
+                                        onEditOpen();
+                                    }}
+                                >
                                     <MdOutlineEdit size={16} color={'gray'} />
                                 </button>
                                 <button

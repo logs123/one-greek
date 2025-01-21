@@ -22,4 +22,7 @@ router.route('/pnm/vote')
 router.route('/pnm/note')
     .post(chapterController.togglePNMNote)
 
+router.route('/pnm/finalvote')
+    .post(chapterController.togglePNMFinalVote)
+
 module.exports = router;

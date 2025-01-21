@@ -11,7 +11,7 @@ import { PiSquaresFourBold } from "react-icons/pi";
 const RecruitmentRoute = () => {
     const auth = useAuth();
     const [isPNMInfoModalOpen, setIsPNMInfoModalOpen] = useState<boolean>(false);
-    const [selectedPNM, setSelectedPNM] = useState<string>(''); // Use string ID
+    const [selectedPNM, setSelectedPNM] = useState<string>('');
     const [filteredPNMs, setFilteredPNMs] = useState<PNMUser[]>([]);
     const [isTableView, setIsTableView] = useState<boolean>(false);
 
@@ -31,7 +31,7 @@ const RecruitmentRoute = () => {
                         <div>
                             <button
                                 type='button'
-                                className='flex items-center justify-between bg-white rounded-lg px-2 shadow drop-shadow gap-1 py-2 hover:drop-shadow-xl '
+                                className='flex items-center justify-between bg-white rounded-xl px-2 shadow drop-shadow gap-1 py-2 hover:drop-shadow-xl '
                                 onClick={() => setIsTableView(!isTableView)}
                             >
                                 <div className={`flex justify-center items-center gap-1  rounded-l-lg ${isTableView ? '' : 'bg-pacific-blue text-white rounded-r-lg px-2 py-1'}`}>

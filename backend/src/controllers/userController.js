@@ -75,7 +75,7 @@ const getPNMList = asyncHandler(async (req, res) => {
     }
 
     const pnmList = semester.pnmList.map((pnmEntry) => {
-        const { votes, notes, pnm } = pnmEntry;
+        const { votes, notes, pnm, finalVote } = pnmEntry;
 
         let userVote = 'pending';
         if (votes.yes.some((voter) => voter._id.toString() === userId)) {
@@ -122,7 +122,8 @@ const getPNMList = asyncHandler(async (req, res) => {
                 },
                 content: note.content,
                 createdAt: note.createdAt
-            }))
+            })),
+            finalVote
         }
     })
 

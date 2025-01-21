@@ -54,79 +54,77 @@ const ActiveList: React.FC<ActiveListProps> = ({ actives }) => {
     }
 
     return (
-        <div className='mx-auto overflow-x-auto'>
-            <div className=''>
-                <table className='w-full min-w-max'>
-                    <thead>
-                        <tr className='bg-[#7CAFC0]'>
-                            <th className='rounded-tl-lg w-20 border border-[#DEEFF3]'></th>
-                            <th
-                                className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
-                                onClick={() => handleSort('lastName')}
-                            >
-                                Last Name
-                            </th>
-                            <th
-                                className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
-                                onClick={() => handleSort('firstName')}
-                            >
-                                First Name
-                            </th>
-                            <th
-                                className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
-                                onClick={() => handleSort('email')}
-                            >
-                                Email
-                            </th>
-                            <th
-                                className={`${auth?.roles.includes('Admin') ? '' : 'rounded-tr-lg'} border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white`}
-                                onClick={() => handleSort('phoneNumber')}
-                            >
-                                Phone
-                            </th>
+        <div className='flex mx-auto overflow-x-auto'>
+            <table className='w-full min-w-max'>
+                <thead>
+                    <tr className='bg-[#7CAFC0]'>
+                        <th className='rounded-tl-lg w-20 border border-[#DEEFF3]'></th>
+                        <th
+                            className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                            onClick={() => handleSort('lastName')}
+                        >
+                            Last Name
+                        </th>
+                        <th
+                            className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                            onClick={() => handleSort('firstName')}
+                        >
+                            First Name
+                        </th>
+                        <th
+                            className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                            onClick={() => handleSort('email')}
+                        >
+                            Email
+                        </th>
+                        <th
+                            className={`${auth?.roles.includes('Admin') ? '' : 'rounded-tr-lg'} border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white`}
+                            onClick={() => handleSort('phoneNumber')}
+                        >
+                            Phone
+                        </th>
+                        {auth?.roles.includes('Admin') &&
+                            <th className='w-20 border rounded-tr-lg border-[#DEEFF3] text-xs sm:text-sm text-white'>Verify</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedUsers.map((user) => (
+                        <tr key={user._id} className='bg-white'>
+                            <td className='border border-[#DEEFF3]'>
+                                <div className='flex p-1 justify-center'>
+                                    {(auth?.roles.includes('Admin') && user.isVerified && user._id !== auth.id) ?
+                                        <AdminButton
+                                            userId={user._id}
+                                            profilePicture={user.profilePicture}
+                                            isAdmin={user.roles.includes('Admin')}
+                                        />
+                                    :
+                                        <img
+                                            src={user.profilePicture}
+                                            alt='Profile Picture'
+                                            className='w-10 h-10 rounded-full object-cover'
+                                        />
+                                    }
+                                </div>
+                            </td>
+                            <td className='p-2 border border-[#DEEFF3]'>{user.lastName}</td>
+                            <td className='p-2 border border-[#DEEFF3]'>{user.firstName}</td>
+                            <td className='p-2 border border-[#DEEFF3]'>{user.email}</td>
+                            <td className='p-2 border border-[#DEEFF3]'>{formatPhoneNumber(user.phoneNumber)}</td>
                             {auth?.roles.includes('Admin') &&
-                                <th className='w-20 border rounded-tr-lg border-[#DEEFF3] text-xs sm:text-sm text-white'>Verify</th>
+                                <td className='p-2 border border-[#DEEFF3] text-center align-middle'>
+                                    {!user.isVerified &&
+                                        <VerifyButton
+                                            userId={user._id}
+                                        />
+                                    }
+                                </td>
                             }
                         </tr>
-                    </thead>
-                    <tbody>
-                        {sortedUsers.map((user) => (
-                            <tr key={user._id} className='bg-white'>
-                                <td className='border border-[#DEEFF3]'>
-                                    <div className='flex p-1 justify-center'>
-                                        {(auth?.roles.includes('Admin') && user.isVerified && user._id !== auth.id) ?
-                                            <AdminButton
-                                                userId={user._id}
-                                                profilePicture={user.profilePicture}
-                                                isAdmin={user.roles.includes('Admin')}
-                                            />
-                                        :
-                                            <img
-                                                src={user.profilePicture}
-                                                alt='Profile Picture'
-                                                className='w-10 h-10 rounded-full object-cover'
-                                            />
-                                        }
-                                    </div>
-                                </td>
-                                <td className='p-2 border border-[#DEEFF3]'>{user.lastName}</td>
-                                <td className='p-2 border border-[#DEEFF3]'>{user.firstName}</td>
-                                <td className='p-2 border border-[#DEEFF3]'>{user.email}</td>
-                                <td className='p-2 border border-[#DEEFF3]'>{formatPhoneNumber(user.phoneNumber)}</td>
-                                {auth?.roles.includes('Admin') &&
-                                    <td className='p-2 border border-[#DEEFF3] text-center align-middle'>
-                                        {!user.isVerified &&
-                                            <VerifyButton
-                                                userId={user._id}
-                                            />
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

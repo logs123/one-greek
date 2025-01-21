@@ -33,6 +33,14 @@ export const chapterApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (_result, _error, { pnmId }) => [{ type: 'PNMUser', id: pnmId }, { type: 'PNMUser', id: 'LIST' }]
         }),
+        togglePNMFinalVote: builder.mutation<void, { chapterId: string; pnmId: string; semesterName: string; vote: string; }>({
+            query: ({ chapterId, pnmId, semesterName, vote }) => ({
+                url: '/chapters/pnm/finalvote',
+                method: 'POST',
+                body: { chapterId, pnmId, semesterName, vote }
+            }),
+            invalidatesTags: (_result, _error, { pnmId }) => [{ type: 'PNMUser', id: pnmId }, { type: 'PNMUser', id: 'LIST' }]
+        }),
     })
 });
 
@@ -41,4 +49,5 @@ export const {
     useGetChapterQuery,
     useTogglePNMVoteMutation,
     useTogglePNMNoteMutation,
+    useTogglePNMFinalVoteMutation,
 } = chapterApi;

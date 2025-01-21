@@ -6,11 +6,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import useAuth from '../../../hooks/useAuth';
 import { useGetPnmEventsQuery } from '../api/eventApi';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { format } from 'date-fns';
+import { format, formatISO } from 'date-fns';
 import Spinner from '../../../components/ui/spinner/spinner';
 import CheckinButton from './checkin-button';
 import { FaMapPin } from 'react-icons/fa';
 import { FaStar } from "react-icons/fa";
+import { toZonedTime } from 'date-fns-tz';
 
 const PNMEvents = () => {
     const auth = useAuth();
@@ -63,7 +64,7 @@ const PNMEvents = () => {
                 pagination={{ clickable: true }}
                 style={{padding: '10px'}}
             >
-                {sortedEvents?.map((event) => (
+                {events ? sortedEvents?.map((event) => (
                     <SwiperSlide key={event._id} style={{ height: 'auto', display: 'flex', alignItems: 'stretch'}}>
                         <div className='flex flex-col justify-between gap-1 bg-white p-4 w-full rounded-lg drop-shadow-lg'>
                             <div>
@@ -100,14 +101,14 @@ const PNMEvents = () => {
                                 )}
                             </div>
                             {event.isAttendee ? (
-                                <div className='absolute w-full left-0 bottom-6 flex justify-center'>
+                                <div className='w-full px-2'>
                                     <div className='flex items-center h-full justify-center text-white rounded p-1 px-3 bg-gray-300'>
                                         <p>Checked In</p>
                                     </div>
                                 </div>
                             )
                             :
-                            (
+                            (event.start.toString() <= formatISO(toZonedTime(new Date(), 'UTC')) && event.end.toString() >= formatISO(toZonedTime(new Date(), 'UTC')) &&
                                 <div className='w-full'>
                                     <div className='flex justify-center'>
                                         <CheckinButton
@@ -119,7 +120,12 @@ const PNMEvents = () => {
                             )}
                         </div>
                     </SwiperSlide>
-                ))}
+                ))
+                :
+                    <div className='flex items-center'>
+                        No Upcoming Events
+                    </div>
+                }
             </Swiper>
         </div>
     );

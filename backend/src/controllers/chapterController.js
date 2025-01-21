@@ -251,6 +251,41 @@ const togglePNMVote = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Vote toggled' });
 });
 
+// @desc Final vote on a PNM
+// @route POST /chapters/pnm/finalvote
+// @access Private
+const togglePNMFinalVote = asyncHandler(async (req, res) => {
+    const { chapterId, pnmId, semesterName, vote } = req.body;
+
+    if (!chapterId || !pnmId || !semesterName || !vote) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const chapter = await Chapter.findById(chapterId);
+
+    if (!chapter) {
+        return res.status(404).json({ message: 'Chapter not found' });
+    }
+
+    const semester = chapter.semesters.find((sem) => sem.semester === semesterName);
+
+    if (!semester) {
+        return res.status(404).json({ message: 'Semester not found' });
+    }
+
+    const pnmEntry = semester.pnmList.find((pnmEntry) => pnmEntry.pnm.toString() === pnmId);
+
+    if (!pnmEntry) {
+        return res.status(404).json({ message: 'PNM not found' });
+    }
+
+    pnmEntry.finalVote = vote;
+
+    await chapter.save();
+
+    res.status(200).json({ message: 'Final vote toggled' });
+});
+
 // @desc Toggle note on a PNM
 // @route POST /chapters/pnm/note
 // @access Private
@@ -306,4 +341,5 @@ module.exports = {
     createNewSemester,
     togglePNMVote,
     togglePNMNote,
+    togglePNMFinalVote,
 };

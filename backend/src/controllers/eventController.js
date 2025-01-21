@@ -114,12 +114,12 @@ const updateEvent = asyncHandler(async (req, res) => {
 
     const updateFields = {};
 
-    if (updateData.location && updateData.location.name) {
-        updateFields['location.name'] = updateData.location.name;
+    if (updateData.locationName) {
+        updateFields['location.name'] = updateData.locationName;
     }
 
-    if (updateData.location && updateData.location.address) {
-        updateFields['location.address'] = updateData.location.address;
+    if (updateData.locationAddress) {
+        updateFields['location.address'] = updateData.locationAddress;
     }
 
     for (const [key, value] of Object.entries(updateData)) {

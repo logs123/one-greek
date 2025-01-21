@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTogglePNMVoteMutation } from '../api/chapterApi';
+import { useTogglePNMFinalVoteMutation } from '../api/chapterApi';
 import useAuth from '../../../hooks/useAuth';
 
 interface PNMVoteButtonProps {
@@ -11,11 +11,11 @@ interface PNMVoteButtonProps {
 
 const PNMVoteButton: React.FC<PNMVoteButtonProps> = ({ pnmId, vote, semesterName, currentVote }) => {
     const auth = useAuth();
-    const [toggleVote, { isLoading }] = useTogglePNMVoteMutation();
+    const [toggleVote, { isLoading }] = useTogglePNMFinalVoteMutation();
 
     const handleVote = async () => {
         try {
-            await toggleVote({ chapterId: auth?.chapter || '', userId: auth?.id || '', semesterName, pnmId, vote }).unwrap();
+            await toggleVote({ chapterId: auth?.chapter || '', semesterName, pnmId, vote }).unwrap();
         } catch (error) {
             console.error('Error voting on PNM', error);
         }

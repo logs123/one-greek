@@ -12,6 +12,18 @@ export interface EventPayload {
     visibility?: string;
 }
 
+export interface EditEventPayload {
+    eventId: string;
+    updateData: {
+        name: string;
+        start: Date;
+        end: Date;
+        locationName?: string;
+        locationAddress?: string;
+        visibility: string;
+    };
+}
+
 export interface PNMEvent {
     _id: string;
     name: string;

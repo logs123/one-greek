@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { PNMUser, Votes } from '../../../types/userTypes';
 import { IoIosClose, IoIosArrowBack, IoIosArrowForward, IoLogoLinkedin } from 'react-icons/io';
-import { useTogglePNMVoteMutation, useTogglePNMNoteMutation, } from '../../chapter/api/chapterApi';
+import { useTogglePNMFinalVoteMutation, useTogglePNMVoteMutation, } from '../../chapter/api/chapterApi';
 import useAuth from '../../../hooks/useAuth';
 import { IoLogoInstagram } from "react-icons/io";
 import countryList from "react-select-country-list";
@@ -24,21 +24,22 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
     setSelectedPNM,
 }) => {
     const auth = useAuth();
-    const [activeTab, setActiveTab] = useState<'votes' | 'notes'>('votes');
-    const [noteContent, setNoteContent] = useState<string>('');
-    const [togglePNMVote, { isLoading: isVoteLoading }] = useTogglePNMVoteMutation();
-    const [togglePNMNote, { isLoading: isNoteLoading }] = useTogglePNMNoteMutation();
+    // const [activeTab, setActiveTab] = useState<'votes' | 'notes'>('votes');
+    // const [noteContent, setNoteContent] = useState<string>('');
+    //const [togglePNMVote, { isLoading: isVoteLoading }] = useTogglePNMVoteMutation();
+    // const [togglePNMNote, { isLoading: isNoteLoading }] = useTogglePNMNoteMutation();
+    const [togglePNMFinalVote, { isLoading: isFinalVoteLoading }] = useTogglePNMFinalVoteMutation();
 
     const pnmData = useMemo(
         () => pnms.find((pnm) => pnm.pnm._id === selectedPNM) || null,
         [pnms, selectedPNM]
     );
 
-    useEffect(() => {
-        if (pnmData && pnmData.userNote) {
-            setNoteContent(pnmData.userNote.content || '');
-        }
-    }, [pnmData]);
+    // useEffect(() => {
+    //     if (pnmData && pnmData.userNote) {
+    //         setNoteContent(pnmData.userNote.content || '');
+    //     }
+    // }, [pnmData]);
 
     const formatPhoneNumber = (phoneNumber: string) => {
         const cleaned = ('' + phoneNumber).replace(/\D/g, '');
@@ -58,7 +59,7 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
         const countries = countryList().getData();
         const country = countries.find((c) => c.value === code.toUpperCase());
         return country ? country.label : "";
-      };
+    };
 
     if (!isOpen || !pnmData) return null;
 
@@ -78,40 +79,53 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
         }
     };
 
-    const handleVote = async (vote: 'yes' | 'maybe' | 'no') => {
+    // const handleVote = async (vote: 'yes' | 'maybe' | 'no') => {
+    //     try {
+    //         await togglePNMVote({
+    //             chapterId: auth?.chapter || '',
+    //             pnmId: pnmData.pnm._id,
+    //             userId: auth?.id || '',
+    //             semesterName: 'Spring 2025',
+    //             vote,
+    //         });
+    //     } catch (error) {
+    //         console.error('Error submitting vote:', error);
+    //     }
+    // };
+    
+    const handleFinalVote = async (vote: 'yes' | 'maybe' | 'no') => {
         try {
-            await togglePNMVote({
+            await togglePNMFinalVote({
                 chapterId: auth?.chapter || '',
                 pnmId: pnmData.pnm._id,
-                userId: auth?.id || '',
                 semesterName: 'Spring 2025',
                 vote,
             });
         } catch (error) {
-            console.error('Error submitting vote:', error);
+            console.error('Error submitting final vote:', error);
         }
-    };
+    }
 
-    const handleAddNote = async () => {
-        if (!noteContent.trim()) return;
+    // const handleAddNote = async () => {
+    //     if (!noteContent.trim()) return;
 
-        try {
-            await togglePNMNote({
-                chapterId: auth?.chapter || '',
-                pnmId: pnmData.pnm._id,
-                userId: auth?.id || '',
-                semesterName: 'Spring 2025',
-                note: noteContent,
-            });
-            setNoteContent('');
-        } catch (error) {
-            console.error('Error submitting note:', error);
-        }
-    };
+    //     try {
+    //         await togglePNMNote({
+    //             chapterId: auth?.chapter || '',
+    //             pnmId: pnmData.pnm._id,
+    //             userId: auth?.id || '',
+    //             semesterName: 'Spring 2025',
+    //             note: noteContent,
+    //         });
+    //         setNoteContent('');
+    //     } catch (error) {
+    //         console.error('Error submitting note:', error);
+    //     }
+    // };
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className={`bg-white rounded-2xl shadow-lg min-w-[400px] flex ${auth?.roles.includes('Admin') ? 'lg:w-[800px]' : ''} flex-col items-center p-4`}>
+            <div className={`bg-white rounded-2xl shadow-lg min-w-[400px] flex flex-col items-center p-4`}>
                 {/* Close Button */}
                 <div className="flex justify-end w-full">
                     <button type="button" className="text-gray-500" onClick={onClose}>
@@ -130,8 +144,8 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                         </button>
                     )}
 
-                    <div className={`flex flex-col w-full ${auth?.roles.includes('Admin') ? 'lg:w-1/2' : ''} items-center`}>
-                        <div className="w-28 h-28 sm:w-48 smh-48 rounded-full overflow-hidden">
+                    <div className={`flex flex-col w-full items-center`}>
+                        <div className="w-28 h-28 sm:w-48 sm:h-48 rounded-full overflow-hidden">
                             <img
                                 src={pnmData.pnm.profilePicture}
                                 alt="Profile"
@@ -179,6 +193,27 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                                 {voteTypes.map((vote) => (
                                     <button
                                         key={vote}
+                                        onClick={() => handleFinalVote(vote)}
+                                        className={`px-4 py-2 rounded ${
+                                            isFinalVoteLoading || pnmData.finalVote === vote
+                                                ? 'bg-gray-400 text-white cursor-not-allowed'
+                                                : vote === 'yes'
+                                                ? 'bg-green-500 hover:bg-green-600 text-white'
+                                                : vote === 'maybe'
+                                                ? 'bg-[#FFD301] hover:bg-[#FFC107] text-white'
+                                                : 'bg-red-500 hover:bg-red-600 text-white'
+                                        }`}
+                                        
+                                        disabled={isFinalVoteLoading || pnmData.finalVote === vote}
+                                    >
+                                        {vote.charAt(0).toUpperCase() + vote.slice(1)}
+                                    </button>
+                                ))}
+                            </div>
+                            {/* <div className="flex justify-evenly mb-4">
+                                {voteTypes.map((vote) => (
+                                    <button
+                                        key={vote}
                                         onClick={() => handleVote(vote)}
                                         className={`px-4 py-2 rounded ${
                                             isVoteLoading || pnmData.userVote === vote
@@ -195,8 +230,8 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                                         {vote.charAt(0).toUpperCase() + vote.slice(1)}
                                     </button>
                                 ))}
-                            </div>
-                            <textarea
+                            </div> */}
+                            {/* <textarea
                                 value={noteContent}
                                 onChange={(e) => setNoteContent(e.target.value)}
                                 placeholder="Add a note..."
@@ -213,11 +248,11 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                                 disabled={isNoteLoading}
                             >
                                 Submit Note
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 
-                    {auth?.roles.includes('Admin') && (
+                    {/* {auth?.roles.includes('Admin') && (
                         <div className="hidden lg:flex flex-col lg:w-1/2 bg-gray-100 p-4 rounded-lg">
                             <div className="flex justify-center space-x-6 mb-4">
                                 <button
@@ -308,7 +343,7 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                                 )}
                             </div>
                         </div>
-                    )}
+                    )} */}
 
                     {currentIndex < filteredPNMs.length - 1 && (
                         <button
