@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { PNMUser, Votes } from '../../../types/userTypes';
 import { IoIosClose, IoIosArrowBack, IoIosArrowForward, IoLogoLinkedin } from 'react-icons/io';
-import { useTogglePNMFinalVoteMutation, useTogglePNMVoteMutation, } from '../../chapter/api/chapterApi';
+import { useTogglePNMFinalVoteMutation } from '../../chapter/api/chapterApi';
 import useAuth from '../../../hooks/useAuth';
 import { IoLogoInstagram } from "react-icons/io";
 import countryList from "react-select-country-list";
