@@ -107,7 +107,7 @@ const PNMEvents = () => {
                                 </div>
                             )
                             :
-                            (event.start <= new Date() && event.end <= new Date() &&
+                            (event.start <= new Date() && event.end >= new Date() &&
                                 <div className='w-full'>
                                     <div className='flex justify-center'>
                                         <CheckinButton
