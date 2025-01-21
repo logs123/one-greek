@@ -92,7 +92,6 @@ const EditEventModal: React.FC<EditEventModalProps> = ({ selectedEvent, isOpen, 
                             type='text'
                             id='locationName'
                             value={formData.updateData.locationName}
-                            required
                             className='w-full px-3 py-2 border rounded-lg'
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, updateData: {...formData.updateData, locationName: e.target.value}})}
                         />
@@ -103,7 +102,6 @@ const EditEventModal: React.FC<EditEventModalProps> = ({ selectedEvent, isOpen, 
                             type='text'
                             id='locationAddress'
                             value={formData.updateData.locationAddress}
-                            required
                             className='w-full px-3 py-2 border rounded-lg'
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, updateData: {...formData.updateData, locationAddress: e.target.value}})}
                         />
