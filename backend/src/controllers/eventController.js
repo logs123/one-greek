@@ -157,9 +157,11 @@ const getPNMEvents = asyncHandler(async (req, res) => {
 
     const currentDate = new Date();
 
+    console.log(currentDate)
+
     const events = await Event.find({
         $or: [
-            { type: 'Recruitment', organization: organizationId, visibility: 'public', start: { $gte: currentDate } },
+            { type: 'Recruitment', organization: organizationId, visibility: 'public', end: { $gte: currentDate } },
             { type: 'Recruitment', organization: organizationId, visibility: 'private', chapter: { $in: chapterIds  }, start: { $gte: currentDate } }
         ]
     })
