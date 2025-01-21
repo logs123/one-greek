@@ -5,15 +5,13 @@ import PNMList from '../../../features/user/components/pnm-list';
 import useAuth from '../../../hooks/useAuth';
 import PNMInfoModal from '../../../features/user/components/pnm-info-modal';
 import { PNMUser } from '../../../types/userTypes';
-import { FaTable } from 'react-icons/fa';
-import { PiSquaresFourBold } from "react-icons/pi";
 
 const RecruitmentRoute = () => {
     const auth = useAuth();
     const [isPNMInfoModalOpen, setIsPNMInfoModalOpen] = useState<boolean>(false);
     const [selectedPNM, setSelectedPNM] = useState<string>('');
     const [filteredPNMs, setFilteredPNMs] = useState<PNMUser[]>([]);
-    const [isTableView, setIsTableView] = useState<boolean>(false);
+    const [isTableView] = useState<boolean>(false);
 
     const { data: pnms = [] } = useGetPNMListQuery(
         { userId: auth?.id || '', chapterId: auth?.chapter || '', semesterName: 'Spring 2025' },
@@ -27,7 +25,7 @@ const RecruitmentRoute = () => {
                     <div className='flex-1 h-full bg-white rounded-2xl flex items-center shadow drop-shadow'>
                         <div className='ml-10 font-bold text-3xl'>Recruitment</div>
                     </div>
-                    <div className='flex justify-center items-end'>
+                    {/* <div className='flex justify-center items-end'>
                         <div>
                             <button
                                 type='button'
@@ -44,7 +42,7 @@ const RecruitmentRoute = () => {
                                 </div>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className='lg:hidden flex pb-4 bg-[#E4EFF3]'>
