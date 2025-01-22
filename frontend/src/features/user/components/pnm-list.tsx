@@ -8,11 +8,41 @@ interface PNMListProps {
     setSelectedPNM: (pnm: string) => void;
     setFilteredPNMs: (pnmList: PNMUser[]) => void;
     isTableView: boolean;
+    textMessage: string;
 }
 
-const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, setFilteredPNMs, isTableView }) => {
+type Column = keyof PNMUser | keyof PNMUser['pnm'];
+
+const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, setFilteredPNMs, isTableView, textMessage }) => {
     const [filter, setFilter] = useState<string | null>(null);
     const previousFilteredPnms = useRef<PNMUser[]>([]);
+    const [sortedColumn, setSortedColumn] = useState<Column | null>(null);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    
+    const handleSort = (column: Column) => {
+        const order = sortedColumn === column && sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortedColumn(column);
+        setSortOrder(order);
+    }
+    
+    const sortedUsers = [...pnms].sort((a, b) => {
+        if (!sortedColumn) return 0;
+    
+        // Helper function to get the value of the column, supporting nested properties
+        const getColumnValue = (user: PNMUser, column: Column): any => {
+            if (column in user.pnm) {
+                return user.pnm[column as keyof PNMUser['pnm']];
+            }
+            return user[column as keyof PNMUser];
+        };
+    
+        const valueA = getColumnValue(a, sortedColumn);
+        const valueB = getColumnValue(b, sortedColumn);
+    
+        if (valueA < valueB) return sortOrder === 'asc' ? -1 : 1;
+        if (valueA > valueB) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+    });
 
     const sortedPnms = useMemo(() => {
         return [...pnms].sort((a, b) =>
@@ -27,6 +57,25 @@ const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, 
             return vote === filter;
         });
     }, [sortedPnms, filter]);
+
+    const formatPhoneNumber = (phoneNumber: string) => {
+        const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+        
+        if (cleaned.length !== 10) {
+            return phoneNumber;
+        }
+
+        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return `(${match[1]}) ${match[2]}-${match[3]}`;
+        }
+        return phoneNumber;
+    }
+
+    const openSMSApp = (phoneNumber: string) => {
+        const encodedMessage = encodeURIComponent(textMessage);
+        window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
+    };
 
     useEffect(() => {
         if (JSON.stringify(filteredPnms) !== JSON.stringify(previousFilteredPnms.current)) {
@@ -136,25 +185,65 @@ const PNMList: React.FC<PNMListProps> = ({ pnms, onPNMInfoOpen, setSelectedPNM, 
                     </div>
                 </div>
             </div>
-            <div className='hidden lg:flex mx-auto overflow-x-auto'>
-                <table className='w-full min-w-max bg-white'>
+            <div className="px-4 lg:px-14 lg:py-4 h-[calc(100vh-240px)] bg-[#E4EFF3] overflow-y-auto">
+                <table className='w-full min-w-max bg-white rounded-t-lg'>
                     <thead>
                         <tr className='bg-[#7CAFC0]'>
                             <th className='rounded-tl-lg w-20 border border-[#DEEFF3]'></th>
                             <th
                                 className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                                onClick={() => handleSort('lastName')}
                             >
                                 Last Name
                             </th>
                             <th
                                 className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                                onClick={() => handleSort('firstName')}
                             >
                                 First Name
+                            </th>
+                            <th
+                                className='border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                                onClick={() => handleSort('phoneNumber')}
+                            >
+                                Phone
+                            </th>
+                            <th
+                                className='rounded-tr-lg border border-[#DEEFF3] p-2 text-left text-xs sm:text-sm lg:text-base cursor-pointer hover:bg-[#93cfe3] text-white'
+                                onClick={() => handleSort('finalVote')}
+                            >
+                                Vote
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        {sortedUsers.map((pnm) => (
+                            <tr key={pnm.pnm._id} className='bg-white'>
+                                <td className='border border-[#DEEFF3]'>
+                                    <div className='flex p-1 justify-center'>
+                                        <img
+                                            src={pnm.pnm.profilePicture}
+                                            alt='Profile Picture'
+                                            className='w-10 h-10 rounded-full object-cover'
+                                        />
+                                    </div>
+                                </td>
+                                <td className='p-2 border border-[#DEEFF3]'>{pnm.pnm.lastName}</td>
+                                <td className='p-2 border border-[#DEEFF3]'>{pnm.pnm.firstName}</td>
+                                <td
+                                    className='p-2 border border-[#DEEFF3] cursor-pointer hover:underline hover:text-turquoise-blue'
+                                    onClick={() => openSMSApp(pnm.pnm.phoneNumber)}
+                                >
+                                    {formatPhoneNumber(pnm.pnm.phoneNumber)}
+                                </td>
+                                {pnm.finalVote === 'pending' ?
+                                    <td className='p-2 border border-[#DEEFF3]'></td>
+                                :
+                                    <td className='p-2 border border-[#DEEFF3]'>{pnm.finalVote.charAt(0).toUpperCase() + pnm.finalVote.slice(1)}</td>
+                                }
+                                
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

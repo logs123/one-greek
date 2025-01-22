@@ -41,20 +41,6 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
     //     }
     // }, [pnmData]);
 
-    const formatPhoneNumber = (phoneNumber: string) => {
-        const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-        
-        if (cleaned.length !== 10) {
-            return phoneNumber;
-        }
-
-        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        if (match) {
-            return `(${match[1]}) ${match[2]}-${match[3]}`;
-        }
-        return phoneNumber;
-    }
-
     const getCountryName = (code: string) => {
         const countries = countryList().getData();
         const country = countries.find((c) => c.value === code.toUpperCase());
@@ -187,7 +173,6 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
                         {pnmData.pnm.pnmInfo.minor &&
                             <p>Minor: {pnmData.pnm.pnmInfo.minor}</p>
                         }
-                        <p>Phone: {formatPhoneNumber(pnmData.pnm.phoneNumber)}</p>
                         <div className="flex flex-col w-full border-t mt-4 pt-4">
                             <div className="flex justify-evenly mb-4">
                                 {voteTypes.map((vote) => (
