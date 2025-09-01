@@ -5,7 +5,7 @@ import { AccessToken } from '../types/authTypes';
 
 // render: 'https://api.onegreek.com',
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://api.onegreek.com',
+    baseUrl: 'http://localhost:3500',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
