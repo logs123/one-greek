@@ -26,6 +26,7 @@
     "react-router-dom": "^6.28.1",
     "react-select": "^5.9.0",
     "react-select-country-list": "^2.2.3",
+    "socket.io-client": "^4.8.1",
     "swiper": "^11.2.1",
     "tailwindcss-safe-area": "^0.6.0"
   },

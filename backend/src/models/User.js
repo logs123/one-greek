@@ -132,7 +132,11 @@ const userSchema = new mongoose.Schema(
                         type: mongoose.Schema.Types.ObjectId,
                         ref: 'Chapter'
                     }
-                ]
+                ],
+                semester: {
+                    type: String,
+                    trim: true,
+                }
             }),
             required: function () {
                 return this.roles.includes('PNM');

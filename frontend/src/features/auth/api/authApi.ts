@@ -1,5 +1,7 @@
+import useAuth from '../../../hooks/useAuth';
 import { apiSlice } from '../../../slices/apiSlice'
 import { logOut, setCredentials } from '../../../slices/authSlice';
+import { emitLogin, emitLogout } from '../../../stores/socket';
 import { AccessToken, LoginCredentials, LoginResponse, LogoutResponse, SignupPayload, SignupResponse } from '../../../types/authTypes';
 
 export const authApi = apiSlice.injectEndpoints({
@@ -13,8 +15,9 @@ export const authApi = apiSlice.injectEndpoints({
             async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    const { accessToken } = data;
+                    const { userId, accessToken } = data;
                     dispatch(setCredentials({ accessToken }));
+                    emitLogin(userId);
                     localStorage.setItem('persist', 'true');
                 } catch (err) {
                     console.error(err);
@@ -64,6 +67,10 @@ export const authApi = apiSlice.injectEndpoints({
             async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
+                    const auth = useAuth();
+                    // if (auth?.id) {
+                    //     emitLogout(auth.id);
+                    // }
                     dispatch(logOut());
                     localStorage.setItem('persist', 'false');
                     dispatch(apiSlice.util.resetApiState());

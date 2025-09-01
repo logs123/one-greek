@@ -84,7 +84,7 @@ const PNMInfoModal: React.FC<PNMInfoModalProps> = ({
             await togglePNMFinalVote({
                 chapterId: auth?.chapter || '',
                 pnmId: pnmData.pnm._id,
-                semesterName: 'Spring 2025',
+                semesterName: 'Fall 2025',
                 vote,
             });
         } catch (error) {

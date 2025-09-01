@@ -53,6 +53,7 @@ export interface SignupPayload {
         secondMajor?: string;
         minor?: string;
         gpa?: string;
+        semester: string;
     }
     hasAgreedToTerms: boolean;
 }
@@ -96,6 +97,7 @@ export interface CustomJwtPayload extends JwtPayload {
         minor?: string;
         gpa?: string;
         chaptersFollowing: string[];
+        semester: string;
     }
     socialMediaHandles?: {
         Instagram?: string;

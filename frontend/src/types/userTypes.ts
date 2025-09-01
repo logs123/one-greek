@@ -32,6 +32,7 @@ export interface PNMUser {
             gpa: number;
             minor?: string;
             secondMajor?: string;
+            semester: string;
         };
         socialMediaHandles?:{
             Instagram?: string;
