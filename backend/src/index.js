@@ -1,8 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
 const path = require('path');
 const { logger } = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -12,7 +10,6 @@ const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const mongoose = require('mongoose');
 const { logEvents } = require('./middleware/logger');
-const socketHandler = require('./config/socket');
 const PORT = process.env.PORT || 3500;
 
 connectDB();
@@ -43,16 +40,6 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
-
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: corsOptions.origin,
-        methods: ['GET', 'POST']
-    }
-});
-app.set('io', io);
-socketHandler(io);
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
